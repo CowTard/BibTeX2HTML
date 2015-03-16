@@ -1,0 +1,2 @@
+# BibTeX2HTML
+[COMP]
