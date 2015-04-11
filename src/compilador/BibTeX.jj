@@ -36,7 +36,7 @@ SKIP :
   " " | "\r" | "\t" | "\n"
 }
 
-TOKEN :  // 1st level [entries]
+TOKEN : // 1st level (entries)
 {
   < ARTICLE : "@article" > |
   < BOOK : "@book" > |
@@ -81,24 +81,46 @@ TOKEN : // 2nd level [fields]
   < INSTITUTION : "institution" >
 }
 
-
-TOKEN : 
+TOKEN :
 {
 	< CHARACTER : ["A"-"Z", "a"-"z","0"-"9"] > |
-	< WORD : (< CHARACTER >)+ >
-  
-}
-
-void bibTex() : {}
-{
-	<ARTICLE> "{" <WORD> "," 
-    <AUTHOR> definition() ","
-    <TITLE> definition() ","
-    <JOURNAL> definition() ","
-    <YEAR> definition() (",")?"'"
+	< WORD : (< CHARACTER >)+ > 
 }
 
 void definition() : {}
 {
   "=" "\"" <WORD> "\""
+}
+
+void article() : {}
+{
+	< ARTICLE > "{" < WORD > ","
+    < AUTHOR > definition() ","
+    < TITLE > definition() ","
+    < JOURNAL > definition() ","
+    < YEAR > definition() ","
+    < VOLUME > definition() ","
+    (< NUMBER > definition() ",")?
+    (< PAGES > definition() ",")?
+    (< MONTH > definition() ",")?
+    (< NOTE > definition() ",")?
+    (< KEY > definition() ",")?
+    "}"
+}
+
+void book() : {}
+{
+	<BOOK> "{" <WORD> "," 
+    ( (<AUTHOR> definition()) | (< EDITOR > definition()) ) ","
+    < TITLE > definition() ","
+    < PUBLISHER > definition() ","
+    < YEAR > definition() ","
+    ( (<VOLUME> definition() | < NUMBER > definition()) ",")?
+    (< SERIES > definition() ",")?
+    (< ADDRESS > definition() ",")?
+    (< EDITION > definition() ",")?
+    (< MONTH > definition() ",")?
+    (< NOTE > definition() ",")?
+    (< KEY > definition() ",")?
+    "}"
 }
