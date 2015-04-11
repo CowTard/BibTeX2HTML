@@ -1,13 +1,31 @@
 PARSER_BEGIN(BibTeX)
 
 package compilador;
+import java.io.File;
+import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public class BibTeX
 {
-  public static void main(String args []) throws ParseException
+  public static void main(String args []) throws ParseException, IOException
   {
-      BibTeX parser = new BibTeX(System.in);
-      parser.bibTex();
+    String fname = "";
+    Scanner sc = new Scanner(System.in);
+    while(fileExist(fname) != true)    {
+	    System.out.print("Introduza o ficheiro que pretende usar > ");
+	    fname = sc.nextLine();
+	}
+
+	BibTeX parser = new BibTeX( new FileInputStream(new File(fname)));
+	parser.bibTex();
+	sc.close();
+  }
+
+  private static boolean fileExist(String filename) {
+	File file = new File(filename);
+	return file.exists();
   }
 }
 
@@ -33,7 +51,8 @@ TOKEN :  // 1st level [entries]
   < PHDTHESIS : "@phdthesis" > |
   < PROCEEDINGS : "@proceedings" > |
   < TECHREPORT : "@techreport" > |
-  < UNPUBLISHED : "@unpublished" >
+  < UNPUBLISHED : "@unpublished" > | 
+  < ENTRY : < ARTICLE > | < BOOK >| < BOOKLET > | < CONFERENCE > | < INBOOK > | < INCOLLECTION > | < MANUAL > | < MASTERTHESIS > | < MISC > | < PHDTHESIS > | < PROCEEDINGS > | < TECHREPORT > | < UNPUBLISHED > >
 }
 
 TOKEN : // 2nd level [fields]
