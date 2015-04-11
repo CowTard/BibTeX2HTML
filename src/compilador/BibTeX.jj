@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import elementos.*;
 
 public class BibTeX {
   public static void main(String args []) throws ParseException, IOException {
@@ -44,7 +45,7 @@ TOKEN : // 1st level (entries)
 	< INCOLLECTION : "@incollection" > |
 	< INPROCEEDINGS : "@inproceedings" > |
 	< MANUAL : "@manual" > |
-	< MASTERTHESIS : "@masterthesis" > |
+	< MASTERSTHESIS : "@mastersthesis" > |
 	< MISC : "@misc" > |
 	< PHDTHESIS : "@phdthesis" > |
 	< PROCEEDINGS : "@proceedings" > |
@@ -85,7 +86,8 @@ TOKEN :
 	< WORD : (< CHARACTER > | < INTEGER >)+ >
 }
 
-void start(): {Token t1;}{
+void start(): {Token t1;}
+{
 	t1 = < ARTICLE > {
 		article();
 	} |
@@ -107,8 +109,8 @@ void start(): {Token t1;}{
 	t1 = < MANUAL > {
 		//manual();
 	} |
-	t1 = < MASTERTHESIS > {
-		//masterthesis();
+	t1 = < MASTERSTHESIS > {
+		//mastersthesis();
 	} |
 	t1 = < MISC > {
 		//misc();
@@ -124,33 +126,41 @@ void start(): {Token t1;}{
 	} |
 	t1 = < UNPUBLISHED > {
 		//unpublished();
-	}}
-
-void definition() : {}
-{
-  "=" "\"" (<WORD>)? "\""
+	}
 }
 
-void article() : {}
+Token definition() : {Token field;}
 {
-	"{" (< WORD >)? ","
-    < AUTHOR > definition() ","
-    < TITLE > definition() ","
-    < JOURNAL > definition() ","
-    < YEAR > definition() ","
-    < VOLUME > definition() ","
-    (< NUMBER > definition() ",")?
-    (< PAGES > definition() ",")?
-    (< MONTH > definition() ",")?
-    (< NOTE > definition() ",")?
-    (< KEY > definition() ",")?
+  "=" "\"" field = <WORD> "\""
+  {
+    System.out.println(field.image);
+    return field;
+  }
+}
+
+void article() : {Token reference = null, author = null, title = null, journal = null, year = null, volume = null, number = null, pages = null, month = null, note = null, key = null;}
+{
+	"{" reference = < WORD > ","
+    < AUTHOR > author = definition() ","
+    < TITLE > title = definition() ","
+    < JOURNAL > journal = definition() ","
+    < YEAR > year = definition() ","
+    < VOLUME > volume = definition() ","
+    (< NUMBER > number = definition() ",")?
+    (< PAGES > pages = definition() ",")?
+    (< MONTH > month = definition() ",")?
+    (< NOTE > note = definition() ",")?
+    (< KEY > key = definition() ",")?
     "}"
+	{
+    	Article artigo = new Article(reference.image, author.image, title.image, journal.image, year.image, volume.image, number.image, pages.image, month.image, note.image, key.image);
+  	}
 }
 
 void book() : {}
 {
 	"{" <WORD> ","
-    ( (<AUTHOR> definition()) | (< EDITOR > definition()) ) ","
+    ( (< AUTHOR > definition()) | (< EDITOR > definition()) ) ","
     < TITLE > definition() ","
     < PUBLISHER > definition() ","
     < YEAR > definition() ","
@@ -163,6 +173,7 @@ void book() : {}
     (< KEY > definition() ",")?
     "}"
 }
+
 void booklet() :{}
 {
   	"{" <WORD> ","
@@ -172,6 +183,26 @@ void booklet() :{}
     (< ADDRESS > definition() ",")?
     (< MONTH > definition() ",")?
     (< YEAR > definition() ",")?
+    (< NOTE > definition() ",")?
+    (< KEY > definition() ",")?
+    "}"
+}
+
+void conference() : {}
+{
+	"{" <CONFERENCE> ","
+	< AUTHOR > definition() ","
+	< TITLE > definition() ","
+	< BOOKTITLE > definition() ","
+	< YEAR > definition() ","
+    (< EDITOR > definition() ",")?
+    ( (<VOLUME> definition() | < NUMBER > definition()) ",")?
+    (< SERIES > definition() ",")?
+    (< PAGES > definition() ",")?
+    (< ADDRESS > definition() ",")?
+    (< MONTH > definition() ",")?
+    (< ORGANIZATION > definition() ",")?
+    (< PUBLISHER > definition() ",")?
     (< NOTE > definition() ",")?
     (< KEY > definition() ",")?
     "}"
@@ -218,6 +249,69 @@ void incollection() : {}
     "}"
 }
 
+void inproceedings() : {}
+{
+	"{" <INPROCEEDINGS> ","
+	< AUTHOR > definition() ","
+	< TITLE > definition() ","
+	< BOOKTITLE > definition() ","
+	< YEAR > definition() ","
+    (< EDITOR > definition() ",")?
+    ( (<VOLUME> definition() | < NUMBER > definition()) ",")?
+    (< SERIES > definition() ",")?
+    (< PAGES > definition() ",")?
+    (< ADDRESS > definition() ",")?
+    (< MONTH > definition() ",")?
+    (< ORGANIZATION > definition() ",")?
+    (< PUBLISHER > definition() ",")?
+    (< NOTE > definition() ",")?
+    (< KEY > definition() ",")?
+    "}"
+}
+
+void manual() : {}
+{
+	"{" <MANUAL> ","
+	< TITLE > definition() ","
+    (< AUTHOR > definition() ",")?
+    (< ORGANIZATION > definition() ",")?
+    (< ADDRESS > definition() ",")?
+    (< EDITION > definition() ",")?
+    (< MONTH > definition() ",")?
+    (< YEAR > definition() ",")?
+    (< NOTE > definition() ",")?
+    (< KEY > definition() ",")?
+    "}"
+}
+
+void mastersthesis() : {}
+{
+	"{" <MASTERSTHESIS> ","
+    < AUTHOR > definition() ","
+	< TITLE > definition() ","
+    < SCHOOL > definition() ","
+    < YEAR > definition() ","
+    (< TYPE > definition() ",")?
+    (< ADDRESS > definition() ",")?
+    (< MONTH > definition() ",")?
+    (< NOTE > definition() ",")?
+    (< KEY > definition() ",")?
+    "}"
+}
+
+void misc() : {}
+{
+	"{" <misc> ","
+    (< AUTHOR > definition() ",")?
+    (< TITLE > definition() ",")?
+    (< HOWPUBLISHED > definition() ",")?
+    (< MONTH > definition() ",")?
+    (< YEAR > definition() ",")?
+    (< NOTE > definition() ",")?
+    (< KEY > definition() ",")?
+    "}"
+}
+
 void phdthesis() : {}
 {
 	"{" <WORD> ","
@@ -233,7 +327,8 @@ void phdthesis() : {}
 }
 
 void proceedings() : {}
-{	"{" < WORD > ","
+{
+	"{" < WORD > ","
 	< TITLE > definition() ","
 	< YEAR > definition() ","
 	(< EDITOR > definition() ",")?
@@ -244,7 +339,10 @@ void proceedings() : {}
 	(< MONTH > definition() ",")?
 	(< ORGANIZATION > definition() ",")?
 	(< PUBLISHER > definition() ",")?
-	(< NOTE > definition() ",")?	"}"}  
+	(< NOTE > definition() ",")?
+	"}"
+}
+
 void techreport() : {}
 {
 	"{" < WORD > ","
@@ -256,7 +354,8 @@ void techreport() : {}
 	(< NUMBER > definition() ",")?
 	(< ADDRESS > definition() ",")?
 	(< MONTH > definition() ",")?
-	(< NOTE > definition() ",")?	"}"
+	(< NOTE > definition() ",")?
+	"}"
 }
 
 void unpublished() : {}

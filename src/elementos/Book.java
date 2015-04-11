@@ -3,7 +3,8 @@ package elementos;
 public class Book extends Entry {
 	String author, editor, title, publisher, year, volume, number, series, address, edition, month, note, key;
 	
-	Book(String type, String authorEditor, String title, String publisher, String year, String... optionals) {
+	Book(String reference, String type, String authorEditor, String title, String publisher, String year, String... optionals) {
+		super(reference);
 		if (type.equals("author"))
 			author = authorEditor;
 		else if (type.equals("editor"))
