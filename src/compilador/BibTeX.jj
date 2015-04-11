@@ -7,18 +7,16 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class BibTeX
-{
-  public static void main(String args []) throws ParseException, IOException
-  {
+public class BibTeX {
+  public static void main(String args []) throws ParseException, IOException {
     String fname = "";
     Scanner sc = new Scanner(System.in);
-    while(fileExist(fname) != true)    {
+    while (fileExist(fname) != true) {
 	    System.out.print("Introduza o ficheiro que pretende usar > ");
 	    fname = sc.nextLine();
 	}
 
-	BibTeX parser = new BibTeX( new FileInputStream(new File(fname)));
+	BibTeX parser = new BibTeX(new FileInputStream(new File(fname)));
 	parser.start();
 	sc.close();
   }
@@ -33,57 +31,57 @@ PARSER_END(BibTeX)
 
 SKIP :
 {
-  " " | "\r" | "\t" | "\n"
+	" " | "\r" | "\t" | "\n"
 }
 
 TOKEN : // 1st level (entries)
 {
-  < ARTICLE : "@article" > |
-  < BOOK : "@book" > |
-  < BOOKLET : "@booklet" > |
-  < CONFERENCE : "@conference" > |
-  < INBOOK : "@inbook" > |
-  < INCOLLECTION : "@incollection" > |
-  < INPROCEEDINGS : "@inproceedings" > |
-  < MANUAL : "@manual" > |
-  < MASTERTHESIS : "@masterthesis" > |
-  < MISC : "@misc" > |
-  < PHDTHESIS : "@phdthesis" > |
-  < PROCEEDINGS : "@proceedings" > |
-  < TECHREPORT : "@techreport" > |
-  < UNPUBLISHED : "@unpublished" >
+	< ARTICLE : "@article" > |
+	< BOOK : "@book" > |
+	< BOOKLET : "@booklet" > |
+	< CONFERENCE : "@conference" > |
+	< INBOOK : "@inbook" > |
+	< INCOLLECTION : "@incollection" > |
+	< INPROCEEDINGS : "@inproceedings" > |
+	< MANUAL : "@manual" > |
+	< MASTERTHESIS : "@masterthesis" > |
+	< MISC : "@misc" > |
+	< PHDTHESIS : "@phdthesis" > |
+	< PROCEEDINGS : "@proceedings" > |
+	< TECHREPORT : "@techreport" > |
+	< UNPUBLISHED : "@unpublished" >
 }
 
 TOKEN : // 2nd level [fields]
 {
-  < AUTHOR : "author" > |
-  < TITLE : "title" > |
-  < JOURNAL : "journal" > |
-  < YEAR : "year" > |
-  < VOLUME : "volume" > |
-  < NUMBER : "number" > |
-  < PAGES : "pages" > |
-  < MONTH : "month" > |
-  < NOTE : "note" > |
-  < KEY : "key" > |
-  < EDITOR : "editor" > |
-  < PUBLISHER : "publisher" > |
-  < SERIES : "series" > |
-  < ADDRESS : "address" > |
-  < EDITION : "edition" > |
-  < HOWPUBLISHED : "howpublished" > |
-  < CHAPTER : "chapter" > |
-  < TYPE : "type" > |
-  < BOOKTITLE : "booktitle" > |
-  < ORGANIZATION : "organization" > |
-  < SCHOOL : "school" > |
-  < INSTITUTION : "institution" >
+	< AUTHOR : "author" > |
+	< TITLE : "title" > |
+	< JOURNAL : "journal" > |
+	< YEAR : "year" > |
+	< VOLUME : "volume" > |
+	< NUMBER : "number" > |
+	< PAGES : "pages" > |
+	< MONTH : "month" > |
+	< NOTE : "note" > |
+	< KEY : "key" > |
+	< EDITOR : "editor" > |
+	< PUBLISHER : "publisher" > |
+	< SERIES : "series" > |
+	< ADDRESS : "address" > |
+	< EDITION : "edition" > |
+	< HOWPUBLISHED : "howpublished" > |
+	< CHAPTER : "chapter" > |
+	< TYPE : "type" > |
+	< BOOKTITLE : "booktitle" > |
+	< ORGANIZATION : "organization" > |
+	< SCHOOL : "school" > |
+	< INSTITUTION : "institution" >
 }
 
 TOKEN :
 {
-	< CHARACTER : ["A"-"Z", "a"-"z"] > |
-	< INTEGER : ["0"-"9"] > |
+	< #CHARACTER : ["A"-"Z", "a"-"z"] > |
+	< #INTEGER : ["0"-"9"] > |
 	< WORD : (< CHARACTER > | < INTEGER >)+ >
 }
 
@@ -110,7 +108,7 @@ void start(): {Token t1;}{
 		//manual();
 	} |
 	t1 = < MASTERTHESIS > {
-		//mastersthesis();
+		//masterthesis();
 	} |
 	t1 = < MISC > {
 		//misc();
@@ -151,7 +149,7 @@ void article() : {}
 
 void book() : {}
 {
-	<BOOK> "{" <WORD> "," 
+	"{" <WORD> ","
     ( (<AUTHOR> definition()) | (< EDITOR > definition()) ) ","
     < TITLE > definition() ","
     < PUBLISHER > definition() ","
