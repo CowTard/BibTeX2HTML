@@ -1,5 +1,5 @@
 package elementos;
 
-public class phdthesis {
+public class Phdthesis extends Entry {
 
 }

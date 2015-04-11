@@ -1,5 +1,5 @@
 package elementos;
 
-public class Procedings {
+public class Procedings extends Entry {
 
 }

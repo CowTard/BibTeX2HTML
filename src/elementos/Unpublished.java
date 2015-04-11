@@ -1,5 +1,5 @@
 package elementos;
 
-public class Unpublished {
+public class Unpublished extends Entry {
 
 }

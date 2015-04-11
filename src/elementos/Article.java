@@ -1,5 +1,5 @@
 package elementos;
 
-public class Article {
+public class Article extends Entry {
 
 }

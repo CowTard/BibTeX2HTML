@@ -1,5 +1,5 @@
 package elementos;
 
-public class Inbook {
+public class Inbook extends Entry {
 
 }

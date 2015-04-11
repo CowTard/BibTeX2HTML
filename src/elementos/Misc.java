@@ -1,5 +1,5 @@
 package elementos;
 
-public class Misc {
+public class Misc extends Entry {
 
 }

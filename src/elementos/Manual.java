@@ -1,5 +1,5 @@
 package elementos;
 
-public class Manual {
+public class Manual extends Entry {
 
 }

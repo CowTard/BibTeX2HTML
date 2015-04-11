@@ -1,5 +1,5 @@
 package elementos;
 
-public class Incollection {
+public class Incollection extends Entry {
 
 }

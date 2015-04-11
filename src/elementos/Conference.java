@@ -1,5 +1,5 @@
 package elementos;
 
-public class Conference {
+public class Conference extends Entry {
 
 }
