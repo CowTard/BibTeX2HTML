@@ -19,7 +19,7 @@ public class BibTeX
 	}
 
 	BibTeX parser = new BibTeX( new FileInputStream(new File(fname)));
-	parser.bibTex();
+	parser.start();
 	sc.close();
   }
 
@@ -51,8 +51,7 @@ TOKEN : // 1st level (entries)
   < PHDTHESIS : "@phdthesis" > |
   < PROCEEDINGS : "@proceedings" > |
   < TECHREPORT : "@techreport" > |
-  < UNPUBLISHED : "@unpublished" > | 
-  < ENTRY : < ARTICLE > | < BOOK >| < BOOKLET > | < CONFERENCE > | < INBOOK > | < INCOLLECTION > | < MANUAL > | < MASTERTHESIS > | < MISC > | < PHDTHESIS > | < PROCEEDINGS > | < TECHREPORT > | < UNPUBLISHED > >
+  < UNPUBLISHED : "@unpublished" >
 }
 
 TOKEN : // 2nd level [fields]
@@ -83,18 +82,60 @@ TOKEN : // 2nd level [fields]
 
 TOKEN :
 {
-	< CHARACTER : ["A"-"Z", "a"-"z","0"-"9"] > |
-	< WORD : (< CHARACTER >)+ > 
+	< CHARACTER : ["A"-"Z", "a"-"z"] > |
+	< INTEGER : ["0"-"9"] > |
+	< WORD : (< CHARACTER > | < INTEGER >)+ >
 }
+
+void start(): {Token t1;}{
+	t1 = < ARTICLE > {
+		article();
+	} |
+	t1 = < BOOK > {
+		//book();
+	} |
+	t1 = < BOOKLET > {
+		//booklet();
+	} |
+	t1 = < CONFERENCE > {
+		//conference();
+	} |
+	t1 = < INBOOK > {
+		//inbook();
+	} |
+	t1 = < INCOLLECTION > {
+		//incollection();
+	} |
+	t1 = < MANUAL > {
+		//manual();
+	} |
+	t1 = < MASTERTHESIS > {
+		//mastersthesis();
+	} |
+	t1 = < MISC > {
+		//misc();
+	} |
+	t1 = < PHDTHESIS > {
+		//phdthesis();
+	} |
+	t1 = < PROCEEDINGS > {
+		//proceedings();
+	} |
+	t1 = < TECHREPORT > {
+		//techreport();
+	} |
+	t1 = < UNPUBLISHED > {
+		//unpublished();
+	}}
 
 void definition() : {}
 {
-  "=" "\"" <WORD> "\""
+  "=" "\"" (<WORD>)? "\""
 }
 
 void article() : {}
 {
-	< ARTICLE > "{" < WORD > ","
+	"{" (< WORD >)? ","
     < AUTHOR > definition() ","
     < TITLE > definition() ","
     < JOURNAL > definition() ","

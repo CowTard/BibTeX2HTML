@@ -18,7 +18,7 @@ public class BibTeX implements BibTeXConstants {
         }
 
         BibTeX parser = new BibTeX( new FileInputStream(new File(fname)));
-        parser.bibTex();
+        parser.start();
         sc.close();
   }
 
@@ -27,37 +27,273 @@ public class BibTeX implements BibTeXConstants {
         return file.exists();
   }
 
-  static final public void bibTex() throws ParseException {
-    jj_consume_token(ARTICLE);
-    jj_consume_token(44);
-    jj_consume_token(WORD);
-    jj_consume_token(45);
-    jj_consume_token(AUTHOR);
-    definition();
-    jj_consume_token(45);
-    jj_consume_token(TITLE);
-    definition();
-    jj_consume_token(45);
-    jj_consume_token(JOURNAL);
-    definition();
-    jj_consume_token(45);
-    jj_consume_token(YEAR);
-    definition();
+  static final public void start() throws ParseException {
+               Token t1;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case 45:
-      jj_consume_token(45);
+    case ARTICLE:
+      t1 = jj_consume_token(ARTICLE);
+                article();
+      break;
+    case BOOK:
+      t1 = jj_consume_token(BOOK);
+
+      break;
+    case BOOKLET:
+      t1 = jj_consume_token(BOOKLET);
+
+      break;
+    case CONFERENCE:
+      t1 = jj_consume_token(CONFERENCE);
+
+      break;
+    case INBOOK:
+      t1 = jj_consume_token(INBOOK);
+
+      break;
+    case INCOLLECTION:
+      t1 = jj_consume_token(INCOLLECTION);
+
+      break;
+    case MANUAL:
+      t1 = jj_consume_token(MANUAL);
+
+      break;
+    case MASTERTHESIS:
+      t1 = jj_consume_token(MASTERTHESIS);
+
+      break;
+    case MISC:
+      t1 = jj_consume_token(MISC);
+
+      break;
+    case PHDTHESIS:
+      t1 = jj_consume_token(PHDTHESIS);
+
+      break;
+    case PROCEEDINGS:
+      t1 = jj_consume_token(PROCEEDINGS);
+
+      break;
+    case TECHREPORT:
+      t1 = jj_consume_token(TECHREPORT);
+
+      break;
+    case UNPUBLISHED:
+      t1 = jj_consume_token(UNPUBLISHED);
+
       break;
     default:
       jj_la1[0] = jj_gen;
-      ;
+      jj_consume_token(-1);
+      throw new ParseException();
     }
-    jj_consume_token(46);
   }
 
   static final public void definition() throws ParseException {
+    jj_consume_token(44);
+    jj_consume_token(45);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case WORD:
+      jj_consume_token(WORD);
+      break;
+    default:
+      jj_la1[1] = jj_gen;
+      ;
+    }
+    jj_consume_token(45);
+  }
+
+  static final public void article() throws ParseException {
+    jj_consume_token(46);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case WORD:
+      jj_consume_token(WORD);
+      break;
+    default:
+      jj_la1[2] = jj_gen;
+      ;
+    }
     jj_consume_token(47);
+    jj_consume_token(AUTHOR);
+    definition();
+    jj_consume_token(47);
+    jj_consume_token(TITLE);
+    definition();
+    jj_consume_token(47);
+    jj_consume_token(JOURNAL);
+    definition();
+    jj_consume_token(47);
+    jj_consume_token(YEAR);
+    definition();
+    jj_consume_token(47);
+    jj_consume_token(VOLUME);
+    definition();
+    jj_consume_token(47);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case NUMBER:
+      jj_consume_token(NUMBER);
+      definition();
+      jj_consume_token(47);
+      break;
+    default:
+      jj_la1[3] = jj_gen;
+      ;
+    }
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case PAGES:
+      jj_consume_token(PAGES);
+      definition();
+      jj_consume_token(47);
+      break;
+    default:
+      jj_la1[4] = jj_gen;
+      ;
+    }
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case MONTH:
+      jj_consume_token(MONTH);
+      definition();
+      jj_consume_token(47);
+      break;
+    default:
+      jj_la1[5] = jj_gen;
+      ;
+    }
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case NOTE:
+      jj_consume_token(NOTE);
+      definition();
+      jj_consume_token(47);
+      break;
+    default:
+      jj_la1[6] = jj_gen;
+      ;
+    }
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case KEY:
+      jj_consume_token(KEY);
+      definition();
+      jj_consume_token(47);
+      break;
+    default:
+      jj_la1[7] = jj_gen;
+      ;
+    }
     jj_consume_token(48);
+  }
+
+  static final public void book() throws ParseException {
+    jj_consume_token(BOOK);
+    jj_consume_token(46);
     jj_consume_token(WORD);
+    jj_consume_token(47);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case AUTHOR:
+      jj_consume_token(AUTHOR);
+      definition();
+      break;
+    case EDITOR:
+      jj_consume_token(EDITOR);
+      definition();
+      break;
+    default:
+      jj_la1[8] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+    jj_consume_token(47);
+    jj_consume_token(TITLE);
+    definition();
+    jj_consume_token(47);
+    jj_consume_token(PUBLISHER);
+    definition();
+    jj_consume_token(47);
+    jj_consume_token(YEAR);
+    definition();
+    jj_consume_token(47);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case VOLUME:
+    case NUMBER:
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case VOLUME:
+        jj_consume_token(VOLUME);
+        definition();
+        break;
+      case NUMBER:
+        jj_consume_token(NUMBER);
+        definition();
+        break;
+      default:
+        jj_la1[9] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+      jj_consume_token(47);
+      break;
+    default:
+      jj_la1[10] = jj_gen;
+      ;
+    }
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case SERIES:
+      jj_consume_token(SERIES);
+      definition();
+      jj_consume_token(47);
+      break;
+    default:
+      jj_la1[11] = jj_gen;
+      ;
+    }
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case ADDRESS:
+      jj_consume_token(ADDRESS);
+      definition();
+      jj_consume_token(47);
+      break;
+    default:
+      jj_la1[12] = jj_gen;
+      ;
+    }
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case EDITION:
+      jj_consume_token(EDITION);
+      definition();
+      jj_consume_token(47);
+      break;
+    default:
+      jj_la1[13] = jj_gen;
+      ;
+    }
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case MONTH:
+      jj_consume_token(MONTH);
+      definition();
+      jj_consume_token(47);
+      break;
+    default:
+      jj_la1[14] = jj_gen;
+      ;
+    }
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case NOTE:
+      jj_consume_token(NOTE);
+      definition();
+      jj_consume_token(47);
+      break;
+    default:
+      jj_la1[15] = jj_gen;
+      ;
+    }
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case KEY:
+      jj_consume_token(KEY);
+      definition();
+      jj_consume_token(47);
+      break;
+    default:
+      jj_la1[16] = jj_gen;
+      ;
+    }
     jj_consume_token(48);
   }
 
@@ -71,7 +307,7 @@ public class BibTeX implements BibTeXConstants {
   static public Token jj_nt;
   static private int jj_ntk;
   static private int jj_gen;
-  static final private int[] jj_la1 = new int[1];
+  static final private int[] jj_la1 = new int[17];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -79,10 +315,10 @@ public class BibTeX implements BibTeXConstants {
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x0,};
+      jj_la1_0 = new int[] {0x7f7e0,0x0,0x0,0x1000000,0x2000000,0x4000000,0x8000000,0x10000000,0x20080000,0x1800000,0x1800000,0x80000000,0x0,0x0,0x4000000,0x8000000,0x10000000,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x2000,};
+      jj_la1_1 = new int[] {0x0,0x800,0x800,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x1,0x2,0x0,0x0,0x0,};
    }
 
   /** Constructor with InputStream. */
@@ -103,7 +339,7 @@ public class BibTeX implements BibTeXConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 1; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 17; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -117,7 +353,7 @@ public class BibTeX implements BibTeXConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 1; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 17; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -134,7 +370,7 @@ public class BibTeX implements BibTeXConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 1; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 17; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -144,7 +380,7 @@ public class BibTeX implements BibTeXConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 1; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 17; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -160,7 +396,7 @@ public class BibTeX implements BibTeXConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 1; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 17; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -169,7 +405,7 @@ public class BibTeX implements BibTeXConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 1; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 17; i++) jj_la1[i] = -1;
   }
 
   static private Token jj_consume_token(int kind) throws ParseException {
@@ -225,7 +461,7 @@ public class BibTeX implements BibTeXConstants {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 1; i++) {
+    for (int i = 0; i < 17; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
