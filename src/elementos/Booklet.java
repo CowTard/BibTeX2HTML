@@ -1,18 +1,8 @@
 package elementos;
 
 public class Booklet extends Entry {
-	String title;
-	String author;
-	String howpublished;
-	String address;
-	String month;
-	String year;
-	String note;
-	String key;
+	private String title, author, howpublished, address, month, year, note, key;
 	
-<<<<<<< HEAD
-
-=======
 	public Booklet(String reference, String title, String author, String howpublished, String address, String month, String year, String note, String key){
 		super(reference);
 		this.title = title;
@@ -24,6 +14,4 @@ public class Booklet extends Entry {
 		this.note = note;
 		this.key = key;
 	}
->>>>>>> origin/master
-	
 }
