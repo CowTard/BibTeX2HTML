@@ -44,7 +44,7 @@ TOKEN : // 1st level (entries)
 	< INCOLLECTION : "@incollection" > |
 	< INPROCEEDINGS : "@inproceedings" > |
 	< MANUAL : "@manual" > |
-	< MASTERTHESIS : "@masterthesis" > |
+	< MASTERSTHESIS : "@mastersthesis" > |
 	< MISC : "@misc" > |
 	< PHDTHESIS : "@phdthesis" > |
 	< PROCEEDINGS : "@proceedings" > |
@@ -107,8 +107,8 @@ void start(): {Token t1;}{
 	t1 = < MANUAL > {
 		//manual();
 	} |
-	t1 = < MASTERTHESIS > {
-		//masterthesis();
+	t1 = < MASTERSTHESIS > {
+		//mastersthesis();
 	} |
 	t1 = < MISC > {
 		//misc();
@@ -128,7 +128,7 @@ void start(): {Token t1;}{
 
 void definition() : {}
 {
-  "=" "\"" (<WORD>)? "\""
+  "=" "\"" (< WORD >)? "\""
 }
 
 void article() : {}
@@ -150,7 +150,7 @@ void article() : {}
 void book() : {}
 {
 	"{" <WORD> ","
-    ( (<AUTHOR> definition()) | (< EDITOR > definition()) ) ","
+    ( (< AUTHOR > definition()) | (< EDITOR > definition()) ) ","
     < TITLE > definition() ","
     < PUBLISHER > definition() ","
     < YEAR > definition() ","
@@ -159,6 +159,68 @@ void book() : {}
     (< ADDRESS > definition() ",")?
     (< EDITION > definition() ",")?
     (< MONTH > definition() ",")?
+    (< NOTE > definition() ",")?
+    (< KEY > definition() ",")?
+    "}"
+}
+
+void inproceedings() : {}{
+	"{" <INPROCEEDINGS> ","
+	< AUTHOR > definition() ","
+	< TITLE > definition() ","
+	< BOOKTITLE > definition() ","
+	< YEAR > definition() ","
+    (< EDITOR > definition() ",")?
+    ( (<VOLUME> definition() | < NUMBER > definition()) ",")?
+    (< SERIES > definition() ",")?
+    (< PAGES > definition() ",")?
+    (< ADDRESS > definition() ",")?
+    (< MONTH > definition() ",")?
+    (< ORGANIZATION > definition() ",")?
+    (< PUBLISHER > definition() ",")?
+    (< NOTE > definition() ",")?
+    (< KEY > definition() ",")?
+    "}"
+}
+
+void manual() : {}
+{
+	"{" <MANUAL> ","
+	< TITLE > definition() ","
+    (< AUTHOR > definition() ",")?
+    (< ORGANIZATION > definition() ",")?
+    (< ADDRESS > definition() ",")?
+    (< EDITION > definition() ",")?
+    (< MONTH > definition() ",")?
+    (< YEAR > definition() ",")?
+    (< NOTE > definition() ",")?
+    (< KEY > definition() ",")?
+    "}"
+}
+
+void mastersthesis() : {}
+{
+	"{" <MASTERSTHESIS> ","
+    < AUTHOR > definition() ","
+	< TITLE > definition() ","
+    < SCHOOL > definition() ","
+    < YEAR > definition() ","
+    (< TYPE > definition() ",")?
+    (< ADDRESS > definition() ",")?
+    (< MONTH > definition() ",")?
+    (< NOTE > definition() ",")?
+    (< KEY > definition() ",")?
+    "}"
+}
+
+void misc() : {}
+{
+	"{" <misc> ","
+    (< AUTHOR > definition() ",")?
+    (< TITLE > definition() ",")?
+    (< HOWPUBLISHED > definition() ",")?
+    (< MONTH > definition() ",")?
+    (< YEAR > definition() ",")?
     (< NOTE > definition() ",")?
     (< KEY > definition() ",")?
     "}"
