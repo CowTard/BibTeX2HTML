@@ -164,7 +164,83 @@ void book() : {}
     "}"
 }
 
-void inproceedings() : {}{
+void booklet() :{}
+{
+  	"{" <WORD> ","
+    < TITLE > definition() ","
+    (< AUTHOR > definition() ",")?
+    (< HOWPUBLISHED > definition() ",")?
+    (< ADDRESS > definition() ",")?
+    (< MONTH > definition() ",")?
+    (< YEAR > definition() ",")?
+    (< NOTE > definition() ",")?
+    (< KEY > definition() ",")?
+    "}"
+}
+
+void conference() : {}
+{
+	"{" <CONFERENCE> ","
+	< AUTHOR > definition() ","
+	< TITLE > definition() ","
+	< BOOKTITLE > definition() ","
+	< YEAR > definition() ","
+    (< EDITOR > definition() ",")?
+    ( (<VOLUME> definition() | < NUMBER > definition()) ",")?
+    (< SERIES > definition() ",")?
+    (< PAGES > definition() ",")?
+    (< ADDRESS > definition() ",")?
+    (< MONTH > definition() ",")?
+    (< ORGANIZATION > definition() ",")?
+    (< PUBLISHER > definition() ",")?
+    (< NOTE > definition() ",")?
+    (< KEY > definition() ",")?
+    "}"
+}
+
+void inbook() : {}
+{
+	"{" <WORD> ","
+    ( (<AUTHOR> definition()) | (< EDITOR > definition()) ) ","
+    < TITLE > definition() ","
+    ( (<CHAPTER> definition()) | (< PAGES > definition()) ) ","
+    < PUBLISHER > definition() ","
+    < YEAR > definition() ","
+    ( (<VOLUME> definition() | < NUMBER > definition()) ",")?
+    (< SERIES > definition() ",")?
+    (< TYPE > definition() ",")?
+    (< ADDRESS > definition() ",")?
+    (< EDITION > definition() ",")?
+    (< MONTH > definition() ",")?
+    (< NOTE > definition() ",")?
+    (< KEY > definition() ",")?
+    "}"
+}
+
+void incollection() : {}
+{
+	"{" <WORD> ","
+    <AUTHOR> definition()  ","
+    < TITLE > definition() ","
+    < BOOKTITLE > definition() ","
+    < PUBLISHER > definition() ","
+    < YEAR > definition() ","
+    (< EDITOR > definition() ",")?
+    ( (<VOLUME> definition() | < NUMBER > definition()) ",")?
+    (< SERIES > definition() ",")?
+    (< TYPE > definition() ",")?
+    (< CHAPTER > definition() ",")?
+    (< PAGES > definition() ",")?
+    (< ADDRESS > definition() ",")?
+    (< EDITION > definition() ",")?
+    (< MONTH > definition() ",")?
+    (< NOTE > definition() ",")?
+    (< KEY > definition() ",")?
+    "}"
+}
+
+void inproceedings() : {}
+{
 	"{" <INPROCEEDINGS> ","
 	< AUTHOR > definition() ","
 	< TITLE > definition() ","
@@ -224,4 +300,57 @@ void misc() : {}
     (< NOTE > definition() ",")?
     (< KEY > definition() ",")?
     "}"
+}
+
+void phdthesis() : {}
+{
+	"{" <WORD> ","
+	< AUTHOR > definition() ","
+	< TITLE > definition() ","
+	< SCHOOL > definition() ","
+	< YEAR > definition() ","
+	( < TYPE > definition() "," )?
+	( < ADDRESS > definition() "," )?
+	( < MONTH > definition() "," )?
+	( < NOTE > definition() "," )?
+	"}"
+}
+
+void proceedings() : {}
+{	"{" < WORD > ","
+	< TITLE > definition() ","
+	< YEAR > definition() ","
+	(< EDITOR > definition() ",")?
+	(< VOLUME > definition() ",")?
+	(< NUMBER > definition() ",")?
+	(< SERIES > definition() ",")?
+	(< ADDRESS > definition() ",")?
+	(< MONTH > definition() ",")?
+	(< ORGANIZATION > definition() ",")?
+	(< PUBLISHER > definition() ",")?
+	(< NOTE > definition() ",")?	"}"}
+
+void techreport() : {}
+{
+	"{" < WORD > ","
+	< AUTHOR > definition() ","
+	< TITLE > definition() ","
+	< INSTITUTION > definition() ","
+	< YEAR > definition() ","
+	(< TYPE > definition() ",")?
+	(< NUMBER > definition() ",")?
+	(< ADDRESS > definition() ",")?
+	(< MONTH > definition() ",")?
+	(< NOTE > definition() ",")?	"}"
+}
+
+void unpublished() : {}
+{
+	"{" < WORD > ","
+	< AUTHOR > definition() ","
+	< TITLE > definition() ","
+	< NOTE > definition() "," 
+	(< MONTH > definition() ",")?
+	(< YEAR > definition() ",")?
+	"}"
 }
