@@ -531,7 +531,7 @@ void misc() : {Token reference = null, author = null, title = null, howpublished
 		  if (key != null) misc.setKey(key.image);
 		} else
 		{
-		  throw new ParsingError("A entrada \"@article\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
+		  throw new ParsingError("A entrada \"@misc\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
 		}
 	  } catch (ParsingError e)
 	  {
@@ -564,7 +564,7 @@ void phdthesis() : {Token reference = null, author = null, title = null, school 
 		  if (note != null) phdthesis.setNote(note.image);
 		} else
 		{
-		  throw new ParsingError("A entrada \"@article\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
+		  throw new ParsingError("A entrada \"@phdthesis\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
 		}
 	  } catch (ParsingError e)
 	  {
@@ -607,7 +607,7 @@ void proceedings() : {Token reference = null, title = null, number = null, year 
 		  if (key != null) proceedings.setKey(key.image);
 		} else
 		{
-		  throw new ParsingError("A entrada \"@article\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
+		  throw new ParsingError("A entrada \"@proceedings\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
 		}
 	  } catch (ParsingError e)
 	  {
@@ -645,7 +645,7 @@ void techreport() : {Token reference = null, author = null, title = null, instit
 		  if (key != null) techreport.setKey(key.image);
 		} else
 		{
-		  throw new ParsingError("A entrada \"@article\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
+		  throw new ParsingError("A entrada \"@techreport\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
 		}
 	  } catch (ParsingError e)
 	  {
@@ -676,7 +676,7 @@ void unpublished() : {Token reference = null, author = null, title = null, note 
 		  if (key != null) unpublished.setKey(key.image);
 		} else
 		{
-		  throw new ParsingError("A entrada \"@article\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
+		  throw new ParsingError("A entrada \"@unpublished\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
 		}
 	  } catch (ParsingError e)
 	  {
