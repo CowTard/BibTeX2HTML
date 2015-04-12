@@ -139,7 +139,6 @@ Token definition() : {Token field;}
 {
   "=" field = < FIELD >
   {
-    System.out.println(field.image);
     return field;
   }
 }
@@ -160,17 +159,21 @@ void article() : {Token reference = null, author = null, title = null, journal =
     "}"
 	{
 	  try {
-		if (reference == null) throw new ParsingError("Falta uma chave de citação!");
+		if (reference == null) throw new ParsingError("[@article] : Falta uma chave de citação!");
 		if (author != null && title != null && journal != null && year != null && volume != null)		{
 		  Article artigo = new Article(reference.image, author.image, title.image, journal.image, year.image, volume.image);
 		  if (number != null) artigo.setNumber(number.image);
 		  if (pages != null) artigo.setPages(pages.image);
 		  if (month != null) artigo.setMonth(month.image);
 		  if (note != null) artigo.setNote(note.image);
-		  if (key != null) artigo.setKey(key.image);		} else		{
-		  throw new ParsingError("A entrada \"@article\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");		}
-	  } catch (ParsingError e)	  {
-	    System.out.println(e.getMessage());	  }
+		  if (key != null) artigo.setKey(key.image);		} else
+		{
+		  throw new ParsingError("A entrada \"@article\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
+		}
+	  } catch (ParsingError e)
+	  {
+	    System.out.println(e.getMessage());
+	  }
   	}
 }
 
@@ -190,7 +193,9 @@ void book() : {Token reference = null , author = null, editor = null, title = nu
     (< KEY > key = definition() ",")?
     "}"
     {
-		if (reference != null && (author != null || editor != null) && title != null && publisher != null && year != null)
+      try {
+		if (reference == null) throw new ParsingError("[@book] : Falta uma chave de citação!");
+		if ( (author != null || editor != null) && title != null && publisher != null && year != null)
 		{
 		  Book livro;
 		  if (author != null) livro = new Book(reference.image,"author", author.image, title.image, publisher.image, year.image);		  else  livro = new Book(reference.image,"editor", editor.image, title.image, publisher.image, year.image);
@@ -203,10 +208,12 @@ void book() : {Token reference = null , author = null, editor = null, title = nu
 		  if (month != null) livro.setMonth(month.image);
 		  if (note != null) livro.setNote(note.image);
 		  if (key != null) livro.setKey(key.image);
-		} else
-		{
-		  System.out.println("SOME ERROR HAPPENED"); // EXCEÇÃO
+		} else {
+		  throw new ParsingError("A entrada \"@book\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
 		}
+	  } catch (ParsingError e) {
+	    System.out.println(e.getMessage());
+	  }
   	}
 }
 
@@ -223,7 +230,9 @@ void booklet() :{Token reference = null, title = null, author = null, howpublish
     (< KEY > key = definition() ",")?
     "}"
 	{
-	  if ( reference != null && title != null)	  {
+	 try {
+	  if (reference == null) throw new ParsingError("[@booklet] : Falta uma chave de citação!");
+	  if (title != null)	  {
 	    Booklet blt = new Booklet(reference.image, title.image);
 	    if (author != null) blt.setAuthor(author.image);
 	    if (howpublished != null) blt.setHowPublished(howpublished.image);
@@ -231,10 +240,12 @@ void booklet() :{Token reference = null, title = null, author = null, howpublish
 	    if (month != null) blt.setMonth(month.image);
 	    if (year != null) blt.setYear(year.image);
 	    if (note != null) blt.setNote(note.image);
-	    if (key != null) blt.setKey(key.image);		} else
-		{
-		  System.out.println("SOME ERROR HAPPENED"); // EXCEÇÃO
+	    if (key != null) blt.setKey(key.image);		} else {
+		  throw new ParsingError("A entrada \"@booklet\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
 		}
+	  } catch (ParsingError e) {
+	    System.out.println(e.getMessage());
+	  }
 	}
 }
 
@@ -257,7 +268,9 @@ void conference() : {Token reference = null, author = null, title = null, bookti
     (< KEY > key = definition() ",")?
     "}"
 	{
-		if (reference != null && author != null && title != null && booktitle != null && year != null)
+	 try {
+	  if (reference == null) throw new ParsingError("[@conference] : Falta uma chave de citação!");
+		if (author != null && title != null && booktitle != null && year != null)
 		{
 		  Conference conference = new Conference(reference.image, author.image, title.image, booktitle.image, year.image);
 		  if (editor != null) conference.setEditor(editor.image);
@@ -271,11 +284,13 @@ void conference() : {Token reference = null, author = null, title = null, bookti
 		  if (publisher != null) conference.setPublisher(publisher.image);
 		  if (note != null) conference.setNote(note.image);
 		  if (key != null) conference.setKey(key.image);
-		} else
-		{
-		  System.out.println("SOME ERROR HAPPENED"); // EXCEÇÃO
+		} else {
+		  throw new ParsingError("A entrada \"@conference\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
 		}
-	}
+	  } catch (ParsingError e) {
+	    System.out.println(e.getMessage());
+	  }
+  	}
 }
 
 void inbook() : {Token reference = null, author = null, editor = null, title = null, chapter = null, pages = null, publisher = null, year = null, volume = null,
@@ -297,7 +312,9 @@ void inbook() : {Token reference = null, author = null, editor = null, title = n
     (< KEY > key = definition() ",")?
     "}"
     {
-      if (reference != null && (author != null || editor != null) && title != null && (chapter != null || pages != null) && publisher != null && year != null)      {
+	 try {
+	  if (reference == null) throw new ParsingError("[@inbook] : Falta uma chave de citação!");
+      if ((author != null || editor != null) && title != null && (chapter != null || pages != null) && publisher != null && year != null)      {
         Inbook inbk;
 		if (author != null)		{
 		  if (chapter != null) inbk = new Inbook(reference.image, "author", author.image, title.image, "chapter", chapter.image, publisher.image, year.image);
@@ -314,10 +331,12 @@ void inbook() : {Token reference = null, author = null, editor = null, title = n
 		if (edition != null) inbk.setEdition(edition.image);
 		if (month != null) inbk.setMonth(month.image);
 		if (note != null) inbk.setNote(note.image);
-		if (key != null) inbk.setKey(key.image);		} else
-		{
-		  System.out.println("SOME ERROR HAPPENED"); // EXCEÇÃO
-		}    }
+		if (key != null) inbk.setKey(key.image);		} else {
+		  throw new ParsingError("A entrada \"@book\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
+		}
+	  } catch (ParsingError e) {
+	    System.out.println(e.getMessage());
+	  }    }
 }
 
 void incollection() : {Token reference = null, author = null, title = null, booktitle = null, publisher = null, year = null, editor = null, volume = null,
@@ -342,9 +361,12 @@ void incollection() : {Token reference = null, author = null, title = null, book
     (< NOTE > note = definition() ",")?
     (< KEY > key = definition() ",")?
     "}"
-	{
-	  try {
-		if (reference == null) throw new ParsingError("Falta uma chave de citação!");		if (author != null && title != null && booktitle != null && publisher != null && year != null)		{			Incollection inc = new Incollection(reference.image, author.image, title.image, booktitle.image, publisher.image, year.image);
+    {
+	 try {
+	  if (reference == null) throw new ParsingError("[@incollection] : Falta uma chave de citação!");
+		if (author != null && title != null && booktitle != null && publisher != null && year != null)
+		{
+			Incollection inc = new Incollection(reference.image, author.image, title.image, booktitle.image, publisher.image, year.image);
 
 			if (editor != null) inc.setEditor(editor.image);
 			if (number != null) inc.setNumber(number.image);
@@ -358,11 +380,10 @@ void incollection() : {Token reference = null, author = null, title = null, book
 			if (month != null) inc.setMonth(month.image);
 			if (note != null) inc.setNote(note.image);
 			if (key != null) inc.setKey(key.image);
-		} else
-		{
-		  throw new ParsingError("A entrada \"@article\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
-		} catch (ParsingError e)
-	  {
+		} else {
+		  throw new ParsingError("A entrada \"@incollection\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
+		}
+	  } catch (ParsingError e) {
 	    System.out.println(e.getMessage());
 	  }
     }
@@ -496,6 +517,8 @@ void misc() : {Token reference = null, author = null, title = null, howpublished
     (< KEY > key = definition() ",")?
     "}"
 	{
+	  try {
+		if (reference == null) throw new ParsingError("Falta uma chave de citação!");
 		if (reference != null)
 		{
 		  Misc misc = new Misc(reference.image);
@@ -508,8 +531,12 @@ void misc() : {Token reference = null, author = null, title = null, howpublished
 		  if (key != null) misc.setKey(key.image);
 		} else
 		{
-		  System.out.println("SOME ERROR HAPPENED"); // EXCEÇÃO
+		  throw new ParsingError("A entrada \"@article\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
 		}
+	  } catch (ParsingError e)
+	  {
+	    System.out.println(e.getMessage());
+	  }
 	}
 }
 
@@ -526,7 +553,9 @@ void phdthesis() : {Token reference = null, author = null, title = null, school 
 	(< NOTE > note = definition() "," )?
 	"}"
 	{
-		if (reference != null && author != null && title != null && school != null && year != null)
+	  try {
+		if (reference == null) throw new ParsingError("Falta uma chave de citação!");
+		if (author != null && title != null && school != null && year != null)
 		{
 		  Phdthesis phdthesis = new Phdthesis(reference.image, author.image, title.image, school.image, year.image);
 		  if (type != null) phdthesis.setType(type.image);
@@ -535,8 +564,12 @@ void phdthesis() : {Token reference = null, author = null, title = null, school 
 		  if (note != null) phdthesis.setNote(note.image);
 		} else
 		{
-		  System.out.println("SOME ERROR HAPPENED"); // EXCEÇÃO
+		  throw new ParsingError("A entrada \"@article\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
 		}
+	  } catch (ParsingError e)
+	  {
+	    System.out.println(e.getMessage());
+	  }
 	}
 }
 
@@ -556,7 +589,9 @@ void proceedings() : {Token reference = null, title = null, number = null, year 
 	(< KEY > key = definition() ",")?
 	"}"
 	{
-		if (reference != null && title != null && year != null)
+      try {
+		if (reference == null) throw new ParsingError("Falta uma chave de citação!");
+		if (title != null && year != null)
 		{
 		  Proceedings proceedings;
 		  proceedings = new Proceedings(reference.image, title.image, year.image);
@@ -572,8 +607,12 @@ void proceedings() : {Token reference = null, title = null, number = null, year 
 		  if (key != null) proceedings.setKey(key.image);
 		} else
 		{
-		  System.out.println("SOME ERROR HAPPENED"); // EXCEÇÃO
+		  throw new ParsingError("A entrada \"@article\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
 		}
+	  } catch (ParsingError e)
+	  {
+	    System.out.println(e.getMessage());
+	  }
 	}
 }
 
@@ -592,7 +631,9 @@ void techreport() : {Token reference = null, author = null, title = null, instit
 	(< KEY > key = definition() ",")?
 	"}"
 	{
-		if (reference != null && author != null && title != null && institution != null && year != null)
+	  try {
+		if (reference == null) throw new ParsingError("Falta uma chave de citação!");
+		if (author != null && title != null && institution != null && year != null)
 		{
 		  Techreport techreport;
 		  techreport = new Techreport(reference.image, author.image, title.image, institution.image, year.image);
@@ -604,8 +645,12 @@ void techreport() : {Token reference = null, author = null, title = null, instit
 		  if (key != null) techreport.setKey(key.image);
 		} else
 		{
-		  System.out.println("SOME ERROR HAPPENED"); // EXCEÇÃO
+		  throw new ParsingError("A entrada \"@article\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
 		}
+	  } catch (ParsingError e)
+	  {
+	    System.out.println(e.getMessage());
+	  }
   	}
 }
 
@@ -620,7 +665,9 @@ void unpublished() : {Token reference = null, author = null, title = null, note 
 	(< KEY > key = definition() ",")?
 	"}"
 	{
-		if (reference != null && author != null  && title != null && note != null)
+	try {
+		if (reference == null) throw new ParsingError("Falta uma chave de citação!");
+		if ( author != null  && title != null && note != null)
 		{
 		  Unpublished unpublished;
 		  unpublished = new Unpublished(reference.image, author.image, title.image, note.image);
@@ -629,7 +676,11 @@ void unpublished() : {Token reference = null, author = null, title = null, note 
 		  if (key != null) unpublished.setKey(key.image);
 		} else
 		{
-		  System.out.println("SOME ERROR HAPPENED"); // EXCEÇÃO
+		  throw new ParsingError("A entrada \"@article\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
 		}
+	  } catch (ParsingError e)
+	  {
+	    System.out.println(e.getMessage());
+	  }
 	}
 }
