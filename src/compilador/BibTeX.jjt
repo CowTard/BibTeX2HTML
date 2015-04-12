@@ -18,6 +18,7 @@ public class BibTeX {
 	}
 
 	BibTeX parser = new BibTeX(new FileInputStream(new File(fname)));
+	System.out.println("");
 	parser.start();
 	sc.close();
   }
