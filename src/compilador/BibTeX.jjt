@@ -233,7 +233,7 @@ void booklet() :{Token reference = null, title = null, author = null, howpublish
 	}
 }
 
-void conference() : {Token reference = null, author = null, title = null, booktitle = null, year = null, editor = null, volume = null, number = null, series = null, pages = null, address = null, month = null, organiztion = null, publisher = null, note = null, key = null;}
+void conference() : {Token reference = null, author = null, title = null, booktitle = null, year = null, editor = null, volume = null, number = null, series = null, pages = null, address = null, month = null, organization = null, publisher = null, note = null, key = null;}
 {
 	"{" reference = <WORD> ","
 	< AUTHOR > definition() ","
@@ -474,10 +474,13 @@ void misc() : {Token reference = null, author = null, title = null, howpublished
 		if (reference != null)
 		{
 		  Misc misc = new Misc(reference.image);
-		  if (author != null) misc.setAuthor(type.image);
-		  if (address != null) misc.setAddress(address.image);
+		  if (author != null) misc.setAuthor(author.image);
+		  if (title != null) misc.setTitle(title.image);
+		  if (howpublished != null) misc.setHowpublished(howpublished.image);
 		  if (month != null) misc.setMonth(month.image);
+		  if (year != null) misc.setYear(year.image);
 		  if (note != null) misc.setNote(note.image);
+		  if (key != null) misc.setKey(key.image);
 		} else
 		{
 		  System.out.println("SOME ERROR HAPPENED"); // EXCEÇÃO
