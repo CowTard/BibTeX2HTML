@@ -409,7 +409,7 @@ void inproceedings() : {Token reference = null, author = null, title = null, boo
     "}"
 	{
 	  try {
-		if (reference == null) throw new ParsingError("Falta uma chave de citação!");
+		if (reference == null) throw new ParsingError("[@inproceedings] : Falta uma chave de citação!");
 		if (author != null && title != null && booktitle != null && year != null)
 		{
 		  Inproceedings inproceedings = new Inproceedings(reference.image, author.image, title.image, booktitle.image, year.image);
@@ -450,7 +450,7 @@ void manual() : {Token reference = null, title = null, author = null, organizati
     "}"
 	{
 	  try {
-	    if (reference == null) throw new ParsingError("Falta uma chave de citação!");
+	    if (reference == null) throw new ParsingError("[@manual] : Falta uma chave de citação!");
 		if (title != null)
 		{
 		  Manual manual = new Manual(reference.image, title.image);
@@ -488,7 +488,7 @@ void mastersthesis() : {Token reference = null, author = null, title = null, sch
     "}"
 	{
 	  try {
-	    if (reference == null) throw new ParsingError("Falta uma chave de citação!");
+	    if (reference == null) throw new ParsingError("[@mastersthesis] : Falta uma chave de citação!");
 		if (author != null && title != null && school != null && year != null)
 		{
 		  Mastersthesis mastersthesis = new Mastersthesis(reference.image, author.image, title.image, school.image, year.image);
