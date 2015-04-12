@@ -164,8 +164,8 @@ void article() : {Token reference = null, author = null, title = null, journal =
 		  if (pages != null) artigo.setPages(pages.image);
 		  if (month != null) artigo.setMonth(month.image);
 		  if (note != null) artigo.setNote(note.image);
-		  if (key != null) artigo.setKey(key.image);		}else		{
-		  System.out.println("SOME ERROR HAPPENED");// EXCEPÃ‡Ã‚O		}
+		  if (key != null) artigo.setKey(key.image);		} else		{
+		  System.out.println("SOME ERROR HAPPENED"); // EXCEï¿½ï¿½O		}
   	}
 }
 
@@ -184,7 +184,7 @@ void book() : {Token reference = null , author = null, editor = null, title = nu
     (< NOTE > note = definition() ",")?
     (< KEY > key = definition() ",")?
     "}"
-    	{
+    {
 		if (reference != null && (author != null || editor != null) && title != null && publisher != null && year != null)
 		{
 		  Book livro;
@@ -198,9 +198,9 @@ void book() : {Token reference = null , author = null, editor = null, title = nu
 		  if (month != null) livro.setMonth(month.image);
 		  if (note != null) livro.setNote(note.image);
 		  if (key != null) livro.setKey(key.image);
-		}else
+		} else
 		{
-		  System.out.println("SOME ERROR HAPPENED");// EXCEPÃ‡Ã‚O
+		  System.out.println("SOME ERROR HAPPENED"); // EXCEï¿½ï¿½O
 		}
   	}
 }
@@ -226,14 +226,16 @@ void booklet() :{Token reference = null, title = null, author = null, howpublish
 	    if (month != null) blt.setMonth(month.image);
 	    if (year != null) blt.setYear(year.image);
 	    if (note != null) blt.setNote(note.image);
-	    if (key != null) blt.setKey(key.image);	  }	}
-
-    
+	    if (key != null) blt.setKey(key.image);		} else
+		{
+		  System.out.println("SOME ERROR HAPPENED"); // EXCEï¿½ï¿½O
+		}
+	}
 }
 
-void conference() : {}
+void conference() : {Token reference = null, author = null, title = null, booktitle = null, year = null, editor = null, volume = null, number = null, series = null, pages = null, address = null, month = null, organiztion = null, publisher = null, note = null, key = null;}
 {
-	"{" <WORD> ","
+	"{" reference = <WORD> ","
 	< AUTHOR > definition() ","
 	< TITLE > definition() ","
 	< BOOKTITLE > definition() ","
@@ -249,10 +251,30 @@ void conference() : {}
     (< NOTE > definition() ",")?
     (< KEY > definition() ",")?
     "}"
+	{
+		if (reference != null && author != null && title != null && booktitle != null && year != null)
+		{
+		  Conference conference = new Conference(reference.image, author.image, title.image, booktitle.image, year.image);
+		  if (editor != null) conference.setEditor(editor.image);
+		  if (volume != null) conference.setVolume(volume.image);
+		  if (number != null) conference.setNumber(number.image);
+		  if (series != null) conference.setSeries(series.image);
+		  if (pages != null) conference.setPages(pages.image);
+		  if (address != null) conference.setAddress(address.image);
+		  if (month != null) conference.setMonth(month.image);
+		  if (organization != null) conference.setOrganization(organization.image);
+		  if (publisher != null) conference.setPublisher(publisher.image);
+		  if (note != null) conference.setNote(note.image);
+		  if (key != null) conference.setKey(key.image);
+		} else
+		{
+		  System.out.println("SOME ERROR HAPPENED"); // EXCEï¿½ï¿½O
+		}
+	}
 }
 
 void inbook() : {Token reference = null, author = null, editor = null, title = null, chapter = null, pages = null, publisher = null, year = null, volume = null,
-					number = null, series = null, type = null, address = null, edition = null, month = null, note = null, key = null; }
+					number = null, series = null, type = null, address = null, edition = null, month = null, note = null, key = null;}
 {
 	"{" reference = <WORD> ","
     ( (<AUTHOR> author = definition()) | (< EDITOR > editor = definition()) ) ","
@@ -287,7 +309,10 @@ void inbook() : {Token reference = null, author = null, editor = null, title = n
 		if (edition != null) inbk.setEdition(edition.image);
 		if (month != null) inbk.setMonth(month.image);
 		if (note != null) inbk.setNote(note.image);
-		if (key != null) inbk.setKey(key.image);      }    }
+		if (key != null) inbk.setKey(key.image);		} else
+		{
+		  System.out.println("SOME ERROR HAPPENED"); // EXCEï¿½ï¿½O
+		}    }
 }
 
 void incollection() : {Token reference = null, author = null, title = null, booktitle = null, publisher = null, year = null, editor = null, volume = null,
@@ -326,13 +351,16 @@ void incollection() : {Token reference = null, author = null, title = null, book
 			if (month != null) inc.setMonth(month.image);
 			if (note != null) inc.setNote(note.image);
 			if (key != null) inc.setKey(key.image);
+		} else
+		{
+		  System.out.println("SOME ERROR HAPPENED"); // EXCEï¿½ï¿½O
 		}
     }
 }
 
-void inproceedings() : {}
+void inproceedings() : {Token reference = null, author = null, title = null, booktitle = null, year = null, editor = null, volume = null, number = null, series = null, pages = null, address = null, month = null, organiztion = null, publisher = null, note = null, key = null;}
 {
-	"{" <WORD> ","
+	"{" reference = <WORD> ","
 	< AUTHOR > definition() ","
 	< TITLE > definition() ","
 	< BOOKTITLE > definition() ","
@@ -348,63 +376,140 @@ void inproceedings() : {}
     (< NOTE > definition() ",")?
     (< KEY > definition() ",")?
     "}"
+	{
+		if (reference != null && author != null && title != null && booktitle != null && year != null)
+		{
+		  Inproceedings inproceedings = new Inproceedings(reference.image, author.image, title.image, booktitle.image, year.image);
+		  if (editor != null) inproceedings.setEditor(editor.image);
+		  if (volume != null) inproceedings.setVolume(volume.image);
+		  if (number != null) inproceedings.setNumber(number.image);
+		  if (series != null) inproceedings.setSeries(series.image);
+		  if (pages != null) inproceedings.setPages(pages.image);
+		  if (address != null) inproceedings.setAddress(address.image);
+		  if (month != null) inproceedings.setMonth(month.image);
+		  if (organization != null) inproceedings.setOrganization(organization.image);
+		  if (publisher != null) inproceedings.setPublisher(publisher.image);
+		  if (note != null) inproceedings.setNote(note.image);
+		  if (key != null) inproceedings.setKey(key.image);
+		} else
+		{
+		  System.out.println("SOME ERROR HAPPENED"); // EXCEï¿½ï¿½O
+		}
+	}
 }
 
-void manual() : {}
+void manual() : {Token reference = null, title = null, author = null, organization = null, address = null, edition = null, month = null, year = null, note = null, key = null;}
 {
-	"{" <MANUAL> ","
-	< TITLE > definition() ","
-    (< AUTHOR > definition() ",")?
-    (< ORGANIZATION > definition() ",")?
-    (< ADDRESS > definition() ",")?
-    (< EDITION > definition() ",")?
-    (< MONTH > definition() ",")?
-    (< YEAR > definition() ",")?
-    (< NOTE > definition() ",")?
-    (< KEY > definition() ",")?
+	"{" reference = <MANUAL> ","
+	< TITLE > title = definition() ","
+    (< AUTHOR > author = definition() ",")?
+    (< ORGANIZATION > organization = definition() ",")?
+    (< ADDRESS > address = definition() ",")?
+    (< EDITION > edition = definition() ",")?
+    (< MONTH > month = definition() ",")?
+    (< YEAR > year = definition() ",")?
+    (< NOTE > note = definition() ",")?
+    (< KEY > key = definition() ",")?
     "}"
+	{
+		if (reference != null && title != null)
+		{
+		  Manual manual = new Manual(reference.image, title.image);
+		  if (author != null) manual.setAuthor(author.image);
+		  if (organization != null) manual.setOrganization(organization.image);
+		  if (address != null) manual.setAddress(address.image);
+		  if (edition != null) manual.setEdition(edition.image);
+		  if (month != null) manual.setMonth(month.image);
+		  if (year != null) manual.setYear(year.image);
+		  if (note != null) manual.setNote(note.image);
+		  if (key != null) manual.setKey(key.image);
+		} else
+		{
+		  System.out.println("SOME ERROR HAPPENED"); // EXCEï¿½ï¿½O
+		}
+	}
 }
 
-void mastersthesis() : {}
+void mastersthesis() : {Token reference = null, author = null, title = null, school = null, year = null, type = null, address = null, month = null, note = null, key = null;}
 {
-	"{" <MASTERSTHESIS> ","
-    < AUTHOR > definition() ","
-	< TITLE > definition() ","
-    < SCHOOL > definition() ","
-    < YEAR > definition() ","
-    (< TYPE > definition() ",")?
-    (< ADDRESS > definition() ",")?
-    (< MONTH > definition() ",")?
-    (< NOTE > definition() ",")?
-    (< KEY > definition() ",")?
+	"{" reference = <MASTERSTHESIS> ","
+    < AUTHOR > author = definition() ","
+	< TITLE > title = definition() ","
+    < SCHOOL > school = definition() ","
+    < YEAR > year = definition() ","
+    (< TYPE > type = definition() ",")?
+    (< ADDRESS > address = definition() ",")?
+    (< MONTH > month = definition() ",")?
+    (< NOTE > note = definition() ",")?
+    (< KEY > key = definition() ",")?
     "}"
+	{
+		if (reference != null && author != null && title != null && school != null && year != null)
+		{
+		  Mastersthesis mastersthesis = new Mastersthesis(reference.image, author.image, title.image, school.image, year.image);
+		  if (type != null) mastersthesis.setType(type.image);
+		  if (address != null) mastersthesis.setAddress(address.image);
+		  if (month != null) mastersthesis.setMonth(month.image);
+		  if (note != null) mastersthesis.setNote(note.image);
+		  if (key != null) mastersthesis.setKey(key.image);
+		} else
+		{
+		  System.out.println("SOME ERROR HAPPENED"); // EXCEï¿½ï¿½O
+		}
+	}
 }
 
-void misc() : {}
+void misc() : {Token reference = null, author = null, title = null, howpublished = null, month = null, year = null, note = null, key = null;}
 {
-	"{" < MISC > ","
-    (< AUTHOR > definition() ",")?
-    (< TITLE > definition() ",")?
-    (< HOWPUBLISHED > definition() ",")?
-    (< MONTH > definition() ",")?
-    (< YEAR > definition() ",")?
-    (< NOTE > definition() ",")?
-    (< KEY > definition() ",")?
+	"{" reference = < MISC > ","
+    (< AUTHOR > author = definition() ",")?
+    (< TITLE > title = definition() ",")?
+    (< HOWPUBLISHED > howpublished = definition() ",")?
+    (< MONTH > month = definition() ",")?
+    (< YEAR > year = definition() ",")?
+    (< NOTE > note = definition() ",")?
+    (< KEY > key = definition() ",")?
     "}"
+	{
+		if (reference != null)
+		{
+		  Misc misc = new Misc(reference.image);
+		  if (author != null) misc.setAuthor(type.image);
+		  if (address != null) misc.setAddress(address.image);
+		  if (month != null) misc.setMonth(month.image);
+		  if (note != null) misc.setNote(note.image);
+		} else
+		{
+		  System.out.println("SOME ERROR HAPPENED"); // EXCEï¿½ï¿½O
+		}
+	}
 }
 
-void phdthesis() : {}
+void phdthesis() : {Token reference = null, author = null, title = null, school = null, year = null, type = null, address = null, month = null, note = null;}
 {
-	"{" <WORD> ","
-	< AUTHOR > definition() ","
-	< TITLE > definition() ","
-	< SCHOOL > definition() ","
-	< YEAR > definition() ","
-	( < TYPE > definition() "," )?
-	( < ADDRESS > definition() "," )?
-	( < MONTH > definition() "," )?
-	( < NOTE > definition() "," )?
+	"{" reference = <WORD> ","
+	< AUTHOR > author = definition() ","
+	< TITLE > title = definition() ","
+	< SCHOOL > school = definition() ","
+	< YEAR > year = definition() ","
+	( < TYPE > type = definition() "," )?
+	( < ADDRESS > address = definition() "," )?
+	( < MONTH > month = definition() "," )?
+	( < NOTE > note = definition() "," )?
 	"}"
+	{
+		if (reference != null && author != null && title != null && school != null && year != null)
+		{
+		  Phdthesis phdthesis = new Phdthesis(reference.image, author.image, title.image, school.image, year.image);
+		  if (type != null) phdthesis.setType(type.image);
+		  if (address != null) phdthesis.setAddress(address.image);
+		  if (month != null) phdthesis.setMonth(month.image);
+		  if (note != null) phdthesis.setNote(note.image);
+		} else
+		{
+		  System.out.println("SOME ERROR HAPPENED"); // EXCEï¿½ï¿½O
+		}
+	}
 }
 
 void proceedings() : {Token reference = null, title = null, year = null, editor = null, volume = null, series = null, address = null, month = null, organization = null, publisher = null, note = null, key = null;}
@@ -437,11 +542,11 @@ void proceedings() : {Token reference = null, title = null, year = null, editor 
 		  if (month != null) proceedings.setMonth(month.image);
 		  if (note != null) proceedings.setNote(note.image);
 		  if (key != null) proceedings.setKey(key.image);
-		}else
+		} else
 		{
-		  System.out.println("SOME ERROR HAPPENED");// EXCEÇÃO
+		  System.out.println("SOME ERROR HAPPENED"); // EXCEï¿½ï¿½O
 		}
-  	}
+	}
 }
 
 void techreport() : {Token reference = null, author = null, title = null, institution = null, year = null, type = null, number = null, address = null, month = null, note = null, key = null;}
@@ -469,9 +574,9 @@ void techreport() : {Token reference = null, author = null, title = null, instit
 		  if (month != null) techreport.setMonth(month.image);
 		  if (note != null) techreport.setNote(note.image);
 		  if (key != null) techreport.setKey(key.image);
-		}else
+		} else
 		{
-		  System.out.println("SOME ERROR HAPPENED");// EXCEÇÃO
+		  System.out.println("SOME ERROR HAPPENED"); // EXCEï¿½ï¿½O
 		}
   	}
 }
@@ -494,9 +599,9 @@ void unpublished() :  {Token reference = null, author = null, title = null, note
 		  if (month != null) unpublished.setMonth(month.image);
 		  if (year != null) unpublished.setYear(year.image);
 		  if (key != null) unpublished.setKey(key.image);
-		}else
+		} else
 		{
-		  System.out.println("SOME ERROR HAPPENED");// EXCEÇÃO
+		  System.out.println("SOME ERROR HAPPENED"); // EXCEï¿½ï¿½O
 		}
-  	}
+	}
 }

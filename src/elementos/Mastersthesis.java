@@ -3,7 +3,7 @@ package elementos;
 public class Mastersthesis extends Entry {
 	private String author, title, school, year, type, address, month, note, key;
 	
-	public Mastersthesis(String reference, String author, String title, String school, Strin0g year) {
+	public Mastersthesis(String reference, String author, String title, String school, String year) {
 		super(reference);
 		this.author = author;
 		this.title = title;
@@ -31,8 +31,6 @@ public class Mastersthesis extends Entry {
 		this.key = key;
 	}
 	
-	
-
 	public String toString(){
 		String result = "";
 	
@@ -49,5 +47,3 @@ public class Mastersthesis extends Entry {
 		return result + "\n\n";
 	}
 }
-
-
