@@ -407,9 +407,9 @@ void phdthesis() : {}
 	"}"
 }
 
-void proceedings() : {}
+void proceedings() : {Token reference = null, title = null, year = null, editor = null, volume = null, series = null, address = null, month = null, organization = null, publisher = null, note = null, key = null;}
 {
-	"{" < WORD > ","
+	"{" reference = < WORD > ","
 	< TITLE > title = definition() ","
 	< YEAR > year = definition() ","
 	(< EDITOR > editor = definition() ",")?
@@ -444,10 +444,10 @@ void proceedings() : {}
   	}
 }
 
-void techreport() : {}
+void techreport() : {Token reference = null, author = null, title = null, institution = null, year = null, type = null, number = null, address = null, month = null, note = null, key = null;}
 {
-	"{" < WORD > ","
-	< AUTHOR > authot = definition() ","
+	"{" reference = < WORD > ","
+	< AUTHOR > author = definition() ","
 	< TITLE > title = definition() ","
 	< INSTITUTION > institution = definition() ","
 	< YEAR > year = definition() ","
@@ -476,11 +476,11 @@ void techreport() : {}
   	}
 }
 
-void unpublished() : {}
+void unpublished() :  {Token reference = null, author = null, title = null, note = null, month = null, year = null, key = null; }
 {
-	"{" < WORD > ","
+	"{" reference = < WORD > ","
 	< AUTHOR > author = definition() ","
-	< TITLE > title =definition() ","
+	< TITLE > title = definition() ","
 	< NOTE > note = definition() "," 
 	(< MONTH > month = definition() ",")?
 	(< YEAR > year = definition() ",")?
