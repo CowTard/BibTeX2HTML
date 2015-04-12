@@ -521,7 +521,7 @@ void misc() : {Token reference = null, author = null, title = null, howpublished
     "}"
 	{
 	  try {
-		if (reference == null) throw new ParsingError("Falta uma chave de citação!");
+		if (reference == null) throw new ParsingError("[@misc] : Falta uma chave de citação!");
 		if (reference != null)
 		{
 		  Misc misc = new Misc(reference.image);
@@ -557,7 +557,7 @@ void phdthesis() : {Token reference = null, author = null, title = null, school 
 	"}"
 	{
 	  try {
-		if (reference == null) throw new ParsingError("Falta uma chave de citação!");
+		if (reference == null) throw new ParsingError("[@phdthesis] : Falta uma chave de citação!");
 		if (author != null && title != null && school != null && year != null)
 		{
 		  Phdthesis phdthesis = new Phdthesis(reference.image, author.image, title.image, school.image, year.image);
@@ -593,7 +593,7 @@ void proceedings() : {Token reference = null, title = null, number = null, year 
 	"}"
 	{
       try {
-		if (reference == null) throw new ParsingError("Falta uma chave de citação!");
+		if (reference == null) throw new ParsingError("[@proceedings] : Falta uma chave de citação!");
 		if (title != null && year != null)
 		{
 		  Proceedings proceedings;
@@ -635,7 +635,7 @@ void techreport() : {Token reference = null, author = null, title = null, instit
 	"}"
 	{
 	  try {
-		if (reference == null) throw new ParsingError("Falta uma chave de citação!");
+		if (reference == null) throw new ParsingError("[@techreport] : Falta uma chave de citação!");
 		if (author != null && title != null && institution != null && year != null)
 		{
 		  Techreport techreport;
@@ -669,7 +669,7 @@ void unpublished() : {Token reference = null, author = null, title = null, note 
 	"}"
 	{
 	try {
-		if (reference == null) throw new ParsingError("Falta uma chave de citação!");
+		if (reference == null) throw new ParsingError("[@unpublished] : Falta uma chave de citação!");
 		if ( author != null  && title != null && note != null)
 		{
 		  Unpublished unpublished;
