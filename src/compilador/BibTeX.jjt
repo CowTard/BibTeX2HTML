@@ -481,7 +481,7 @@ void misc() : {Token reference = null, author = null, title = null, howpublished
     (< KEY > key = definition() ",")?
     "}"
 	{
-	try {
+	  try {
 		if (reference == null) throw new ParsingError("Falta uma chave de citação!");
 		if (reference != null)
 		{
@@ -517,7 +517,7 @@ void phdthesis() : {Token reference = null, author = null, title = null, school 
 	(< NOTE > note = definition() "," )?
 	"}"
 	{
-	try {
+	  try {
 		if (reference == null) throw new ParsingError("Falta uma chave de citação!");
 		if (author != null && title != null && school != null && year != null)
 		{
@@ -553,7 +553,7 @@ void proceedings() : {Token reference = null, title = null, number = null, year 
 	(< KEY > key = definition() ",")?
 	"}"
 	{
-	try {
+      try {
 		if (reference == null) throw new ParsingError("Falta uma chave de citação!");
 		if (title != null && year != null)
 		{
@@ -595,7 +595,7 @@ void techreport() : {Token reference = null, author = null, title = null, instit
 	(< KEY > key = definition() ",")?
 	"}"
 	{
-	try {
+	  try {
 		if (reference == null) throw new ParsingError("Falta uma chave de citação!");
 		if (author != null && title != null && institution != null && year != null)
 		{
