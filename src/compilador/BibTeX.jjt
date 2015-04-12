@@ -190,7 +190,8 @@ void book() : {Token reference = null , author = null, editor = null, title = nu
     (< KEY > key = definition() ",")?
     "}"
     {
-		if (reference != null && (author != null || editor != null) && title != null && publisher != null && year != null)
+      	if (reference != null) throw new ParsingError("[@book] : Falta uma chave de cita\u00e7\u00e3o!");
+		if ( (author != null || editor != null) && title != null && publisher != null && year != null)
 		{
 		  Book livro;
 		  if (author != null) livro = new Book(reference.image,"author", author.image, title.image, publisher.image, year.image);		  else  livro = new Book(reference.image,"editor", editor.image, title.image, publisher.image, year.image);
