@@ -358,23 +358,23 @@ void incollection() : {Token reference = null, author = null, title = null, book
     }
 }
 
-void inproceedings() : {Token reference = null, author = null, title = null, booktitle = null, year = null, editor = null, volume = null, number = null, series = null, pages = null, address = null, month = null, organiztion = null, publisher = null, note = null, key = null;}
+void inproceedings() : {Token reference = null, author = null, title = null, booktitle = null, year = null, editor = null, volume = null, number = null, series = null, pages = null, address = null, month = null, organization = null, publisher = null, note = null, key = null;}
 {
 	"{" reference = <WORD> ","
-	< AUTHOR > definition() ","
-	< TITLE > definition() ","
-	< BOOKTITLE > definition() ","
-	< YEAR > definition() ","
-    (< EDITOR > definition() ",")?
-    ( (<VOLUME> definition() | < NUMBER > definition()) ",")?
-    (< SERIES > definition() ",")?
-    (< PAGES > definition() ",")?
-    (< ADDRESS > definition() ",")?
-    (< MONTH > definition() ",")?
-    (< ORGANIZATION > definition() ",")?
-    (< PUBLISHER > definition() ",")?
-    (< NOTE > definition() ",")?
-    (< KEY > definition() ",")?
+	< AUTHOR > author = definition() ","
+	< TITLE > title = definition() ","
+	< BOOKTITLE > booktitle = definition() ","
+	< YEAR > year = definition() ","
+    (< EDITOR > editor = definition() ",")?
+    ( (<VOLUME> volume = definition() | < NUMBER > number = definition()) ",")?
+    (< SERIES > series = definition() ",")?
+    (< PAGES > pages = definition() ",")?
+    (< ADDRESS > address = definition() ",")?
+    (< MONTH > month = definition() ",")?
+    (< ORGANIZATION > organization = definition() ",")?
+    (< PUBLISHER > publisher = definition() ",")?
+    (< NOTE > note = definition() ",")?
+    (< KEY > key = definition() ",")?
     "}"
 	{
 		if (reference != null && author != null && title != null && booktitle != null && year != null)

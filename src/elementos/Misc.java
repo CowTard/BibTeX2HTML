@@ -1,10 +1,17 @@
 package elementos;
 
 public class Misc extends Entry {
-	private String none, author, title, howpublished, month, year, note, key;
+	private String author, title, howpublished, month, year, note, key;
 	
-	public Misc(String reference, String none){
+	public Misc(String reference){
 		super(reference);
+		this.author = null;
+		this.title = null;
+		this.howpublished = null;
+		this.month = null;
+		this.year = null;
+		this.note = null;
+		this.key = null;
 	}
 
 	public void setAuthor(String author){
