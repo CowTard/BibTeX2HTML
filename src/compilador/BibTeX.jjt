@@ -139,7 +139,6 @@ Token definition() : {Token field;}
 {
   "=" field = < FIELD >
   {
-    System.out.println(field.image);
     return field;
   }
 }
@@ -270,7 +269,7 @@ void conference() : {Token reference = null, author = null, title = null, bookti
     "}"
 	{
 	 try {
-	  if (reference == null) throw new ParsingError("[@booklet] : Falta uma chave de citação!");
+	  if (reference == null) throw new ParsingError("[@conference] : Falta uma chave de citação!");
 		if (author != null && title != null && booktitle != null && year != null)
 		{
 		  Conference conference = new Conference(reference.image, author.image, title.image, booktitle.image, year.image);
@@ -286,7 +285,7 @@ void conference() : {Token reference = null, author = null, title = null, bookti
 		  if (note != null) conference.setNote(note.image);
 		  if (key != null) conference.setKey(key.image);
 		} else {
-		  throw new ParsingError("A entrada \"@book\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
+		  throw new ParsingError("A entrada \"@conference\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
 		}
 	  } catch (ParsingError e) {
 	    System.out.println(e.getMessage());
@@ -364,7 +363,7 @@ void incollection() : {Token reference = null, author = null, title = null, book
     "}"
     {
 try {
-	  if (reference == null) throw new ParsingError("[@inbook] : Falta uma chave de citação!");		if (author != null && title != null && booktitle != null && publisher != null && year != null)		{			Incollection inc = new Incollection(reference.image, author.image, title.image, booktitle.image, publisher.image, year.image);
+	  if (reference == null) throw new ParsingError("[@incollection] : Falta uma chave de citação!");		if (author != null && title != null && booktitle != null && publisher != null && year != null)		{			Incollection inc = new Incollection(reference.image, author.image, title.image, booktitle.image, publisher.image, year.image);
 
 			if (editor != null) inc.setEditor(editor.image);
 			if (number != null) inc.setNumber(number.image);
@@ -379,7 +378,7 @@ try {
 			if (note != null) inc.setNote(note.image);
 			if (key != null) inc.setKey(key.image);
 		} else {
-		  throw new ParsingError("A entrada \"@book\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
+		  throw new ParsingError("A entrada \"@incollection\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
 		}
 	  } catch (ParsingError e) {
 	    System.out.println(e.getMessage());
