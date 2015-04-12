@@ -10,12 +10,6 @@ public class Techreport extends Entry {
 		this.title = title;
 		this.institution = institution;
 		this.year = year;
-		this.type = type;
-		this.number = number;
-		this.address = address;
-		this.month = month;
-		this.note = note;
-		this.key = key;
 	}
 	
 	public String toString() {
@@ -34,4 +28,29 @@ public class Techreport extends Entry {
 		
 		return result + "\n\n";
 	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public void setMonth(String month) {
+		this.month = month;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+	
 }

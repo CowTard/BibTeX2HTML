@@ -49,4 +49,4 @@ public class Misc extends Entry {
 		return result + "\n\n";
 	}
 }
-}
+

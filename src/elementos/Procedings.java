@@ -7,17 +7,7 @@ public class Procedings extends Entry {
 		super(reference);
 		this.title = title;
 		this.year = year;
-		this.editor = editor;
-		this.volume = volume;
-		this.number = number;
-		this.editor = editor;
-		this.series = series;
-		this.address = address;
-		this.month = month;
-		this.publisher = publisher;
-		this.organization = organization;
-		this.note = note;
-		this.key = key;
+
 	}
 	
 	public String toString(){
@@ -39,20 +29,44 @@ public class Procedings extends Entry {
 		return result + "\n\n";
 	}
 
-	/*public String toString() {
-		String result = "";
-		
-		result += "Author: " + author;
-		result += "\nTitle: " + title;
-		result += "\nInstitution: " + institution;
-		result += "\nYear: " + year;
-		if (type != null) result += "\nType: " + type;
-		if (number != null) result += "\nNumber: " + number;
-		if (address != null) result += "\nAddress: " + number;
-		if (month != null) result += "\nMonth: " + month;
-		if (note != null) result += "\nNote: " + note;
-		if (key != null) result += "\nKey: " + key;
-		
-		return result + "\n\n";
-	}*/
+	public void setEditor(String editor) {
+		this.editor = editor;
+	}
+
+	public void setVolume(String volume) {
+		this.volume = volume;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
+	public void setSeries(String series) {
+		this.series = series;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public void setMonth(String month) {
+		this.month = month;
+	}
+
+	public void setPublisher(String publisher) {
+		this.publisher = publisher;
+	}
+
+	public void setOrganization(String organization) {
+		this.organization = organization;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
 }

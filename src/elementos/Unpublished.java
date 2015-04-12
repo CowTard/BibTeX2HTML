@@ -9,9 +9,6 @@ public class Unpublished extends Entry {
 		this.author = author;
 		this.title = title;
 		this.note = note;
-		this.month = month;
-		this.note = note;
-		this.key = key;
 	}
 	
 	public String toString(){
@@ -26,4 +23,20 @@ public class Unpublished extends Entry {
 		
 		return result + "\n\n";
 	}
+	
+	
+
+	public void setMonth(String month) {
+		this.month = month;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+
 }

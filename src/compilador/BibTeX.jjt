@@ -410,42 +410,93 @@ void phdthesis() : {}
 void proceedings() : {}
 {
 	"{" < WORD > ","
-	< TITLE > definition() ","
-	< YEAR > definition() ","
-	(< EDITOR > definition() ",")?
-	(< VOLUME > definition() ",")?
-	(< NUMBER > definition() ",")?
-	(< SERIES > definition() ",")?
-	(< ADDRESS > definition() ",")?
-	(< MONTH > definition() ",")?
-	(< ORGANIZATION > definition() ",")?
-	(< PUBLISHER > definition() ",")?
-	(< NOTE > definition() ",")?
+	< TITLE > title = definition() ","
+	< YEAR > year = definition() ","
+	(< EDITOR > editor = definition() ",")?
+	((< VOLUME > volume = definition() ",") | (< NUMBER > number = definition() ","))?
+	(< SERIES > series = definition() ",")?
+	(< ADDRESS > address = definition() ",")?
+	(< MONTH > month = definition() ",")?
+	(< ORGANIZATION > organization = definition() ",")?
+	(< PUBLISHER > publisher = definition() ",")?
+	(< NOTE > note = definition() ",")?
+	(< KEY > key = definition() ",")?
 	"}"
+	{
+		if (reference != null && title != null && year != null)
+		{
+		  Proceedings proceedings;
+		  proceedings = new Proceedings(reference.image, title.image, year.image);
+		  if (editor != null) proceedings.setType(editor.image);
+		  if (number != null) proceedings.setNumber(number.image);
+		  if (volume != null) proceedings.setVolume(volume.image);
+		  if (series != null) proceedings.setSeries(series.image);
+		  if (organization != null) proceedings.setOrganization(organization.image);
+		  if (publisher != null) proceedings.setPublisher(publisher.image);
+		  if (address != null) proceedings.setAddress(address.image);
+		  if (month != null) proceedings.setMonth(month.image);
+		  if (note != null) proceedings.setNote(note.image);
+		  if (key != null) proceedings.setKey(key.image);
+		}else
+		{
+		  System.out.println("SOME ERROR HAPPENED");// EXCEÇÃO
+		}
+  	}
 }
 
 void techreport() : {}
 {
 	"{" < WORD > ","
-	< AUTHOR > definition() ","
-	< TITLE > definition() ","
-	< INSTITUTION > definition() ","
-	< YEAR > definition() ","
-	(< TYPE > definition() ",")?
-	(< NUMBER > definition() ",")?
-	(< ADDRESS > definition() ",")?
-	(< MONTH > definition() ",")?
-	(< NOTE > definition() ",")?
+	< AUTHOR > authot = definition() ","
+	< TITLE > title = definition() ","
+	< INSTITUTION > institution = definition() ","
+	< YEAR > year = definition() ","
+	(< TYPE > type = definition() ",")?
+	(< NUMBER > number = definition() ",")?
+	(< ADDRESS > address = definition() ",")?
+	(< MONTH > month = definition() ",")?
+	(< NOTE > note = definition() ",")?
+	(< KEY > key = definition() ",")?
 	"}"
+	{
+		if (reference != null && author != null && title != null && institution != null && year != null)
+		{
+		  Techreport techreport;
+		  techreport = new Techreport(reference.image, author.image, title.image, institution.image, year.image);
+		  if (type != null) techreport.setType(type.image);
+		  if (number != null) techreport.setNumber(number.image);
+		  if (address != null) techreport.setAddress(address.image);
+		  if (month != null) techreport.setMonth(month.image);
+		  if (note != null) techreport.setNote(note.image);
+		  if (key != null) techreport.setKey(key.image);
+		}else
+		{
+		  System.out.println("SOME ERROR HAPPENED");// EXCEÇÃO
+		}
+  	}
 }
 
 void unpublished() : {}
 {
 	"{" < WORD > ","
-	< AUTHOR > definition() ","
-	< TITLE > definition() ","
-	< NOTE > definition() "," 
-	(< MONTH > definition() ",")?
-	(< YEAR > definition() ",")?
+	< AUTHOR > author = definition() ","
+	< TITLE > title =definition() ","
+	< NOTE > note = definition() "," 
+	(< MONTH > month = definition() ",")?
+	(< YEAR > year = definition() ",")?
+	(< KEY > key = definition() ",")?
 	"}"
+	{
+		if (reference != null && author != null  && title != null && note != null)
+		{
+		  Unpublished unpublished;
+		  unpublished = new Unpublished(reference.image, author.image, title.image, note.image);
+		  if (month != null) unpublished.setMonth(month.image);
+		  if (year != null) unpublished.setYear(year.image);
+		  if (key != null) unpublished.setKey(key.image);
+		}else
+		{
+		  System.out.println("SOME ERROR HAPPENED");// EXCEÇÃO
+		}
+  	}
 }
