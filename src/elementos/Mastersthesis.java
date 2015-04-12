@@ -15,4 +15,22 @@ public class Mastersthesis extends Entry {
 		this.note = note;
 		this.key = key;
 	}
+
+	public String toString(){
+		String result = "";
+	
+		result += "Author: " + author;
+		result += "\nTitle: " + title;
+		result += "\nSchool: " + school;
+		result += "\nYear: " + year;
+		if (type != null) result += "\nType: " + type;
+		if (address != null) result += "\nAddress: " + address;
+		if (month != null) result += "\nMonth: " + month;
+		if (note != null) result += "\nNote: " + note;
+		if (key != null) result += "\nKey: " + key;
+		
+		return result + "\n\n";
+	}
 }
+
+

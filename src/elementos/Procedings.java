@@ -20,6 +20,25 @@ public class Procedings extends Entry {
 		this.key = key;
 	}
 	
+	public String toString(){
+		String result = "";
+		
+		result += "Title: " + title;
+		result += "\nYear: " + year;
+		if (editor != null) result += "Editor: " + editor;
+		if (volume != null) result += "\nVolume: " + volume;
+		if (number != null) result += "\nNumber: " + number; //ou só else
+		if (series != null) result += "\nSeries: " + series;
+		if (address != null) result += "\nAddress: " + address;
+		if (month != null) result += "\nMonth: " + month;
+		if (publisher != null) result += "\nPublisher: " + publisher;
+		if (organization != null) result += "\nOrganization: " + organization;
+		if (note != null) result += "\nNote: " + note;
+		if (key != null) result += "\nKey: " + key;
+		
+		return result + "\n\n";
+	}
+
 	/*public String toString() {
 		String result = "";
 		

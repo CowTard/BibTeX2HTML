@@ -47,4 +47,23 @@ public class Book extends Entry {
 	public void setKey(String key){
 		this.key = key;
 	}
+
+	public String toString(){
+		String result = "";
+		
+		if (author != null) result += "Author: " + author;
+		if (editor != null) result += "Editor: " + editor; //ou só else
+		result += "\nTitle: " + title;
+		result += "\nPublisher: " + publisher;
+		result += "\nYear: " + year;
+		if (volume != null) result += "\nVolume: " + volume;
+		if (number != null) result += "\nNumber: " + number; //ou só else
+		if (series != null) result += "\nSeries: " + series;
+		if (address != null) result += "\nAddress: " + address;
+		if (month != null) result += "\nMonth: " + month;
+		if (note != null) result += "\nNote: " + note;
+		if (key != null) result += "\nKey: " + key;
+		
+		return result + "\n\n";
+	}
 }

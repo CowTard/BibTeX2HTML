@@ -15,4 +15,20 @@ public class Manual extends Entry {
 		this.note = note;
 		this.key = key;
 	}
+
+	public String toString(){
+		String result = "";
+	
+		result += "Title: " + title;
+		if (author != null) result += "\nAuthor: " + author;
+		if (organization != null) result += "\nOrganization: " + organization;
+		if (address != null) result += "\nAddress: " + address;
+		if (edition != null) result += "\nEdition: " + edition;
+		if (month != null) result += "\nMonth: " + month;
+		if (year != null) result += "\nYear: " + year;
+		if (note != null) result += "\nNote: " + note;
+		if (key != null) result += "\nKey: " + key;
+		
+		return result + "\n\n";
+	}
 }

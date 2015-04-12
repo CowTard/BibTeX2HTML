@@ -43,4 +43,28 @@ public class Incollection extends Entry {
 		this.note = note;
 		this.key = key;
 	}
+
+	public String toString(){
+		String result = "";
+		
+		result += "Author: " + author;
+		result += "\nTitle: " + title;
+		result += "\nBooktitle: " + booktitle;
+		result += "\nPublisher: " + publisher;
+		result += "\nYear: " + year;
+		if (editor != null) result += "Editor: " + editor;
+		if (volume != null) result += "\nVolume: " + volume;
+		if (number != null) result += "\nNumber: " + number; //ou só else
+		if (series != null) result += "\nSeries: " + series;
+		if (type != null) result += "\nType: " + type;
+		if (chapter != null) result += "\nChapter: " + chapter;
+		if (pages != null) result += "\nPages: " + pages;
+		if (address != null) result += "\nAddress: " + address;
+		if (edition != null) result += "\nEdition: " + edition;
+		if (month != null) result += "\nMonth: " + month;
+		if (note != null) result += "\nNote: " + note;
+		if (key != null) result += "\nKey: " + key;
+		
+		return result + "\n\n";
+	}
 }
