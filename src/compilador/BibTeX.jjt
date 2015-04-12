@@ -81,12 +81,13 @@ TOKEN : // 2nd level [fields]
 
 TOKEN :
 {
-	< #CHARACTER : ["A"-"Z", "a"-"z"] > |
-	< #INTEGER : ["0"-"9"] > |
-	< WORD : (< CHARACTER > | < INTEGER >)+ >
+	< FIELD : "\"" (< WORD > | " ")+ "\"" > |
+	< WORD : (< CHARACTER > | < INTEGER >)+ > |
+	< CHARACTER : ["A"-"Z", "a"-"z"] > |
+	< INTEGER : ["0"-"9"] >
 }
 
-void start(): {Token t1;}
+void start() : {Token t1;}
 {
   (
 	t1 = < ARTICLE > {
@@ -136,7 +137,7 @@ void start(): {Token t1;}
 
 Token definition() : {Token field;}
 {
-  "=" "\"" field = <WORD> "\""
+  "=" field = < FIELD >
   {
     System.out.println(field.image);
     return field;
@@ -145,12 +146,12 @@ Token definition() : {Token field;}
 
 void article() : {Token reference = null, author = null, title = null, journal = null, year = null, volume = null, number = null, pages = null, month = null, note = null, key = null;}
 {
-	"{" reference = < WORD > ","
-    < AUTHOR > author = definition() ","
-    < TITLE > title = definition() ","
-    < JOURNAL > journal = definition() ","
-    < YEAR > year = definition() ","
-    < VOLUME > volume = definition() ","
+	"{" (reference = < WORD >)? ","
+    (< AUTHOR > author = definition() ",")?
+    (< TITLE > title = definition() ",")?
+    (< JOURNAL > journal = definition() ",")?
+    (< YEAR > year = definition() ",")?
+    (< VOLUME > volume = definition() ",")?
     (< NUMBER > number = definition() ",")?
     (< PAGES > pages = definition() ",")?
     (< MONTH > month = definition() ",")?
@@ -158,14 +159,18 @@ void article() : {Token reference = null, author = null, title = null, journal =
     (< KEY > key = definition() ",")?
     "}"
 	{
-		if (reference != null && author != null && title != null && journal != null && year != null && volume != null)		{
+	  try {
+		if (reference == null) throw new ParsingError("Falta uma chave de citação!");
+		if (author != null && title != null && journal != null && year != null && volume != null)		{
 		  Article artigo = new Article(reference.image, author.image, title.image, journal.image, year.image, volume.image);
 		  if (number != null) artigo.setNumber(number.image);
 		  if (pages != null) artigo.setPages(pages.image);
 		  if (month != null) artigo.setMonth(month.image);
 		  if (note != null) artigo.setNote(note.image);
 		  if (key != null) artigo.setKey(key.image);		} else		{
-		  System.out.println("SOME ERROR HAPPENED"); // EXCEÇÃO		}
+		  throw new ParsingError("A entrada \"@article\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");		}
+	  } catch (ParsingError e)	  {
+	    System.out.println(e.getMessage());	  }
   	}
 }
 

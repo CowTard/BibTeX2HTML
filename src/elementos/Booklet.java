@@ -38,7 +38,6 @@ public class Booklet extends Entry {
 
 	public String toString(){
 		String result = "";
-		
 
 		result += "Title: " + title;
 		if (author != null) result += "\nAuthor: " + author;
