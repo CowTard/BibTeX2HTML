@@ -168,7 +168,7 @@ void article() : {Token reference = null, author = null, title = null, journal =
 		  if (note != null) artigo.setNote(note.image);
 		  if (key != null) artigo.setKey(key.image);		} else
 		{
-		  throw new ParsingError("A entrada \"@article\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
+		  throw new ParsingError("[@article] : Estes campos são obrigatórios: author, title, journal, year, volume.");
 		}
 	  } catch (ParsingError e)
 	  {
@@ -209,7 +209,7 @@ void book() : {Token reference = null , author = null, editor = null, title = nu
 		  if (note != null) livro.setNote(note.image);
 		  if (key != null) livro.setKey(key.image);
 		} else {
-		  throw new ParsingError("[@book] tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
+		  throw new ParsingError("[@book] : Estes campos são obrigatórios: author, title, journal, year, volume.");
 		}
 	  } catch (ParsingError e) {
 	    System.out.println(e.getMessage());
@@ -241,7 +241,7 @@ void booklet() :{Token reference = null, title = null, author = null, howpublish
 	    if (year != null) blt.setYear(year.image);
 	    if (note != null) blt.setNote(note.image);
 	    if (key != null) blt.setKey(key.image);		} else {
-		  throw new ParsingError("[@booklet] tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
+		  throw new ParsingError("[@booklet] : Estes campos são obrigatórios: author, title, journal, year, volume.");
 		}
 	  } catch (ParsingError e) {
 	    System.out.println(e.getMessage());
@@ -285,7 +285,7 @@ void conference() : {Token reference = null, author = null, title = null, bookti
 		  if (note != null) conference.setNote(note.image);
 		  if (key != null) conference.setKey(key.image);
 		} else {
-		  throw new ParsingError("[@conference] tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
+		  throw new ParsingError("[@conference] : Estes campos são obrigatórios: author, title, journal, year, volume.");
 		}
 	  } catch (ParsingError e) {
 	    System.out.println(e.getMessage());
@@ -332,7 +332,7 @@ void inbook() : {Token reference = null, author = null, editor = null, title = n
 		if (month != null) inbk.setMonth(month.image);
 		if (note != null) inbk.setNote(note.image);
 		if (key != null) inbk.setKey(key.image);		} else {
-		  throw new ParsingError("[@inbook] tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
+		  throw new ParsingError("[@inbook] : Estes campos são obrigatórios: author, title, journal, year, volume.");
 		}
 	  } catch (ParsingError e) {
 	    System.out.println(e.getMessage());
@@ -381,7 +381,7 @@ void incollection() : {Token reference = null, author = null, title = null, book
 			if (note != null) inc.setNote(note.image);
 			if (key != null) inc.setKey(key.image);
 		} else {
-		  throw new ParsingError("[@incollection] tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
+		  throw new ParsingError("[@incollection] : Estes campos são obrigatórios: author, title, journal, year, volume.");
 		}
 	  } catch (ParsingError e) {
 	    System.out.println(e.getMessage());
@@ -426,7 +426,7 @@ void inproceedings() : {Token reference = null, author = null, title = null, boo
 		  if (key != null) inproceedings.setKey(key.image);
 		} else
 		{
-		  throw new ParsingError("A entrada \"@inproceedings\" tem os seguintes campos obrigatórios: author, title, booktitle, year.");
+		  throw new ParsingError("[@inproceedings] : Estes campos são obrigatórios: author, title, booktitle, year.");
 		}
 		} catch (ParsingError e)
 	  {
@@ -464,7 +464,7 @@ void manual() : {Token reference = null, title = null, author = null, organizati
 		  if (key != null) manual.setKey(key.image);
 		} else
 		{
-		  throw new ParsingError("A entrada \"@manual\" tem o seguinte campo obrigatório: title.");
+		  throw new ParsingError("[@manual] : Este campo é obrigatório: title.");
 		}
 		} catch (ParsingError e)
 	  {
@@ -499,7 +499,7 @@ void mastersthesis() : {Token reference = null, author = null, title = null, sch
 		  if (key != null) mastersthesis.setKey(key.image);
 		} else
 		{
-		  throw new ParsingError("A entrada \"@mastersthesis\" tem os seguintes campos obrigatórios: author, title, school, year.");
+		  throw new ParsingError("[@mastersthesis] : Estes campos são obrigatórios: author, title, school, year.");
 		}
 		} catch (ParsingError e)
 	  {
@@ -534,7 +534,7 @@ void misc() : {Token reference = null, author = null, title = null, howpublished
 		  if (key != null) misc.setKey(key.image);
 		} else
 		{
-		  throw new ParsingError("A entrada \"@misc\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
+		  throw new ParsingError("[@misc] : Estes campos são obrigatórios: author, title, journal, year, volume.");
 		}
 	  } catch (ParsingError e)
 	  {
@@ -567,7 +567,7 @@ void phdthesis() : {Token reference = null, author = null, title = null, school 
 		  if (note != null) phdthesis.setNote(note.image);
 		} else
 		{
-		  throw new ParsingError("A entrada \"@phdthesis\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
+		  throw new ParsingError("[@phdthesis] : Estes campos são obrigatórios: author, title, journal, year, volume.");
 		}
 	  } catch (ParsingError e)
 	  {
@@ -610,7 +610,7 @@ void proceedings() : {Token reference = null, title = null, number = null, year 
 		  if (key != null) proceedings.setKey(key.image);
 		} else
 		{
-		  throw new ParsingError("A entrada \"@proceedings\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
+		  throw new ParsingError("[@proceedings] : Estes campos são obrigatórios: author, title, journal, year, volume.");
 		}
 	  } catch (ParsingError e)
 	  {
@@ -648,7 +648,7 @@ void techreport() : {Token reference = null, author = null, title = null, instit
 		  if (key != null) techreport.setKey(key.image);
 		} else
 		{
-		  throw new ParsingError("A entrada \"@techreport\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
+		  throw new ParsingError("[@techreport] : Estes campos são obrigatórios: author, title, journal, year, volume.");
 		}
 	  } catch (ParsingError e)
 	  {
@@ -679,7 +679,7 @@ void unpublished() : {Token reference = null, author = null, title = null, note 
 		  if (key != null) unpublished.setKey(key.image);
 		} else
 		{
-		  throw new ParsingError("A entrada \"@unpublished\" tem os seguintes campos obrigatórios: author, title, journal, year, volume.");
+		  throw new ParsingError("[@unpublished] : Estes campos são obrigatórios: author, title, journal, year, volume.");
 		}
 	  } catch (ParsingError e)
 	  {
