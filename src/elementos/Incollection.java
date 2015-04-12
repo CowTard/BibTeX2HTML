@@ -21,26 +21,72 @@ public class Incollection extends Entry {
 	private String key;
 	
 	
-	public Incollection(String reference, String author, String title, String booktitle, String publisher, String year, String editor, String volume, 
-			String number, String series, String type, String chapter, String pages, String address, String edition, String month,
-			String note, String key) {
+	public Incollection(String reference, String author, String title, String booktitle, String publisher, String year) {
 		super(reference);
 		this.author = author;
 		this.title = title;
 		this.booktitle = booktitle;
 		this.publisher = publisher;
 		this.year = year;
+	}
+
+
+	public void setEditor(String editor) {
 		this.editor = editor;
+	}
+
+
+	public void setVolume(String volume) {
 		this.volume = volume;
+	}
+
+
+	public void setNumber(String number) {
 		this.number = number;
+	}
+
+
+	public void setSeries(String series) {
 		this.series = series;
+	}
+
+
+	public void setType(String type) {
 		this.type = type;
+	}
+
+
+	public void setChapter(String chapter) {
 		this.chapter = chapter;
+	}
+
+
+	public void setPages(String pages) {
 		this.pages = pages;
+	}
+
+
+	public void setAddress(String address) {
 		this.address = address;
+	}
+
+
+	public void setEdition(String edition) {
 		this.edition = edition;
+	}
+
+
+	public void setMonth(String month) {
 		this.month = month;
+	}
+
+
+	public void setNote(String note) {
 		this.note = note;
+	}
+
+
+	public void setKey(String key) {
 		this.key = key;
 	}
 

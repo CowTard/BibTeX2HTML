@@ -131,7 +131,7 @@ void start(): {Token t1;}
 	t1 = < UNPUBLISHED > {
 		unpublished();
 	}
-) + < EOF >
+)+ < EOF >
 }
 
 Token definition() : {Token field;}
@@ -251,45 +251,83 @@ void conference() : {}
     "}"
 }
 
-void inbook() : {}
+void inbook() : {Token reference = null, author = null, editor = null, title = null, chapter = null, pages = null, publisher = null, year = null, volume = null,
+					number = null, series = null, type = null, address = null, edition = null, month = null, note = null, key = null; }
 {
-	"{" <WORD> ","
-    ( (<AUTHOR> definition()) | (< EDITOR > definition()) ) ","
-    < TITLE > definition() ","
-    ( (<CHAPTER> definition()) | (< PAGES > definition()) ) ","
-    < PUBLISHER > definition() ","
-    < YEAR > definition() ","
-    ( (<VOLUME> definition() | < NUMBER > definition()) ",")?
-    (< SERIES > definition() ",")?
-    (< TYPE > definition() ",")?
-    (< ADDRESS > definition() ",")?
-    (< EDITION > definition() ",")?
-    (< MONTH > definition() ",")?
-    (< NOTE > definition() ",")?
-    (< KEY > definition() ",")?
+	"{" reference = <WORD> ","
+    ( (<AUTHOR> author = definition()) | (< EDITOR > editor = definition()) ) ","
+    < TITLE > title = definition() ","
+    ( (<CHAPTER> chapter = definition()) | (< PAGES > pages = definition()) ) ","
+    < PUBLISHER > publisher = definition() ","
+    < YEAR > year = definition() ","
+    ( (<VOLUME> volume = definition() | < NUMBER > number = definition()) ",")?
+    (< SERIES > series = definition() ",")?
+    (< TYPE > type = definition() ",")?
+    (< ADDRESS > address = definition() ",")?
+    (< EDITION > edition = definition() ",")?
+    (< MONTH > month = definition() ",")?
+    (< NOTE > note = definition() ",")?
+    (< KEY > key = definition() ",")?
     "}"
+    {
+      if (reference != null && (author != null || editor != null) && title != null && (chapter != null || pages != null) && publisher != null && year != null)      {
+        Inbook inbk;
+		if (author != null)		{
+		  if (chapter != null) inbk = new Inbook(reference.image, "author", author.image, title.image, "chapter", chapter.image, publisher.image, year.image);
+		  else inbk = new Inbook(reference.image, "author", author.image, title.image, "pages", pages.image, publisher.image, year.image);		}
+		else		{
+		  if (chapter != null) inbk = new Inbook(reference.image, "editor", editor.image, title.image, "chapter", chapter.image, publisher.image, year.image);
+		  else inbk = new Inbook(reference.image, "editor", editor.image, title.image, "pages", pages.image, publisher.image, year.image);		}
+
+		if (volume != null) inbk.setVolume(volume.image);
+		if (number != null) inbk.setNumber(number.image);
+		if (series != null) inbk.setSeries(series.image);
+		if (type != null) inbk.setType(type.image);
+		if (address != null) inbk.setAddress(address.image);
+		if (edition != null) inbk.setEdition(edition.image);
+		if (month != null) inbk.setMonth(month.image);
+		if (note != null) inbk.setNote(note.image);
+		if (key != null) inbk.setKey(key.image);      }    }
 }
 
-void incollection() : {}
+void incollection() : {Token reference = null, author = null, title = null, booktitle = null, publisher = null, year = null, editor = null, volume = null,
+						number = null, series = null, type = null, chapter = null, pages = null, address = null, edition = null, month = null, note = null,
+							key = null;}
 {
-	"{" <WORD> ","
-    <AUTHOR> definition()  ","
-    < TITLE > definition() ","
-    < BOOKTITLE > definition() ","
-    < PUBLISHER > definition() ","
-    < YEAR > definition() ","
-    (< EDITOR > definition() ",")?
-    ( (<VOLUME> definition() | < NUMBER > definition()) ",")?
-    (< SERIES > definition() ",")?
-    (< TYPE > definition() ",")?
-    (< CHAPTER > definition() ",")?
-    (< PAGES > definition() ",")?
-    (< ADDRESS > definition() ",")?
-    (< EDITION > definition() ",")?
-    (< MONTH > definition() ",")?
-    (< NOTE > definition() ",")?
-    (< KEY > definition() ",")?
+	"{" reference = <WORD> ","
+    <AUTHOR> author = definition()  ","
+    < TITLE > title = definition() ","
+    < BOOKTITLE > booktitle = definition() ","
+    < PUBLISHER > publisher = definition() ","
+    < YEAR > year = definition() ","
+    (< EDITOR > editor =definition() ",")?
+    ( (<VOLUME> volume = definition() | < NUMBER > number = definition()) ",")?
+    (< SERIES > series = definition() ",")?
+    (< TYPE > type = definition() ",")?
+    (< CHAPTER > chapter = definition() ",")?
+    (< PAGES > pages = definition() ",")?
+    (< ADDRESS > address= definition() ",")?
+    (< EDITION > edition = definition() ",")?
+    (< MONTH > month = definition() ",")?
+    (< NOTE > note = definition() ",")?
+    (< KEY > key = definition() ",")?
     "}"
+    {		if (reference != null && author != null && title != null && booktitle != null && publisher != null && year != null)		{			Incollection inc = new Incollection(reference.image, author.image, title.image, booktitle.image, publisher.image, year.image);
+
+			if (editor != null) inc.setEditor(editor.image);
+			if (number != null) inc.setNumber(number.image);
+			if (volume != null) inc.setVolume(volume.image);
+			if (series != null) inc.setSeries(series.image);
+			if (type != null) inc.setType(type.image);
+			if (chapter != null) inc.setChapter(chapter.image);
+			if (pages != null) inc.setPages(pages.image);
+			if (address != null) inc.setAddress(address.image);
+			if (edition != null) inc.setEdition(edition.image);
+			if (month != null) inc.setMonth(month.image);
+			if (note != null) inc.setNote(note.image);
+			if (key != null) inc.setKey(key.image);
+		}
+    }
 }
 
 void inproceedings() : {}

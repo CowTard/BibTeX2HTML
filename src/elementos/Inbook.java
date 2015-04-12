@@ -1,41 +1,75 @@
 package elementos;
 
 public class Inbook extends Entry {
-	String author;
-	String editor;
-	String title;
-	String chapter;
-	String pages;
-	String publisher;
-	String year;
-	String volume;
-	String number;
-	String series;
-	String type;
-	String address;
-	String edition;
-	String month;
-	String note;
-	String key;
+	private String author;
+	private String editor;
+	private String title;
+	private String chapter;
+	private String pages;
+	private String publisher;
+	private String year;
+	private String volume;
+	private String number;
+	private String series;
+	private String type;
+	private String address;
+	private String edition;
+	private String month;
+	private String note;
+	private String key;
 	
-	public Inbook(String reference, String author, String editor, String title, String chapter, String pages, String publisher, String year, String volume, 
-			String number, String series, String type, String address, String edition, String month, String note, String key){
+	public Inbook(String reference, String type, String authorEditor, String title, String type1, String chapterPages, String publisher, String year){
 		super(reference);
-		this.author = author;
-		this.editor = editor;
+		if (type.equals("author"))
+			author = authorEditor;
+		else if (type.equals("editor"))
+			this.editor = authorEditor;
 		this.title = title;
-		this.chapter = chapter;
-		this.pages = pages;
+		if (type1.equals("chapter"))
+			this.chapter = chapterPages;
+		else if (type1.equals("pages"))
+			this.pages = chapterPages;
 		this.publisher = publisher;
 		this.year = year;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
+	}
+
+	public void setVolume(String volume) {
 		this.volume = volume;
+	}
+
+	public void setNumber(String number) {
 		this.number = number;
+	}
+
+	public void setSeries(String series) {
 		this.series = series;
+	}
+
+	public void setType(String type) {
 		this.type = type;
-		this.address = address;
+	}
+
+	public void setEdition(String edition) {
 		this.edition = edition;
+	}
+	
+	public void setAddress(String address){
+		this.address = address;
+	}
+
+	public void setMonth(String month) {
 		this.month = month;
+	}
+
+	public void setNote(String note) {
 		this.note = note;
+	}
+
+	public void setKey(String key) {
 		this.key = key;
 	}
 
@@ -61,5 +95,7 @@ public class Inbook extends Entry {
 		
 		return result + "\n\n";
 	}
+	
+	
 	
 }
