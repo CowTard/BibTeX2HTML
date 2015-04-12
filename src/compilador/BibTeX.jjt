@@ -176,7 +176,7 @@ void article() : {Token reference = null, author = null, title = null, journal =
 
 void book() : {Token reference = null , author = null, editor = null, title = null, publisher = null, year = null, number = null, volume = null, series = null, address = null, edition = null, month = null, note = null, key = null;}
 {
-	"{" reference = (<WORD>)? ","
+	"{" (reference = <WORD>)? ","
     (( (< AUTHOR > author = definition()) | (< EDITOR > editor = definition()) ) ",")?
     (< TITLE > title = definition() ",")?
     (< PUBLISHER > publisher = definition() ",")?
@@ -212,7 +212,7 @@ void book() : {Token reference = null , author = null, editor = null, title = nu
 
 void booklet() :{Token reference = null, title = null, author = null, howpublished = null, address = null, month = null, year = null, note = null, key = null;}
 {
-  	"{" reference = (<WORD>)? ","
+  	"{" (reference = <WORD>)? ","
     (< TITLE > title = definition() ",")?
     (< AUTHOR > author = definition() ",")?
     (< HOWPUBLISHED > howpublished = definition() ",")?
@@ -240,7 +240,7 @@ void booklet() :{Token reference = null, title = null, author = null, howpublish
 
 void conference() : {Token reference = null, author = null, title = null, booktitle = null, year = null, editor = null, volume = null, number = null, series = null, pages = null, address = null, month = null, organization = null, publisher = null, note = null, key = null;}
 {
-	"{" reference = (<WORD>)? ","
+	"{" (reference = <WORD>)? ","
 	(< AUTHOR > author = definition() ",")?
 	(< TITLE > title = definition() ",")?
 	(< BOOKTITLE > booktitle = definition() ",")?
@@ -281,7 +281,7 @@ void conference() : {Token reference = null, author = null, title = null, bookti
 void inbook() : {Token reference = null, author = null, editor = null, title = null, chapter = null, pages = null, publisher = null, year = null, volume = null,
 					number = null, series = null, type = null, address = null, edition = null, month = null, note = null, key = null;}
 {
-	"{" reference = (<WORD>)? ","
+	"{" (reference = <WORD>)? ","
     (( (<AUTHOR> author = definition()) | (< EDITOR > editor = definition()) ) ",")?
     (< TITLE > title = definition() ",")?
     (( (<CHAPTER> chapter = definition()) | (< PAGES > pages = definition()) ) ",")?
@@ -324,7 +324,7 @@ void incollection() : {Token reference = null, author = null, title = null, book
 						number = null, series = null, type = null, chapter = null, pages = null, address = null, edition = null, month = null, note = null,
 							key = null;}
 {
-	"{" reference = (<WORD>)? ","
+	"{" (reference = <WORD>)? ","
     (<AUTHOR> author = definition()  ",")?
     (< TITLE > title = definition() ",")?
     (< BOOKTITLE > booktitle = definition() ",")?
@@ -365,7 +365,7 @@ void incollection() : {Token reference = null, author = null, title = null, book
 
 void inproceedings() : {Token reference = null, author = null, title = null, booktitle = null, year = null, editor = null, volume = null, number = null, series = null, pages = null, address = null, month = null, organization = null, publisher = null, note = null, key = null;}
 {
-	"{" reference = (<WORD>)? ","
+	"{" (reference = <WORD>)? ","
 	(< AUTHOR > author = definition() ",")?
 	(< TITLE > title = definition() ",")?
 	(< BOOKTITLE > booktitle = definition() ",")?
@@ -405,7 +405,7 @@ void inproceedings() : {Token reference = null, author = null, title = null, boo
 
 void manual() : {Token reference = null, title = null, author = null, organization = null, address = null, edition = null, month = null, year = null, note = null, key = null;}
 {
-	"{" reference = (<WORD>)? ","
+	"{" (reference = <WORD>)? ","
 	(< TITLE > title = definition() ",")?
     (< AUTHOR > author = definition() ",")?
     (< ORGANIZATION > organization = definition() ",")?
@@ -437,7 +437,7 @@ void manual() : {Token reference = null, title = null, author = null, organizati
 
 void mastersthesis() : {Token reference = null, author = null, title = null, school = null, year = null, type = null, address = null, month = null, note = null, key = null;}
 {
-	"{" reference = (<WORD>)? ","
+	"{" (reference = <WORD>)? ","
     (< AUTHOR > author = definition() ",")?
 	(< TITLE > title = definition() ",")?
     (< SCHOOL > school = definition() ",")?
@@ -466,7 +466,7 @@ void mastersthesis() : {Token reference = null, author = null, title = null, sch
 
 void misc() : {Token reference = null, author = null, title = null, howpublished = null, month = null, year = null, note = null, key = null;}
 {
-	"{" reference = (< WORD >)? ","
+	"{" (reference = <WORD>)? ","
     (< AUTHOR > author = definition() ",")?
     (< TITLE > title = definition() ",")?
     (< HOWPUBLISHED > howpublished = definition() ",")?
@@ -495,7 +495,7 @@ void misc() : {Token reference = null, author = null, title = null, howpublished
 
 void phdthesis() : {Token reference = null, author = null, title = null, school = null, year = null, type = null, address = null, month = null, note = null;}
 {
-	"{" reference = (<WORD>)? ","
+	"{" (reference = <WORD>)? ","
 	(< AUTHOR > author = definition() ",")?
 	(< TITLE > title = definition() ",")?
 	(< SCHOOL > school = definition() ",")?
@@ -522,7 +522,7 @@ void phdthesis() : {Token reference = null, author = null, title = null, school 
 
 void proceedings() : {Token reference = null, title = null, number = null, year = null, editor = null, volume = null, series = null, address = null, month = null, organization = null, publisher = null, note = null, key = null;}
 {
-	"{" reference = (< WORD >)? ","
+	"{" (reference = <WORD>)? ","
 	(< TITLE > title = definition() ",")?
 	(< YEAR > year = definition() ",")?
 	(< EDITOR > editor = definition() ",")?
@@ -559,7 +559,7 @@ void proceedings() : {Token reference = null, title = null, number = null, year 
 
 void techreport() : {Token reference = null, author = null, title = null, institution = null, year = null, type = null, number = null, address = null, month = null, note = null, key = null;}
 {
-	"{" reference = (< WORD >)? ","
+	"{" (reference = <WORD>)? ","
 	(< AUTHOR > author = definition() ",")?
 	(< TITLE > title = definition() ",")?
 	(< INSTITUTION > institution = definition() ",")?
@@ -591,7 +591,7 @@ void techreport() : {Token reference = null, author = null, title = null, instit
 
 void unpublished() : {Token reference = null, author = null, title = null, note = null, month = null, year = null, key = null;}
 {
-	"{" reference = (< WORD >)? ","
+	"{" (reference = <WORD>)? ","
 	(< AUTHOR > author = definition() ",")?
 	(< TITLE > title = definition() ",")?
 	(< NOTE > note = definition() ",")?
