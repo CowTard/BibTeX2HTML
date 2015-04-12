@@ -3,7 +3,7 @@ package elementos;
 public class Book extends Entry {
 	String author, editor, title, publisher, year, volume, number, series, address, edition, month, note, key;
 	
-	Book(String reference, String type, String authorEditor, String title, String publisher, String year, String... optionals) {
+	public Book(String reference, String type, String authorEditor, String title, String publisher, String year) {
 		super(reference);
 		if (type.equals("author"))
 			author = authorEditor;
@@ -14,18 +14,37 @@ public class Book extends Entry {
 		this.title = title;
 		this.publisher = publisher;
 		this.year = year;
-		
-		if (optionals[0].equals("volume"))
-			author = authorEditor;
-		else if (optionals[1].equals("number"))
-			this.editor = authorEditor;
-		else throw new IllegalArgumentException();
-		
-		series = optionals[2];
-		address = optionals[3];
-		edition = optionals[4];
-		month = optionals[5];
-		note = optionals[6];
-		key = optionals[7];
+	}
+	
+	public void setVolume(String volume){
+		this.volume = volume;
+	}
+	
+	public void setNumber(String number){
+		this.number = number;
+	}
+	
+	public void setSeries(String series){
+		this.series = series;
+	}
+	
+	public void setAddress(String address){
+		this.address = address;
+	}
+	
+	public void setEdition(String edition){
+		this.edition = edition;
+	}
+	
+	public void setMonth(String month){
+		this.month = month;
+	}
+	
+	public void setNote(String note){
+		this.note = note;
+	}
+	
+	public void setKey(String key){
+		this.key = key;
 	}
 }

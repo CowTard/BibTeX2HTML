@@ -5,3 +5,7 @@
 /TokenMgrError.java
 /BibTeX.java
 /BibTeXTokenManager.java
+/BibTeXTreeConstants.java
+/JJTBibTeXState.java
+/Node.java
+/SimpleNode.java
