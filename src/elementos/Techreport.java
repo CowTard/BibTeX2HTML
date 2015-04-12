@@ -4,7 +4,7 @@ public class Techreport extends Entry {
 	
 	private String author, title, institution, year, type, number, address, month, note, key;
 	
-	public Techreport(String reference, String author, String title, String institution, String year, String type, String number, String address, String month, String note, String key){
+	public Techreport(String reference, String author, String title, String institution, String year){
 		super(reference);
 		this.author = author;
 		this.title = title;

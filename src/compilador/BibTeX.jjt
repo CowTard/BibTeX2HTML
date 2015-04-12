@@ -512,7 +512,7 @@ void phdthesis() : {Token reference = null, author = null, title = null, school 
 	}
 }
 
-void proceedings() : {Token reference = null, title = null, year = null, editor = null, volume = null, series = null, address = null, month = null, organization = null, publisher = null, note = null, key = null;}
+void proceedings() : {Token reference = null, title = null, number = null, year = null, editor = null, volume = null, series = null, address = null, month = null, organization = null, publisher = null, note = null, key = null;}
 {
 	"{" reference = < WORD > ","
 	< TITLE > title = definition() ","
@@ -532,7 +532,7 @@ void proceedings() : {Token reference = null, title = null, year = null, editor 
 		{
 		  Proceedings proceedings;
 		  proceedings = new Proceedings(reference.image, title.image, year.image);
-		  if (editor != null) proceedings.setType(editor.image);
+		  if (editor != null) proceedings.setEditor(editor.image);
 		  if (number != null) proceedings.setNumber(number.image);
 		  if (volume != null) proceedings.setVolume(volume.image);
 		  if (series != null) proceedings.setSeries(series.image);

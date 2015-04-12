@@ -1,9 +1,9 @@
 package elementos;
 
-public class Procedings extends Entry {
+public class Proceedings extends Entry {
 	private String title, year, editor, volume, number, series, address, month, publisher, organization, note, key;
 	
-	public Procedings(String reference, String title, String year, String editor, String volume, String number, String series, String address, String month, String publisher, String organization, String note, String key){
+	public Proceedings(String reference, String title, String year){
 		super(reference);
 		this.title = title;
 		this.year = year;

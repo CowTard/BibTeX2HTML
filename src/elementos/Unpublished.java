@@ -4,7 +4,7 @@ public class Unpublished extends Entry {
 	
 	private String author, title, note, month, year, key;
 	
-	public Unpublished(String reference, String author, String title, String note, String month, String year, String key){
+	public Unpublished(String reference, String author, String title, String note){
 		super(reference);
 		this.author = author;
 		this.title = title;
