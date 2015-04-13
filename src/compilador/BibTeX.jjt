@@ -544,7 +544,7 @@ void misc() : {Token reference = null, author = null, title = null, howpublished
 	}
 }
 
-void phdthesis() : {Token reference = null, author = null, title = null, school = null, year = null, type = null, address = null, month = null, note = null;}
+void phdthesis() : {Token reference = null, author = null, title = null, school = null, year = null, type = null, address = null, month = null, note = null, key = null;}
 {
 	"{" (reference = <WORD>)? ","
 	(< AUTHOR > author = definition() ",")?
@@ -555,6 +555,7 @@ void phdthesis() : {Token reference = null, author = null, title = null, school 
 	(< ADDRESS > address = definition() "," )?
 	(< MONTH > month = definition() "," )?
 	(< NOTE > note = definition() "," )?
+	(< KEY > note = definition() "," )?
 	"}"
 	{
 	  try {
@@ -566,6 +567,7 @@ void phdthesis() : {Token reference = null, author = null, title = null, school 
 		  if (address != null) phdthesis.setAddress(address.image);
 		  if (month != null) phdthesis.setMonth(month.image);
 		  if (note != null) phdthesis.setNote(note.image);
+		  if (key != null) phdthesis.setKey(key.image);
 		} else
 		{
 		  throw new ParsingError("[@phdthesis] : Estes campos são obrigatórios: author, title, journal, year, volume.");
