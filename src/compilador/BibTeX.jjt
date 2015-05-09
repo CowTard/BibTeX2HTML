@@ -25,9 +25,9 @@ public class BibTeX {
 
 	BibTeX parser = new BibTeX(new FileInputStream(new File(fname)));
 	arvore = parser.start();
-	arvore.dump("");
+	//arvore.dump("");
 	//imprimirSymbolTable();
-	//semanticAnalysis();
+	semanticAnalysis();
 	sc.close();
   }
 
@@ -130,6 +130,8 @@ SimpleNode start() : {Token t1;}
 	< CLOSEBRACES >
 )+ < EOF >
 	{
+	jjtThis.jjtSetValue(t1.image);
+	System.out.println(jjtThis.jjtGetValue());
     return jjtThis;
   }
 }
@@ -166,7 +168,8 @@ Token atribute(): {Token t1 = null;}{
 void data(): {Token t1 = null;}{
   < WORD > <COMMA > // TODO: Alterar
   (t1 = atribute()  {
-    jjtThis.jjtSetValue(t1.image);  }< COMMA >)*}
+    jjtThis.jjtSetValue(t1.image);
+    System.out.println(jjtThis.jjtGetValue());  }< COMMA >)*}
 
 Token definition(Token attr) : {Token field = null;}
 {    "=" field = < FIELD >
@@ -182,11 +185,12 @@ Token definition(Token attr) : {Token field = null;}
 
 void semanticAnalysis() :{}
 {
-  {	SimpleNode root = arvore;
+  {
 
-	if(root.jjtGetValue() != null)	{
-	  if (root.jjtGetValue().equals("article"))	  {
-	    article(root);	  }	}
+	if(arvore.jjtGetValue() != null)	{
+	  System.out.println("tru");
+	  if (arvore.jjtGetValue().equals("@article"))	  {
+	    System.out.println(arvore.jjtGetValue());	  }	}
 	
 	}
 } /*
@@ -272,13 +276,7 @@ Token keyAtributes() :{Token key;}
 */
 void article(SimpleNode root) : {Token reference = null, author = null, title = null, journal = null, year = null, volume = null, number = null, pages = null, month = null, note = null, key = null;}
 {
-	/*
-    (author = authorAtribute() | title = titleAtribute() |
-    journal = jornalAtribute() | year = yearAtribute() |
-    volume = volumeAtribute() | number = numberAtribute() |
-    pages = pagesAtribute() | month = monthAtributes() |
-    note = noteAtributes() | key = keyAtributes() )+
-    */
+	
 	{
 	  try {
 		if (reference == null) throw new ParsingError("[@article] : Falta uma chave de citação!");
