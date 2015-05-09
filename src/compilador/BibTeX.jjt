@@ -96,15 +96,18 @@ TOKEN :
 	< INTEGER : ["0"-"9"] > |
 	< OPENBRACES : "{" > |
 	< CLOSEBRACES : "}" > |
-	< COMMA : "," >
+	< COMMA : "," > |
+	< EQUALS : "=" >
 }
 
-void imprimirSymbolTable() :{}{
+void imprimirSymbolTable() :{}
+{
   {
 	for (HashMap.Entry<String, Token> entry : symbolTable.entrySet()) {
 	    System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue().image);
 }
-  }}
+  }
+}
 
 SimpleNode start() : {Token t1;}
 {
@@ -136,7 +139,8 @@ SimpleNode start() : {Token t1;}
   }
 }
 
-Token atribute(): {Token t1 = null;}{
+Token atribute(): {Token t1 = null;}
+{
   (
   	t1 = < AUTHOR> |
 	t1 = < TITLE> |
@@ -163,21 +167,30 @@ Token atribute(): {Token t1 = null;}{
 )
 	definition(t1)
 	{
-	  return t1;	}}
+	  return t1;
+	}
+}
 
-void data(): {Token t1 = null;}{
+void data(): {Token t1 = null;}
+{
   < WORD > <COMMA > // TODO: Alterar
-  (t1 = atribute()  {
+  (t1 = atribute()
+  {
     jjtThis.jjtSetValue(t1.image);
-    System.out.println(jjtThis.jjtGetValue());  }< COMMA >)*}
+    System.out.println(jjtThis.jjtGetValue());
+  }< COMMA >)*
+}
 
 Token definition(Token attr) : {Token field = null;}
-{    "=" field = < FIELD >
+{
+    < EQUALS > field = < FIELD >
   {
-    if (field == null) System.out.println("There was an error in Sintatic analysis");
-    else    {
+    if (field == null) System.out.println("There was an error in syntactic analysis");
+    else
+    {
       jjtThis.jjtSetValue(field.image);
-      symbolTable.put(field.image, attr);    }
+      symbolTable.put(field.image, attr);
+    }
     return field;
   }
 }
@@ -185,15 +198,21 @@ Token definition(Token attr) : {Token field = null;}
 
 void semanticAnalysis() :{}
 {
-  {
+	{
+		SimpleNode root = arvore;
 
-	if(arvore.jjtGetValue() != null)	{
-	  System.out.println("tru");
-	  if (arvore.jjtGetValue().equals("@article"))	  {
-	    System.out.println(arvore.jjtGetValue());	  }	}
+		if(arvore.jjtGetValue() != null) {
+		  System.out.println("tru");
+		  if (arvore.jjtGetValue().equals("@article")){
+		    System.out.println(arvore.jjtGetValue());
+		  }
+		}
 	
 	}
-} /*
+}
+
+
+ /*
 Token authorAtribute() :{Token author;}
 {
 	< AUTHOR > author = definition() < COMMA >
