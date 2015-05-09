@@ -26,8 +26,8 @@ public class BibTeX {
 	BibTeX parser = new BibTeX(new FileInputStream(new File(fname)));
 	arvore = parser.start();
 	arvore.dump("");
-	//imprimirSymbolTable();
-	//semanticAnalysis();
+	imprimirSymbolTable();
+	semanticAnalysis();
 	sc.close();
   }
 
@@ -96,7 +96,8 @@ TOKEN :
 	< INTEGER : ["0"-"9"] > |
 	< OPENBRACES : "{" > |
 	< CLOSEBRACES : "}" > |
-	< COMMA : "," >
+	< COMMA : "," > |
+	< EQUALS : "=" >
 }
 
 void imprimirSymbolTable() :{}{
@@ -134,6 +135,15 @@ SimpleNode start() : {Token t1;}
   }
 }
 
+void data(): {Token t1 = null;}
+{
+  < WORD > <COMMA > // TODO: Alterar
+  (t1 = atribute()
+  {
+    jjtThis.jjtSetValue(t1.image);
+  }< COMMA >)*
+}
+
 Token atribute(): {Token t1 = null;}{
   (
   	t1 = < AUTHOR> |
@@ -163,15 +173,10 @@ Token atribute(): {Token t1 = null;}{
 	{
 	  return t1;	}}
 
-void data(): {Token t1 = null;}{
-  < WORD > <COMMA > // TODO: Alterar
-  (t1 = atribute()  {
-    jjtThis.jjtSetValue(t1.image);  }< COMMA >)*}
-
 Token definition(Token attr) : {Token field = null;}
-{    "=" field = < FIELD >
+{    < EQUALS > field = < FIELD >
   {
-    if (field == null) System.out.println("There was an error in Sintatic analysis");
+    if (field == null) System.out.println("There was an error in syntactic analysis");
     else    {
       jjtThis.jjtSetValue(field.image);
       symbolTable.put(field.image, attr);    }
@@ -182,14 +187,17 @@ Token definition(Token attr) : {Token field = null;}
 
 void semanticAnalysis() :{}
 {
-  {	SimpleNode root = arvore;
+ {	SimpleNode root = arvore;
 
 	if(root.jjtGetValue() != null)	{
 	  if (root.jjtGetValue().equals("article"))	  {
 	    article(root);	  }	}
 	
-	}
-} /*
+ }
+}
+
+
+ /*
 Token authorAtribute() :{Token author;}
 {
 	< AUTHOR > author = definition() < COMMA >
