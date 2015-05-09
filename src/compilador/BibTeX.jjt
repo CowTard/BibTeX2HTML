@@ -10,6 +10,11 @@ import java.util.Scanner;
 import elementos.*;
 
 public class BibTeX {
+	/* https://java.net/projects/javacc/lists/users/archive/2006-02/message/15
+		We're using hashmap instead of hashtable because we are not dealing with concurrency on threads. 
+	*/
+  private static HashMap<String, Token> symbolTable = new HashMap<String, Token>(); 
+  private static SimpleNode arvore;
   public static void main(String args []) throws ParseException, IOException {
     String fname = "";
     Scanner sc = new Scanner(System.in);
@@ -19,8 +24,10 @@ public class BibTeX {
 	}
 
 	BibTeX parser = new BibTeX(new FileInputStream(new File(fname)));
-	System.out.println("");
-	parser.start();
+	arvore = parser.start();
+	arvore.dump("");
+	//imprimirSymbolTable();
+	//semanticAnalysis();
 	sc.close();
   }
 
@@ -92,62 +99,97 @@ TOKEN :
 	< COMMA : "," >
 }
 
-void start() : {Token t1;}
+void imprimirSymbolTable() :{}{
+  {
+	for (HashMap.Entry<String, Token> entry : symbolTable.entrySet()) {
+	    System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue().image);
+}
+  }}
+
+SimpleNode start() : {Token t1;}
 {
   (
-	t1 = < ARTICLE > {
-		article();
-	} |
-	t1 = < BOOK > {
-		book();
-	} |
-	t1 = < BOOKLET > {
-		booklet();
-	} |
-	t1 = < CONFERENCE > {
-		conference();
-	} |
-	t1 = < INBOOK > {
-		inbook();
-	} |
-	t1 = < INCOLLECTION > {
-		incollection();
-	} |
-	t1 = < INPROCEEDINGS > {
-		inproceedings();
-	} |
-	t1 = < MANUAL > {
-		manual();
-	} |
-	t1 = < MASTERSTHESIS > {
-		mastersthesis();
-	} |
-	t1 = < MISC > {
-		misc();
-	} |
-	t1 = < PHDTHESIS > {
-		phdthesis();
-	} |
-	t1 = < PROCEEDINGS > {
-		proceedings();
-	} |
-	t1 = < TECHREPORT > {
-		techreport();
-	} |
-	t1 = < UNPUBLISHED > {
-		unpublished();
-	}
+    (
+	t1 = < ARTICLE > |
+	t1 = < BOOK > |
+	t1 = < BOOKLET > |
+	t1 = < CONFERENCE > |
+	t1 = < INBOOK > |
+	t1 = < INCOLLECTION >  |
+	t1 = < INPROCEEDINGS > |
+	t1 = < MANUAL > |
+	t1 = < MASTERSTHESIS > |
+	t1 = < MISC > |
+	t1 = < PHDTHESIS > |
+	t1 = < PROCEEDINGS > |
+	t1 = < TECHREPORT >  |
+	t1 = < UNPUBLISHED >
+	)
+	< OPENBRACES >
+	data()
+	< CLOSEBRACES >
 )+ < EOF >
+	{
+    return jjtThis;
+  }
 }
 
-Token definition() : {Token field;}
-{
-  "=" field = < FIELD >
+Token atribute(): {Token t1 = null;}{
+  (
+  	t1 = < AUTHOR> |
+	t1 = < TITLE> |
+	t1 = < JOURNAL> |
+	t1 = < YEAR> |
+	t1 = < VOLUME> |
+	t1 = < NUMBER> |
+	t1 = < PAGES> |
+	t1 = < MONTH> |
+	t1 = < NOTE> |
+	t1 = < KEY> |
+	t1 = < EDITOR> |
+	t1 = < PUBLISHER> |
+	t1 = < SERIES> |
+	t1 = < ADDRESS> |
+	t1 = < EDITION> |
+	t1 = < HOWPUBLISHED> |
+	t1 = < CHAPTER> |
+	t1 = < TYPE> |
+	t1 = < BOOKTITLE> |
+	t1 = < ORGANIZATION> |
+	t1 = < SCHOOL> |
+	t1 = < INSTITUTION>
+)
+	definition(t1)
+	{
+	  return t1;	}}
+
+void data(): {Token t1 = null;}{
+  < WORD > <COMMA > // TODO: Alterar
+  (t1 = atribute()  {
+    jjtThis.jjtSetValue(t1.image);  }< COMMA >)*}
+
+Token definition(Token attr) : {Token field = null;}
+{    "=" field = < FIELD >
   {
+    if (field == null) System.out.println("There was an error in Sintatic analysis");
+    else    {
+      jjtThis.jjtSetValue(field.image);
+      symbolTable.put(field.image, attr);    }
     return field;
   }
 }
 
+
+void semanticAnalysis() :{}
+{
+  {	SimpleNode root = arvore;
+
+	if(root.jjtGetValue() != null)	{
+	  if (root.jjtGetValue().equals("article"))	  {
+	    article(root);	  }	}
+	
+	}
+} /*
 Token authorAtribute() :{Token author;}
 {
 	< AUTHOR > author = definition() < COMMA >
@@ -227,16 +269,16 @@ Token keyAtributes() :{Token key;}
     return key;
   }
 }
-
-void article() : {Token reference = null, author = null, title = null, journal = null, year = null, volume = null, number = null, pages = null, month = null, note = null, key = null;}
+*/
+void article(SimpleNode root) : {Token reference = null, author = null, title = null, journal = null, year = null, volume = null, number = null, pages = null, month = null, note = null, key = null;}
 {
-	< OPENBRACES > (reference = < WORD >)? < COMMA >
+	/*
     (author = authorAtribute() | title = titleAtribute() |
     journal = jornalAtribute() | year = yearAtribute() |
     volume = volumeAtribute() | number = numberAtribute() |
     pages = pagesAtribute() | month = monthAtributes() |
     note = noteAtributes() | key = keyAtributes() )+
-    < CLOSEBRACES >
+    */
 	{
 	  try {
 		if (reference == null) throw new ParsingError("[@article] : Falta uma chave de citação!");
@@ -246,8 +288,9 @@ void article() : {Token reference = null, author = null, title = null, journal =
 	    System.out.println(e.getMessage());
 	  }
   	}
+  	
 }
-
+/*
 void book() : {Token reference = null , author = null, editor = null, title = null, publisher = null, year = null, number = null, volume = null, series = null, address = null, edition = null, month = null, note = null, key = null;}
 {
 	< OPENBRACES > (reference = <WORD>)? < COMMA >
@@ -770,3 +813,4 @@ void unpublished() : {Token reference = null, author = null, title = null, note 
 	  }
 	}
 }
+*/
