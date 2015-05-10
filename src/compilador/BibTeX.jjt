@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.io.IOException;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.Scanner;
 import elementos.*;
 
@@ -142,7 +141,8 @@ void imprimirSymbolTable() :{}
         	String onKey = entry.getKey();
         	for( HashMap.Entry<String, String> entrada : entry.getValue().entrySet()){
             System.out.println("Key = " + onKey + "|| " + "Entry = " + entrada.getKey() + ", Value = " + entry.getValue().get(entrada.getKey()));
-      }    }
+      }
+    }
   }
 }
 
@@ -164,7 +164,8 @@ SimpleNode start() : {Token t1;}
 	t1 = < PROCEEDINGS > |
 	t1 = < TECHREPORT >  |
 	t1 = < UNPUBLISHED >
-	)	{entryReading = t1.image;}
+	)
+	{entryReading = t1.image;}
 	< OPENBRACES >
 	data()
 	< CLOSEBRACES >
@@ -239,7 +240,8 @@ void semanticAnalysis() :{}
 	{
 	for (HashMap.Entry<String, HashMap<String, String >> entry : symbolTable.entrySet()) {
         	String onKey = entry.getKey();
-        	switch(onKey)        	{
+        	switch(onKey)
+        	{
         	  case "@article":
         	  	article(entry.getValue());
         	  	break;
@@ -281,7 +283,8 @@ void semanticAnalysis() :{}
         	  	break;
         	  case "@unpublished":
         	  	unpublished(entry.getValue());
-        	  	break;        	}
+        	  	break;
+        	}
       }
     }
 }
@@ -292,13 +295,14 @@ void article(HashMap<String, String > dados) : {}
 	  try {
 	    String reference = dados.get("reference"), author = dados.get("author"), title = dados.get("title"), journal = dados.get("journal"), year = dados.get("year");
 
-		if(reference == null || author == null || title == null || journal == null || year == null) throw new ParsingError("[@Article] : Estes campos são obrigatórios: author, title, journal, year.");
+		if(reference == null || author == null || title == null || journal == null || year == null) throw new ParsingError("[@article] : Estes campos são obrigatórios: author, title, journal, year.");
 		else {
 		  Article novoArtigo = new Article(reference, author, title, journal, year);
 		  for (HashMap.Entry<String, String > entry : dados.entrySet()) {
 		    if (entry.getKey() == "reference" || entry.getKey() == "author" || entry.getKey() == "title" || entry.getKey() == "journal" || entry.getKey() == "year"){}
 		    else{
-		    switch(entry.getKey())		    {
+		    switch(entry.getKey())
+		    {
 		      case "volume":
 		      	novoArtigo.setVolume(entry.getValue());
 		      	break;
@@ -318,138 +322,444 @@ void article(HashMap<String, String > dados) : {}
 		      	novoArtigo.setKey(entry.getValue());
 		      	break;
 		      default:
-		      	throw new ParsingError("[@Article] " + entry.getKey() + " não é um campo válido.");
-		      	break;		    }
+		      	throw new ParsingError("[@article] " + entry.getKey() + " não é um campo válido.");
+		      	break;
+		    }
 		  }
 		  }
-		  entradas.get("article").add(novoArtigo);		}
+		  entradas.get("article").add(novoArtigo);
+		}
 	  } catch (ParsingError e)
 	  {
 	    System.out.println(e.getMessage());
 	  }
   	}
 }
-/*
-void book() : {Token reference = null , author = null, editor = null, title = null, publisher = null, year = null, number = null, volume = null, series = null, address = null, edition = null, month = null, note = null, key = null;}
+
+void book(HashMap<String, String > dados) : {}
 {
-	< OPENBRACES > (reference = <WORD>)? < COMMA >
-    (( (< AUTHOR > author = definition()) | (< EDITOR > editor = definition()) ) < COMMA >)?
-    (< TITLE > title = definition() < COMMA >)?
-    (< PUBLISHER > publisher = definition() < COMMA >)?
-    (< YEAR > year = definition() < COMMA >)?
-    ( (<VOLUME> volume = definition() | < NUMBER > number = definition()) < COMMA >)?
-    (< SERIES > series = definition() < COMMA >)?
-    (< ADDRESS > address = definition() < COMMA >)?
-    (< EDITION > edition = definition() < COMMA >)?
-    (< MONTH > month = definition() < COMMA >)?
-    (< NOTE > note = definition() < COMMA >)?
-    (< KEY > key = definition() < COMMA >)?
-    < CLOSEBRACES >
+	
     {
       try {
-		if (reference == null) throw new ParsingError("[@book] : Falta uma chave de citação!");
-		if ( (author != null || editor != null) && title != null && publisher != null && year != null)
-		{
-		  Book livro;
-		  if (author != null) livro = new Book(reference.image,"author", author.image, title.image, publisher.image, year.image);
-		  else  livro = new Book(reference.image,"editor", editor.image, title.image, publisher.image, year.image);
+         String reference = dados.get("reference"), author = dados.get("author"), editor = dados.get("editor"), title = dados.get("title"), publisher = dados.get("publisher"), year = dados.get("year");
+		if(reference == null || !(author == null ^ editor == null) || title == null || publisher == null || year == null) throw new ParsingError("[@book] : Estes campos são obrigatórios: author/editor, title, publisher, year.");
+		else {
+
+		  Book newBook;
+		  if (author != null)
+		  {
+		    newBook = new Book(reference, "author", author, title, publisher, year);
+		  }
+		  else
+		  {
+		    newBook = new Book(reference, "editor", editor, title, publisher, year);
+
+		  }
+		
+		      if(!(dados.get("volume")== null && dados.get("number")== null))
+		      {throw new ParsingError("[@book] Vulome e number são incompativeis em conjunto.");}
+		      else
+		  {
+		    
 		  
-		  if (volume != null) livro.setVolume(volume.image);
-		  if (number != null) livro.setNumber(number.image);
-		  if (series != null) livro.setSeries(series.image);
-		  if (address != null) livro.setAddress(address.image);
-		  if (edition != null) livro.setEdition(edition.image);
-		  if (month != null) livro.setMonth(month.image);
-		  if (note != null) livro.setNote(note.image);
-		  if (key != null) livro.setKey(key.image);
-		} else {
-		  throw new ParsingError("[@book] : Estes campos são obrigatórios: author, title, journal, year, volume.");
+		  for (HashMap.Entry<String, String > entry : dados.entrySet()) {
+		    if (entry.getKey() == "reference" || entry.getKey() == "author" || entry.getKey() == "editor" || entry.getKey() == "title" || entry.getKey() == "publisher" || entry.getKey() == "year"){}
+		    else{
+		        
+		    switch(entry.getKey())
+		    {
+		      case "volume":
+		      	newBook.setVolume(entry.getValue());
+		      	break;
+		      case "number":
+		      	newBook.setNumber(entry.getValue());
+		      	break;
+		      case "series":
+		      	newBook.setSeries(entry.getValue());
+		      	break;
+		      case "address":
+		      	newBook.setAddress(entry.getValue());
+		      	break;
+		      case "edition":
+		      	newBook.setEdition(entry.getValue());
+		      	break;
+		      case "month":
+		      	newBook.setMonth(entry.getValue());
+		      	break;
+		      	case "note":
+		      	newBook.setNote(entry.getValue());
+		      	break;
+		      	case "key":
+		      	newBook.setKey(entry.getValue());
+		      	break;
+		      default:
+		      	throw new ParsingError("[@book] " + entry.getKey() + " não é um campo válido.");
+		      	break;
+		    }
+		  
+		  
+		   }
 		}
-	  } catch (ParsingError e) {
+		  entradas.get("book").add(newBook);
+
+       
+      }
+
+
+	  }
+	}
+	 catch (ParsingError e) {
 	    System.out.println(e.getMessage());
 	  }
   	}
 }
 
-void booklet() :{Token reference = null, title = null, author = null, howpublished = null, address = null, month = null, year = null, note = null, key = null;}
+void booklet(HashMap<String, String > dados) :{}
 {
-  	< OPENBRACES > (reference = <WORD>)? < COMMA >
-    (< TITLE > title = definition() < COMMA >)?
-    (< AUTHOR > author = definition() < COMMA >)?
-    (< HOWPUBLISHED > howpublished = definition() < COMMA >)?
-    (< ADDRESS > address = definition() < COMMA >)?
-    (< MONTH > month = definition() < COMMA >)?
-    (< YEAR > year = definition() < COMMA >)?
-    (< NOTE > note = definition() < COMMA >)?
-    (< KEY > key = definition() < COMMA >)?
-    < CLOSEBRACES >
+  {
+	  try {
+	    String reference = dados.get("reference"), title = dados.get("title");
+
+		if(reference == null || title == null) throw new ParsingError("[@booklet] : Este campo é obrigatóris:  title.");
+		else {
+		  Booklet newBooklet = new Booklet(reference, title);
+		  for (HashMap.Entry<String, String > entry : dados.entrySet()) {
+		    if (entry.getKey() == "reference" || entry.getKey() == "title"){}
+		    else{
+		    switch(entry.getKey())
+		    {
+		      case "author":
+		      	newBooklet.setAuthor(entry.getValue());
+		      	break;
+		      case "howpublished":
+		      	newBooklet.setHowPublished(entry.getValue());
+		      	break;
+		      case "address":
+		      	newBooklet.setAddress(entry.getValue());
+		      	break;
+		      case "month":
+		      	newBooklet.setMonth(entry.getValue());
+		      	break;
+		      case "year":
+		      	newBooklet.setYear(entry.getValue());
+		      	break;
+		      case "note":
+		      	newBooklet.setNote(entry.getValue());
+		      	break;
+		      case "key":
+		      	newBooklet.setKey(entry.getValue());
+		      	break;
+		      default:
+		      	throw new ParsingError("[@booklet] " + entry.getKey() + " não é um campo válido.");
+		      	break;
+		    }
+		  }
+		  }
+		  entradas.get("booklet").add(newBooklet);
+		}
+	  } catch (ParsingError e)
+	  {
+	    System.out.println(e.getMessage());
+	  }
+  	}
+}
+
+void conference(HashMap<String, String > dados) : {}
+{
 	{
 	 try {
-	  if (reference == null) throw new ParsingError("[@booklet] : Falta uma chave de citação!");
-	  if (title != null)
-	  {
-	    Booklet blt = new Booklet(reference.image, title.image);
-	    if (author != null) blt.setAuthor(author.image);
-	    if (howpublished != null) blt.setHowPublished(howpublished.image);
-	    if (address != null) blt.setAddress(address.image);
-	    if (month != null) blt.setMonth(month.image);
-	    if (year != null) blt.setYear(year.image);
-	    if (note != null) blt.setNote(note.image);
-	    if (key != null) blt.setKey(key.image);
-		} else {
-		  throw new ParsingError("[@booklet] : Estes campos são obrigatórios: author, title, journal, year, volume.");
+	   	String reference = dados.get("reference"), author = dados.get("author"), title = dados.get("title"), bookTitle = dados.get("booktitle"), year = dados.get("year");
+	   	if (reference == null || author == null || title == null || bookTitle == null || year == null) throw new ParsingError("[@conference] : Falta uma chave de citação!");
+		Conference novaConference = new Conference(reference, author, title, bookTitle, year);
+		int checkingTwoParams = 2;
+		  for (HashMap.Entry<String, String > entry : dados.entrySet()) {
+		    if (entry.getKey() == "reference" || entry.getKey() == "author" || entry.getKey() == "title" || entry.getKey() == "booktitle" || entry.getKey() == "year"){}
+		    else{
+		    switch(entry.getKey())
+		    {
+		      case "editor":
+		      	novaConference.setEditor(entry.getValue());
+		      	break;
+		      case "volume":
+		      	checkingTwoParams--;
+		      	novaConference.setVolume(entry.getValue());
+		      	break;
+		      case "number":
+		      	checkingTwoParams--;
+		      	novaConference.setNumber(entry.getValue());
+		      	break;
+		      case "series":
+		      	novaConference.setSeries(entry.getValue());
+		      	break;
+		      case "pages":
+		      	novaConference.setPages(entry.getValue());
+		      	break;
+		      case "address":
+		      	novaConference.setAddress(entry.getValue());
+		      	break;
+		      case "month":
+		      	novaConference.setMonth(entry.getValue());
+		      	break;
+		      case "organization":
+		      	novaConference.setOrganization(entry.getValue());
+		      	break;
+		      case "publisher":
+		      	novaConference.setPublisher(entry.getValue());
+		      	break;
+		      case "note":
+		      	novaConference.setNote(entry.getValue());
+		      	break;
+		      case "key":
+		      	novaConference.setKey(entry.getValue());
+		      	break;
+		      default:
+		      	throw new ParsingError("[@conference] " + entry.getKey() + " não é um campo válido.");
+		      	break;
+		    }
+		  }
 		}
+		entradas.get("conference").add(novaConference);
+		if (checkingTwoParams == 0) throw new ParsingError("[@conference] Volume e Number não podem coexistir");
 	  } catch (ParsingError e) {
 	    System.out.println(e.getMessage());
 	  }
 	}
 }
 
-void conference() : {Token reference = null, author = null, title = null, booktitle = null, year = null, editor = null, volume = null, number = null, series = null, pages = null, address = null, month = null, organization = null, publisher = null, note = null, key = null;}
+void misc(HashMap<String, String > dados) : {}
 {
-	< OPENBRACES > (reference = <WORD>)? < COMMA >
-	(< AUTHOR > author = definition() < COMMA >)?
-	(< TITLE > title = definition() < COMMA >)?
-	(< BOOKTITLE > booktitle = definition() < COMMA >)?
-	(< YEAR > year = definition() < COMMA >)?
-    (< EDITOR > editor = definition() < COMMA >)?
-    ( ((<VOLUME> volume = definition()) | (< NUMBER > number = definition())) < COMMA >)?
-    (< SERIES > series = definition() < COMMA >)?
-    (< PAGES > pages = definition() < COMMA >)?
-    (< ADDRESS > address = definition() < COMMA >)?
-    (< MONTH > month = definition() < COMMA >)?
-    (< ORGANIZATION > organization = definition() < COMMA >)?
-    (< PUBLISHER > publisher = definition() < COMMA >)?
-    (< NOTE > note = definition() < COMMA >)?
-    (< KEY > key = definition() < COMMA >)?
-    < CLOSEBRACES >
 	{
-	 try {
-	  if (reference == null) throw new ParsingError("[@conference] : Falta uma chave de citação!");
-		if (author != null && title != null && booktitle != null && year != null)
-		{
-		  Conference conference = new Conference(reference.image, author.image, title.image, booktitle.image, year.image);
-		  if (editor != null) conference.setEditor(editor.image);
-		  if (volume != null) conference.setVolume(volume.image);
-		  if (number != null) conference.setNumber(number.image);
-		  if (series != null) conference.setSeries(series.image);
-		  if (pages != null) conference.setPages(pages.image);
-		  if (address != null) conference.setAddress(address.image);
-		  if (month != null) conference.setMonth(month.image);
-		  if (organization != null) conference.setOrganization(organization.image);
-		  if (publisher != null) conference.setPublisher(publisher.image);
-		  if (note != null) conference.setNote(note.image);
-		  if (key != null) conference.setKey(key.image);
-		} else {
-		  throw new ParsingError("[@conference] : Estes campos são obrigatórios: author, title, journal, year, volume.");
+	  try {
+	   	String reference = dados.get("reference");
+
+		Misc novoMisc = new Misc(reference);
+
+		 for (HashMap.Entry<String, String > entry : dados.entrySet()) {
+		    switch(entry.getKey())
+		    {
+		      case "author":
+		      	novoMisc.setAuthor(entry.getValue());
+		      	break;
+		      case "title":
+		      	novoMisc.setTitle(entry.getValue());
+		      	break;
+		      case "howpublished":
+		      	novoMisc.setHowpublished(entry.getValue());
+		      	break;
+		      case "month":
+		      	novoMisc.setMonth(entry.getValue());
+		      	break;
+		      case "year":
+		      	novoMisc.setYear(entry.getValue());
+		      	break;
+		      case "note":
+		      	novoMisc.setNote(entry.getValue());
+		      	break;
+		      case "key":
+		      	novoMisc.setKey(entry.getValue());
+		      	break;
+		      default:
+		      	throw new ParsingError("[@misc] " + entry.getKey() + " não é um campo válido.");
+		      	break;
+		    }
+		  }
+		  entradas.get("misc").add(novoMisc);
+	  } catch (ParsingError e)
+	  {
+	    System.out.println(e.getMessage());
+	  }
+	}
+}
+
+void phdthesis(HashMap<String, String > dados) : {}
+{
+	{
+	  try {
+	    String reference = dados.get("reference"), author = dados.get("author"), title = dados.get("title"), school = dados.get("school"), year = dados.get("year");
+
+		if(reference == null || author == null || title == null || school == null || year == null) throw new ParsingError("[@phdthesis] : Estes campos são obrigatórios: author, title, school, year.");
+		else {
+		  Phdthesis novoPhd = new Phdthesis(reference, author, title, school, year);
+		  for (HashMap.Entry<String, String > entry : dados.entrySet()) {
+		    if (entry.getKey() == "reference" || entry.getKey() == "author" || entry.getKey() == "title" || entry.getKey() == "school" || entry.getKey() == "year"){}
+		    else{
+		    switch(entry.getKey())
+		    {
+		      case "type":
+		      	novoPhd.setType(entry.getValue());
+		      	break;
+		      case "address":
+		      	novoPhd.setAddress(entry.getValue());
+		      	break;
+		      case "month":
+		      	novoPhd.setMonth(entry.getValue());
+		      	break;
+		      case "note":
+		      	novoPhd.setNote(entry.getValue());
+		      	break;
+		      case "key":
+		      	novoPhd.setKey(entry.getValue());
+		      	break;
+		      default:
+		      	throw new ParsingError("[@phdthesis] " + entry.getKey() + " não é um campo válido.");
+		      	break;
+		    }
+		  }
+		  }
+		  entradas.get("phdthesis").add(novoPhd);
 		}
-	  } catch (ParsingError e) {
+	  } catch (ParsingError e)
+	  {
 	    System.out.println(e.getMessage());
 	  }
   	}
-}*/
+}
 
-void inbook(HashMap<String, String> dados) : {}
+void proceedings(HashMap<String, String > dados) : {}
+{
+	{
+	  try {
+	    String reference = dados.get("reference"), title = dados.get("title"), year = dados.get("year");
+
+		if(reference == null || title == null || year == null) throw new ParsingError("[@proceedings] : Estes campos são obrigatórios: title, year.");
+		else {
+		  Proceedings novoProceeding = new Proceedings(reference, title, year);
+		  for (HashMap.Entry<String, String > entry : dados.entrySet()) {
+		    if (entry.getKey() == "reference" || entry.getKey() == "title" || entry.getKey() == "year"){}
+		    else{
+		    switch(entry.getKey())
+		    {
+		      case "editor":
+		      	novoProceeding.setEditor(entry.getValue());
+		      	break;
+		      case "volume":
+		      	novoProceeding.setVolume(entry.getValue());
+		      	break;
+		      case "number":
+		      	novoProceeding.setNumber(entry.getValue());
+		      	break;
+		      case "series":
+		      	novoProceeding.setSeries(entry.getValue());
+		      	break;
+		      case "address":
+		      	novoProceeding.setAddress(entry.getValue());
+		      	break;
+		      case "month":
+		      	novoProceeding.setMonth(entry.getValue());
+		      	break;
+		      case "publisher":
+		      	novoProceeding.setPublisher(entry.getValue());
+		      	break;
+		      case "organization":
+		      	novoProceeding.setOrganization(entry.getValue());
+		      	break;
+		      case "note":
+		      	novoProceeding.setNote(entry.getValue());
+		      	break;
+		      case "key":
+		      	novoProceeding.setKey(entry.getValue());
+		      	break;
+		      default:
+		      	throw new ParsingError("[@proceedings] " + entry.getKey() + " não é um campo válido.");
+		      	break;
+		    }
+		  }
+		  }
+		  entradas.get("proceedings").add(novoProceeding);
+		}
+	  } catch (ParsingError e)
+	  {
+	    System.out.println(e.getMessage());
+	  }
+  	}
+}
+
+void techreport(HashMap<String, String > dados) : {}
+{
+	{
+	  try {
+	    String reference = dados.get("reference"), author = dados.get("author"), title = dados.get("title"), institution = dados.get("institution"), year = dados.get("year");
+
+		if(reference == null || author == null || title == null || institution == null || year == null) throw new ParsingError("[@techreport] : Estes campos são obrigatórios: author, title, institution, year.");
+		else {
+		  Techreport novoTechreport = new Techreport(reference, author, title, institution, year);
+		  for (HashMap.Entry<String, String > entry : dados.entrySet()) {
+		    if (entry.getKey() == "reference" || entry.getKey() == "author" || entry.getKey() == "title" || entry.getKey() == "institution" || entry.getKey() == "year"){}
+		    else{
+		    switch(entry.getKey())
+		    {
+		      case "type":
+		      	novoTechreport.setType(entry.getValue());
+		      	break;
+		      case "number":
+		      	novoTechreport.setNumber(entry.getValue());
+		      	break;
+		      case "address":
+		      	novoTechreport.setAddress(entry.getValue());
+		      	break;
+		      case "month":
+		      	novoTechreport.setMonth(entry.getValue());
+		      	break;
+		      case "note":
+		      	novoTechreport.setNote(entry.getValue());
+		      	break;
+		      case "key":
+		      	novoTechreport.setKey(entry.getValue());
+		      	break;
+		      default:
+		      	throw new ParsingError("[@techreport] " + entry.getKey() + " não é um campo válido.");
+		      	break;
+		    }
+		  }
+		  }
+		  entradas.get("techreport").add(novoTechreport);
+		}	
+	  } catch (ParsingError e)
+	  {
+	    System.out.println(e.getMessage());
+	  }
+  	}
+}
+
+void unpublished(HashMap<String, String > dados) : {}
+{
+	{
+	  try {
+	    String reference = dados.get("reference"), author = dados.get("author"), title = dados.get("title"), note = dados.get("note");
+
+		if(reference == null || author == null || title == null || note == null) throw new ParsingError("[@unpublished] : Estes campos são obrigatórios: author, title, note.");
+		else {
+		  Unpublished novoUnpublished = new Unpublished(reference, author, title, note);
+		  for (HashMap.Entry<String, String > entry : dados.entrySet()) {
+		    if (entry.getKey() == "reference" || entry.getKey() == "author" || entry.getKey() == "title" || entry.getKey() == "note"){}
+		    else{
+		    switch(entry.getKey())
+		    {
+		      case "month":
+		      	novoUnpublished.setMonth(entry.getValue());
+		      	break;
+		      case "year":
+		      	novoUnpublished.setYear(entry.getValue());
+		      	break;
+		      case "key":
+		      	novoUnpublished.setKey(entry.getValue());
+		      	break;
+		      default:
+		      	throw new ParsingError("[@unpublished] " + entry.getKey() + " não é um campo válido.");
+		      	break;
+		    }
+		  }
+		  }
+		  entradas.get("unpublished").add(novoUnpublished);
+		}	
+	  } catch (ParsingError e)
+	  {
+	    System.out.println(e.getMessage());
+	  }
+  	}
+}
+
+void inbook(HashMap<String, String > dados) : {}
 {
 	{
 		try {
@@ -521,40 +831,40 @@ void incollection(HashMap<String, String> dados) : {}
 					else {
 						switch (entry.getKey()) {
 							case "editor":
-								newInbook.setEditor(entry.getValue());
+								newIncollection.setEditor(entry.getValue());
 								break;
 							case "volume":
-								newInbook.setVolume(entry.getValue());
+								newIncollection.setVolume(entry.getValue());
 								break;
 							case "number":
-								newInbook.setNumber(entry.getValue());
+								newIncollection.setNumber(entry.getValue());
 								break;
 							case "series":
-								newInbook.setSeries(entry.getValue());
+								newIncollection.setSeries(entry.getValue());
 								break;
 							case "type":
-								newInbook.setType(entry.getValue());
+								newIncollection.setType(entry.getValue());
 								break;
 							case "chapter":
-								newInbook.setChapter(entry.getValue());
+								newIncollection.setChapter(entry.getValue());
 								break;
 							case "pages":
-								newInbook.setPages(entry.getValue());
+								newIncollection.setPages(entry.getValue());
 								break;
 							case "address":
-								newInbook.setAddress(entry.getValue());
+								newIncollection.setAddress(entry.getValue());
 								break;
 							case "edition":
-								newInbook.setEdition(entry.getValue());
+								newIncollection.setEdition(entry.getValue());
 								break;
 							case "month":
-								newInbook.setMonth(entry.getValue());
+								newIncollection.setMonth(entry.getValue());
 								break;
 							case "note":
-								newInbook.setNote(entry.getValue());
+								newIncollection.setNote(entry.getValue());
 								break;
 							case "key":
-								newInbook.setKey(entry.getValue());
+								newIncollection.setKey(entry.getValue());
 								break;
 							default:
 								throw new ParsingError("[@incollection] " + entry.getKey() + " não é um campo válido.");
@@ -570,268 +880,113 @@ void incollection(HashMap<String, String> dados) : {}
 	}
 }
 
-void inproceedings() : {Token reference = null, author = null, title = null, booktitle = null, year = null, editor = null, volume = null, number = null, series = null, pages = null, address = null, month = null, organization = null, publisher = null, note = null, key = null;}
+void inproceedings(HashMap<String, String > dados) : {}
 {
-	< OPENBRACES > (reference = <WORD>)? < COMMA >
-	(< AUTHOR > author = definition() < COMMA >)?
-	(< TITLE > title = definition() < COMMA >)?
-	(< BOOKTITLE > booktitle = definition() < COMMA >)?
-	(< YEAR > year = definition() < COMMA >)?
-    (< EDITOR > editor = definition() < COMMA >)?
-    ( ((<VOLUME> volume = definition()) | (< NUMBER > number = definition())) < COMMA >)?
-    (< SERIES > series = definition() < COMMA >)?
-    (< PAGES > pages = definition() < COMMA >)?
-    (< ADDRESS > address = definition() < COMMA >)?
-    (< MONTH > month = definition() < COMMA >)?
-    (< ORGANIZATION > organization = definition() < COMMA >)?
-    (< PUBLISHER > publisher = definition() < COMMA >)?
-    (< NOTE > note = definition() < COMMA >)?
-    (< KEY > key = definition() < COMMA >)?
-    < CLOSEBRACES >
 	{
-	  try {
-		if (reference == null) throw new ParsingError("[@inproceedings] : Falta uma chave de citação!");
-		if (author != null && title != null && booktitle != null && year != null)
-		{
-		  Inproceedings inproceedings = new Inproceedings(reference.image, author.image, title.image, booktitle.image, year.image);
-		  if (editor != null) inproceedings.setEditor(editor.image);
-		  if (volume != null) inproceedings.setVolume(volume.image);
-		  if (number != null) inproceedings.setNumber(number.image);
-		  if (series != null) inproceedings.setSeries(series.image);
-		  if (pages != null) inproceedings.setPages(pages.image);
-		  if (address != null) inproceedings.setAddress(address.image);
-		  if (month != null) inproceedings.setMonth(month.image);
-		  if (organization != null) inproceedings.setOrganization(organization.image);
-		  if (publisher != null) inproceedings.setPublisher(publisher.image);
-		  if (note != null) inproceedings.setNote(note.image);
-		  if (key != null) inproceedings.setKey(key.image);
-		} else
-		{
-		  throw new ParsingError("[@inproceedings] : Estes campos são obrigatórios: author, title, booktitle, year.");
+	 try {
+	   	String reference = dados.get("reference"), author = dados.get("author"), title = dados.get("title"), bookTitle = dados.get("booktitle"), year = dados.get("year");
+	   	if (reference == null || author == null || title == null || bookTitle == null || year == null) throw new ParsingError("[@inproceedings] : Falta uma chave de citação!");
+		Inproceedings newInproceedings = new Inproceedings(reference, author, title, bookTitle, year);
+		int checkingTwoParams = 2;
+		  for (HashMap.Entry<String, String > entry : dados.entrySet()) {
+		    if (entry.getKey() == "reference" || entry.getKey() == "author" || entry.getKey() == "title" || entry.getKey() == "booktitle" || entry.getKey() == "year"){}
+		    else{
+		    switch(entry.getKey())
+		    {
+		      case "editor":
+		      	newInproceedings.setEditor(entry.getValue());
+		      	break;
+		      case "volume":
+		      	checkingTwoParams--;
+		      	newInproceedings.setVolume(entry.getValue());
+		      	break;
+		      case "number":
+		      	checkingTwoParams--;
+		      	newInproceedings.setNumber(entry.getValue());
+		      	break;
+		      case "series":
+		      	newInproceedings.setSeries(entry.getValue());
+		      	break;
+		      case "pages":
+		      	newInproceedings.setPages(entry.getValue());
+		      	break;
+		      case "address":
+		      	newInproceedings.setAddress(entry.getValue());
+		      	break;
+		      case "month":
+		      	newInproceedings.setMonth(entry.getValue());
+		      	break;
+		      case "organization":
+		      	newInproceedings.setOrganization(entry.getValue());
+		      	break;
+		      case "publisher":
+		      	newInproceedings.setPublisher(entry.getValue());
+		      	break;
+		      case "note":
+		      	newInproceedings.setNote(entry.getValue());
+		      	break;
+		      case "key":
+		      	newInproceedings.setKey(entry.getValue());
+		      	break;
+		      default:
+		      	throw new ParsingError("[@inproceedings] " + entry.getKey() + " não é um campo válido.");
+		      	break;
+		    }
+		  }
 		}
-		} catch (ParsingError e)
-	  {
-	    System.out.println(e.getMessage());
-	  }
-    }
-}
-
-/*void manual() : {Token reference = null, title = null, author = null, organization = null, address = null, edition = null, month = null, year = null, note = null, key = null;}
-{
-	< OPENBRACES > (reference = <WORD>)? < COMMA >
-	(< TITLE > title = definition() < COMMA >)?
-    (< AUTHOR > author = definition() < COMMA >)?
-    (< ORGANIZATION > organization = definition() < COMMA >)?
-    (< ADDRESS > address = definition() < COMMA >)?
-    (< EDITION > edition = definition() < COMMA >)?
-    (< MONTH > month = definition() < COMMA >)?
-    (< YEAR > year = definition() < COMMA >)?
-    (< NOTE > note = definition() < COMMA >)?
-    (< KEY > key = definition() < COMMA >)?
-    < CLOSEBRACES >
-	{
-	  try {
-	    if (reference == null) throw new ParsingError("[@manual] : Falta uma chave de citação!");
-		if (title != null)
-		{
-		  Manual manual = new Manual(reference.image, title.image);
-		  if (author != null) manual.setAuthor(author.image);
-		  if (organization != null) manual.setOrganization(organization.image);
-		  if (address != null) manual.setAddress(address.image);
-		  if (edition != null) manual.setEdition(edition.image);
-		  if (month != null) manual.setMonth(month.image);
-		  if (year != null) manual.setYear(year.image);
-		  if (note != null) manual.setNote(note.image);
-		  if (key != null) manual.setKey(key.image);
-		} else
-		{
-		  throw new ParsingError("[@manual] : Este campo é obrigatório: title.");
-		}
-		} catch (ParsingError e)
-	  {
-	    System.out.println(e.getMessage());
-	  }
-    }
-}
-
-void mastersthesis() : {Token reference = null, author = null, title = null, school = null, year = null, type = null, address = null, month = null, note = null, key = null;}
-{
-	< OPENBRACES > (reference = <WORD>)? < COMMA >
-    (< AUTHOR > author = definition() < COMMA >)?
-	(< TITLE > title = definition() < COMMA >)?
-    (< SCHOOL > school = definition() < COMMA >)?
-    (< YEAR > year = definition() < COMMA >)?
-    (< TYPE > type = definition() < COMMA >)?
-    (< ADDRESS > address = definition() < COMMA >)?
-    (< MONTH > month = definition() < COMMA >)?
-    (< NOTE > note = definition() < COMMA >)?
-    (< KEY > key = definition() < COMMA >)?
-    < CLOSEBRACES >
-	{
-	  try {
-	    if (reference == null) throw new ParsingError("[@mastersthesis] : Falta uma chave de citação!");
-		if (author != null && title != null && school != null && year != null)
-		{
-		  Mastersthesis mastersthesis = new Mastersthesis(reference.image, author.image, title.image, school.image, year.image);
-		  if (type != null) mastersthesis.setType(type.image);
-		  if (address != null) mastersthesis.setAddress(address.image);
-		  if (month != null) mastersthesis.setMonth(month.image);
-		  if (note != null) mastersthesis.setNote(note.image);
-		  if (key != null) mastersthesis.setKey(key.image);
-		} else
-		{
-		  throw new ParsingError("[@mastersthesis] : Estes campos são obrigatórios: author, title, school, year.");
-		}
-		} catch (ParsingError e)
-	  {
-	    System.out.println(e.getMessage());
-	  }
-    }
-}
-
-void misc() : {Token reference = null, author = null, title = null, howpublished = null, month = null, year = null, note = null, key = null;}
-{
-	< OPENBRACES > (reference = <WORD>)? < COMMA >
-    (< AUTHOR > author = definition() < COMMA >)?
-    (< TITLE > title = definition() < COMMA >)?
-    (< HOWPUBLISHED > howpublished = definition() < COMMA >)?
-    (< MONTH > month = definition() < COMMA >)?
-    (< YEAR > year = definition() < COMMA >)?
-    (< NOTE > note = definition() < COMMA >)?
-    (< KEY > key = definition() < COMMA >)?
-    < CLOSEBRACES >
-	{
-	  try {
-		if (reference == null) throw new ParsingError("[@misc] : Falta uma chave de citação!");
-		if (reference != null)
-		{
-		  Misc misc = new Misc(reference.image);
-		  if (author != null) misc.setAuthor(author.image);
-		  if (title != null) misc.setTitle(title.image);
-		  if (howpublished != null) misc.setHowpublished(howpublished.image);
-		  if (month != null) misc.setMonth(month.image);
-		  if (year != null) misc.setYear(year.image);
-		  if (note != null) misc.setNote(note.image);
-		  if (key != null) misc.setKey(key.image);
-		} else
-		{
-		  throw new ParsingError("[@misc] : Estes campos são obrigatórios: author, title, journal, year, volume.");
-		}
-	  } catch (ParsingError e)
-	  {
+		entradas.get("inproceedings").add(newInproceedings);
+		if (checkingTwoParams == 0) throw new ParsingError("[@inproceedings] Volume e Number não podem coexistir");
+	  } catch (ParsingError e) {
 	    System.out.println(e.getMessage());
 	  }
 	}
 }
 
-void phdthesis() : {Token reference = null, author = null, title = null, school = null, year = null, type = null, address = null, month = null, note = null, key = null;}
+void manual(HashMap<String, String > dados) : {}
 {
-	< OPENBRACES > (reference = <WORD>)? < COMMA >
-	(< AUTHOR > author = definition() < COMMA >)?
-	(< TITLE > title = definition() < COMMA >)?
-	(< SCHOOL > school = definition() < COMMA >)?
-	(< YEAR > year = definition() < COMMA >)?
-	(< TYPE > type = definition() < COMMA > )?
-	(< ADDRESS > address = definition() < COMMA > )?
-	(< MONTH > month = definition() < COMMA > )?
-	(< NOTE > note = definition() < COMMA > )?
-	(< KEY > note = definition() < COMMA > )?
-	< CLOSEBRACES >
-	{
+  {
 	  try {
-		if (reference == null) throw new ParsingError("[@phdthesis] : Falta uma chave de citação!");
-		if (author != null && title != null && school != null && year != null)
-		{
-		  Phdthesis phdthesis = new Phdthesis(reference.image, author.image, title.image, school.image, year.image);
-		  if (type != null) phdthesis.setType(type.image);
-		  if (address != null) phdthesis.setAddress(address.image);
-		  if (month != null) phdthesis.setMonth(month.image);
-		  if (note != null) phdthesis.setNote(note.image);
-		  if (key != null) phdthesis.setKey(key.image);
-		} else
-		{
-		  throw new ParsingError("[@phdthesis] : Estes campos são obrigatórios: author, title, journal, year, volume.");
-		}
-	  } catch (ParsingError e)
-	  {
-	    System.out.println(e.getMessage());
-	  }
-	}
-}
+	    String reference = dados.get("reference"), title = dados.get("title");
 
-void proceedings() : {Token reference = null, title = null, number = null, year = null, editor = null, volume = null, series = null, address = null, month = null, organization = null, publisher = null, note = null, key = null;}
-{
-	< OPENBRACES > (reference = <WORD>)? < COMMA >
-	(< TITLE > title = definition() < COMMA >)?
-	(< YEAR > year = definition() < COMMA >)?
-	(< EDITOR > editor = definition() < COMMA >)?
-	((< VOLUME > volume = definition() < COMMA >) | (< NUMBER > number = definition() < COMMA >))?
-	(< SERIES > series = definition() < COMMA >)?
-	(< ADDRESS > address = definition() < COMMA >)?
-	(< MONTH > month = definition() < COMMA >)?
-	(< ORGANIZATION > organization = definition() < COMMA >)?
-	(< PUBLISHER > publisher = definition() < COMMA >)?
-	(< NOTE > note = definition() < COMMA >)?
-	(< KEY > key = definition() < COMMA >)?
-	< CLOSEBRACES >
-	{
-      try {
-		if (reference == null) throw new ParsingError("[@proceedings] : Falta uma chave de citação!");
-		if (title != null && year != null)
-		{
-		  Proceedings proceedings;
-		  proceedings = new Proceedings(reference.image, title.image, year.image);
-		  if (editor != null) proceedings.setEditor(editor.image);
-		  if (number != null) proceedings.setNumber(number.image);
-		  if (volume != null) proceedings.setVolume(volume.image);
-		  if (series != null) proceedings.setSeries(series.image);
-		  if (organization != null) proceedings.setOrganization(organization.image);
-		  if (publisher != null) proceedings.setPublisher(publisher.image);
-		  if (address != null) proceedings.setAddress(address.image);
-		  if (month != null) proceedings.setMonth(month.image);
-		  if (note != null) proceedings.setNote(note.image);
-		  if (key != null) proceedings.setKey(key.image);
-		} else
-		{
-		  throw new ParsingError("[@proceedings] : Estes campos são obrigatórios: author, title, journal, year, volume.");
-		}
-	  } catch (ParsingError e)
-	  {
-	    System.out.println(e.getMessage());
-	  }
-	}
-}
-
-void techreport() : {Token reference = null, author = null, title = null, institution = null, year = null, type = null, number = null, address = null, month = null, note = null, key = null;}
-{
-	< OPENBRACES > (reference = <WORD>)? < COMMA >
-	(< AUTHOR > author = definition() < COMMA >)?
-	(< TITLE > title = definition() < COMMA >)?
-	(< INSTITUTION > institution = definition() < COMMA >)?
-	(< YEAR > year = definition() < COMMA >)?
-	(< TYPE > type = definition() < COMMA >)?
-	(< NUMBER > number = definition() < COMMA >)?
-	(< ADDRESS > address = definition() < COMMA >)?
-	(< MONTH > month = definition() < COMMA >)?
-	(< NOTE > note = definition() < COMMA >)?
-	(< KEY > key = definition() < COMMA >)?
-	< CLOSEBRACES >
-	{
-	  try {
-		if (reference == null) throw new ParsingError("[@techreport] : Falta uma chave de citação!");
-		if (author != null && title != null && institution != null && year != null)
-		{
-		  Techreport techreport;
-		  techreport = new Techreport(reference.image, author.image, title.image, institution.image, year.image);
-		  if (type != null) techreport.setType(type.image);
-		  if (number != null) techreport.setNumber(number.image);
-		  if (address != null) techreport.setAddress(address.image);
-		  if (month != null) techreport.setMonth(month.image);
-		  if (note != null) techreport.setNote(note.image);
-		  if (key != null) techreport.setKey(key.image);
-		} else
-		{
-		  throw new ParsingError("[@techreport] : Estes campos são obrigatórios: author, title, journal, year, volume.");
+		if(reference == null || title == null) throw new ParsingError("[@manual] : Estes campos são obrigatórios: reference, title.");
+		else {
+		  Manual novoManual = new Manual(reference, title);
+		  for (HashMap.Entry<String, String > entry : dados.entrySet()) {
+		    if (entry.getKey() == "reference" || entry.getKey() == "title"){}
+		    else{
+		    switch(entry.getKey())
+		    {
+		      case "author":
+		      	novoManual.setAuthor(entry.getValue());
+		      	break;
+		      case "organization":
+		      	novoManual.setOrganization(entry.getValue());
+		      	break;
+		      case "address":
+		      	novoManual.setAddress(entry.getValue());
+		      	break;
+		      case "edition":
+		      	novoManual.setEdition(entry.getValue());
+		      	break;
+		      case "month":
+		      	novoManual.setMonth(entry.getValue());
+		      	break;
+		      case "year":
+		      	novoManual.setYear(entry.getValue());
+		      	break;
+		      case "note":
+		      	novoManual.setNote(entry.getValue());
+		      	break;
+		      case "key":
+		      	novoManual.setKey(entry.getValue());
+		      	break;
+		      default:
+		      	throw new ParsingError("[@manual] " + entry.getKey() + " não é um campo válido.");
+		      	break;
+		    }
+		  }
+		  }
+		  entradas.get("manual").add(novoManual);
 		}
 	  } catch (ParsingError e)
 	  {
@@ -840,34 +995,46 @@ void techreport() : {Token reference = null, author = null, title = null, instit
   	}
 }
 
-void unpublished() : {Token reference = null, author = null, title = null, note = null, month = null, year = null, key = null;}
+void mastersthesis(HashMap<String, String > dados) : {}
 {
-	< OPENBRACES > (reference = <WORD>)? < COMMA >
-	(< AUTHOR > author = definition() < COMMA >)?
-	(< TITLE > title = definition() < COMMA >)?
-	(< NOTE > note = definition() < COMMA >)?
-	(< MONTH > month = definition() < COMMA >)?
-	(< YEAR > year = definition() < COMMA >)?
-	(< KEY > key = definition() < COMMA >)?
-	< CLOSEBRACES >
 	{
-	try {
-		if (reference == null) throw new ParsingError("[@unpublished] : Falta uma chave de citação!");
-		if ( author != null  && title != null && note != null)
-		{
-		  Unpublished unpublished;
-		  unpublished = new Unpublished(reference.image, author.image, title.image, note.image);
-		  if (month != null) unpublished.setMonth(month.image);
-		  if (year != null) unpublished.setYear(year.image);
-		  if (key != null) unpublished.setKey(key.image);
-		} else
-		{
-		  throw new ParsingError("[@unpublished] : Estes campos são obrigatórios: author, title, journal, year, volume.");
+	  try {
+	    String reference = dados.get("reference"), title = dados.get("title"), author = dados.get("author"), school = dados.get("school"), year = dados.get("year");
+
+		if(reference == null || title == null || author == null || school == null || year == null) throw new ParsingError("[@mastersthesis] : Estes campos são obrigatórios: reference, title, author, title, school, year.");
+		else {
+		  Mastersthesis novoMasterThesis = new Mastersthesis(reference, author, title, school, year);
+		  for (HashMap.Entry<String, String > entry : dados.entrySet()) {
+		    if (entry.getKey() == "reference" || entry.getKey() == "title" || entry.getKey() == "author" || entry.getKey() == "school" || entry.getKey() == "year"){}
+		    else{
+		    switch(entry.getKey())
+		    {
+		      case "type":
+		      	novoMasterThesis.setType(entry.getValue());
+		      	break;
+		      case "address":
+		      	novoMasterThesis.setAddress(entry.getValue());
+		      	break;
+		      case "month":
+		      	novoMasterThesis.setMonth(entry.getValue());
+		      	break;
+		      case "note":
+		      	novoMasterThesis.setNote(entry.getValue());
+		      	break;
+		      case "key":
+		      	novoMasterThesis.setKey(entry.getValue());
+		      	break;
+		      default:
+		      	throw new ParsingError("[@mastersthesis] " + entry.getKey() + " não é um campo válido.");
+		      	break;
+		    }
+		  }
+		  }
+		  entradas.get("mastersthesis").add(novoMasterThesis);
 		}
 	  } catch (ParsingError e)
 	  {
 	    System.out.println(e.getMessage());
 	  }
-	}
+  	}
 }
-*/
