@@ -455,50 +455,74 @@ void booklet(HashMap<String, String > dados) :{}
 	  }
   	}
 }
+<<<<<<< Updated upstream
 /*
 void conference(HashMap<String, String > dados) : {Token reference = null, author = null, title = null, booktitle = null, year = null, editor = null, volume = null, number = null, series = null, pages = null, address = null, month = null, organization = null, publisher = null, note = null, key = null;}
+=======
+*/
+void conference(HashMap<String, String > dados) : {}
+>>>>>>> Stashed changes
 {
-	< OPENBRACES > (reference = <WORD>)? < COMMA >
-	(< AUTHOR > author = definition() < COMMA >)?
-	(< TITLE > title = definition() < COMMA >)?
-	(< BOOKTITLE > booktitle = definition() < COMMA >)?
-	(< YEAR > year = definition() < COMMA >)?
-    (< EDITOR > editor = definition() < COMMA >)?
-    ( ((<VOLUME> volume = definition()) | (< NUMBER > number = definition())) < COMMA >)?
-    (< SERIES > series = definition() < COMMA >)?
-    (< PAGES > pages = definition() < COMMA >)?
-    (< ADDRESS > address = definition() < COMMA >)?
-    (< MONTH > month = definition() < COMMA >)?
-    (< ORGANIZATION > organization = definition() < COMMA >)?
-    (< PUBLISHER > publisher = definition() < COMMA >)?
-    (< NOTE > note = definition() < COMMA >)?
-    (< KEY > key = definition() < COMMA >)?
-    < CLOSEBRACES >
 	{
 	 try {
-	  if (reference == null) throw new ParsingError("[@conference] : Falta uma chave de citação!");
-		if (author != null && title != null && booktitle != null && year != null)
-		{
-		  Conference conference = new Conference(reference.image, author.image, title.image, booktitle.image, year.image);
-		  if (editor != null) conference.setEditor(editor.image);
-		  if (volume != null) conference.setVolume(volume.image);
-		  if (number != null) conference.setNumber(number.image);
-		  if (series != null) conference.setSeries(series.image);
-		  if (pages != null) conference.setPages(pages.image);
-		  if (address != null) conference.setAddress(address.image);
-		  if (month != null) conference.setMonth(month.image);
-		  if (organization != null) conference.setOrganization(organization.image);
-		  if (publisher != null) conference.setPublisher(publisher.image);
-		  if (note != null) conference.setNote(note.image);
-		  if (key != null) conference.setKey(key.image);
-		} else {
-		  throw new ParsingError("[@conference] : Estes campos são obrigatórios: author, title, journal, year, volume.");
+	   	String reference = dados.get("reference"), author = dados.get("author"), title = dados.get("title"), bookTitle = dados.get("booktitle"), year = dados.get("year");
+	   	if (reference == null || author == null || title == null || bookTitle == null || year == null) throw new ParsingError("[@conference] : Falta uma chave de citação!");
+		Conference novaConference = new Conference(reference, author, title, bookTitle, year);
+		int checkingTwoParams = 2;
+		  for (HashMap.Entry<String, String > entry : dados.entrySet()) {
+		    if (entry.getKey() == "reference" || entry.getKey() == "author" || entry.getKey() == "title" || entry.getKey() == "booktitle" || entry.getKey() == "year"){}
+		    else{
+		    switch(entry.getKey())
+		    {
+		      case "editor":
+		      	novaConference.setEditor(entry.getValue());
+		      	break;
+		      case "volume":
+		      	checkingTwoParams--;
+		      	novaConference.setVolume(entry.getValue());
+		      	break;
+		      case "number":
+		      	checkingTwoParams--;
+		      	novaConference.setNumber(entry.getValue());
+		      	break;
+		      case "series":
+		      	novaConference.setSeries(entry.getValue());
+		      	break;
+		      case "pages":
+		      	novaConference.setPages(entry.getValue());
+		      	break;
+		      case "address":
+		      	novaConference.setAddress(entry.getValue());
+		      	break;
+		      case "month":
+		      	novaConference.setMonth(entry.getValue());
+		      	break;
+		      case "organization":
+		      	novaConference.setOrganization(entry.getValue());
+		      	break;
+		      case "publisher":
+		      	novaConference.setPublisher(entry.getValue());
+		      	break;
+		      case "note":
+		      	novaConference.setNote(entry.getValue());
+		      	break;
+		      case "key":
+		      	novaConference.setKey(entry.getValue());
+		      	break;
+		      default:
+		      	throw new ParsingError("[@conference] " + entry.getKey() + " não é um campo válido.");
+		      	break;
+		    }
+		  }
 		}
+		entradas.get("conference").add(novaConference);
+		if (checkingTwoParams == 0) throw new ParsingError("[@conference] Volume e Number não podem coexistir");
 	  } catch (ParsingError e) {
 	    System.out.println(e.getMessage());
 	  }
-  	}
+	}
 }
+<<<<<<< Updated upstream
 
 <<<<<<< HEAD
 =======
@@ -738,6 +762,9 @@ void unpublished(HashMap<String, String > dados) : {}
 }
 /*
 >>>>>>> origin/master
+=======
+/*
+>>>>>>> Stashed changes
 void inbook() : {Token reference = null, author = null, editor = null, title = null, chapter = null, pages = null, publisher = null, year = null, volume = null,
 					number = null, series = null, type = null, address = null, edition = null, month = null, note = null, key = null;}
 {
