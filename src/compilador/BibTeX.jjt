@@ -347,7 +347,13 @@ void book(HashMap<String, String > dados) : {}
 		else {
 
 		  Book newBook;
-		  if (author != null)		  {		    newBook = new Book(reference, "author", author, title, publisher, year);		  }		  else		  {		    newBook = new Book(reference, "editor", editor, title, publisher, year);
+		  if (author != null)
+		  {
+		    newBook = new Book(reference, "author", author, title, publisher, year);
+		  }
+		  else
+		  {
+		    newBook = new Book(reference, "editor", editor, title, publisher, year);
 
 		  }
 		
@@ -397,10 +403,13 @@ void book(HashMap<String, String > dados) : {}
 		}
 		  entradas.get("book").add(newBook);
 
-             }
+       
+      }
 
 
-	  }	}	 catch (ParsingError e) {
+	  }
+	}
+	 catch (ParsingError e) {
 	    System.out.println(e.getMessage());
 	  }
   	}
@@ -517,7 +526,7 @@ void conference(HashMap<String, String > dados) : {}
 	  }
 	}
 }
-/*
+
 void misc(HashMap<String, String > dados) : {}
 {
 	{
@@ -560,7 +569,7 @@ void misc(HashMap<String, String > dados) : {}
 	  {
 	    System.out.println(e.getMessage());
 	  }
- 
+	}
 }
 
 void phdthesis(HashMap<String, String > dados) : {}
@@ -749,7 +758,7 @@ void unpublished(HashMap<String, String > dados) : {}
 	    System.out.println(e.getMessage());
 	  }
   	}
-}
+}/*
 /*
 >>>>>>> origin/master
 =======
@@ -1000,186 +1009,3 @@ void mastersthesis(HashMap<String, String > dados) : {}
 	  }
   	}
 }
-/*
-void misc() : {Token reference = null, author = null, title = null, howpublished = null, month = null, year = null, note = null, key = null;}
-{
-	< OPENBRACES > (reference = <WORD>)? < COMMA >
-    (< AUTHOR > author = definition() < COMMA >)?
-    (< TITLE > title = definition() < COMMA >)?
-    (< HOWPUBLISHED > howpublished = definition() < COMMA >)?
-    (< MONTH > month = definition() < COMMA >)?
-    (< YEAR > year = definition() < COMMA >)?
-    (< NOTE > note = definition() < COMMA >)?
-    (< KEY > key = definition() < COMMA >)?
-    < CLOSEBRACES >
-	{
-	  try {
-		if (reference == null) throw new ParsingError("[@misc] : Falta uma chave de citação!");
-		if (reference != null)
-		{
-		  Misc misc = new Misc(reference.image);
-		  if (author != null) misc.setAuthor(author.image);
-		  if (title != null) misc.setTitle(title.image);
-		  if (howpublished != null) misc.setHowpublished(howpublished.image);
-		  if (month != null) misc.setMonth(month.image);
-		  if (year != null) misc.setYear(year.image);
-		  if (note != null) misc.setNote(note.image);
-		  if (key != null) misc.setKey(key.image);
-		} else
-		{
-		  throw new ParsingError("[@misc] : Estes campos são obrigatórios: author, title, journal, year, volume.");
-		}
-	  } catch (ParsingError e)
-	  {
-	    System.out.println(e.getMessage());
-	  }
-	}
-}
-
-void phdthesis() : {Token reference = null, author = null, title = null, school = null, year = null, type = null, address = null, month = null, note = null, key = null;}
-{
-	< OPENBRACES > (reference = <WORD>)? < COMMA >
-	(< AUTHOR > author = definition() < COMMA >)?
-	(< TITLE > title = definition() < COMMA >)?
-	(< SCHOOL > school = definition() < COMMA >)?
-	(< YEAR > year = definition() < COMMA >)?
-	(< TYPE > type = definition() < COMMA > )?
-	(< ADDRESS > address = definition() < COMMA > )?
-	(< MONTH > month = definition() < COMMA > )?
-	(< NOTE > note = definition() < COMMA > )?
-	(< KEY > note = definition() < COMMA > )?
-	< CLOSEBRACES >
-	{
-	  try {
-		if (reference == null) throw new ParsingError("[@phdthesis] : Falta uma chave de citação!");
-		if (author != null && title != null && school != null && year != null)
-		{
-		  Phdthesis phdthesis = new Phdthesis(reference.image, author.image, title.image, school.image, year.image);
-		  if (type != null) phdthesis.setType(type.image);
-		  if (address != null) phdthesis.setAddress(address.image);
-		  if (month != null) phdthesis.setMonth(month.image);
-		  if (note != null) phdthesis.setNote(note.image);
-		  if (key != null) phdthesis.setKey(key.image);
-		} else
-		{
-		  throw new ParsingError("[@phdthesis] : Estes campos são obrigatórios: author, title, journal, year, volume.");
-		}
-	  } catch (ParsingError e)
-	  {
-	    System.out.println(e.getMessage());
-	  }
-	}
-}
-
-void proceedings() : {Token reference = null, title = null, number = null, year = null, editor = null, volume = null, series = null, address = null, month = null, organization = null, publisher = null, note = null, key = null;}
-{
-	< OPENBRACES > (reference = <WORD>)? < COMMA >
-	(< TITLE > title = definition() < COMMA >)?
-	(< YEAR > year = definition() < COMMA >)?
-	(< EDITOR > editor = definition() < COMMA >)?
-	((< VOLUME > volume = definition() < COMMA >) | (< NUMBER > number = definition() < COMMA >))?
-	(< SERIES > series = definition() < COMMA >)?
-	(< ADDRESS > address = definition() < COMMA >)?
-	(< MONTH > month = definition() < COMMA >)?
-	(< ORGANIZATION > organization = definition() < COMMA >)?
-	(< PUBLISHER > publisher = definition() < COMMA >)?
-	(< NOTE > note = definition() < COMMA >)?
-	(< KEY > key = definition() < COMMA >)?
-	< CLOSEBRACES >
-	{
-      try {
-		if (reference == null) throw new ParsingError("[@proceedings] : Falta uma chave de citação!");
-		if (title != null && year != null)
-		{
-		  Proceedings proceedings;
-		  proceedings = new Proceedings(reference.image, title.image, year.image);
-		  if (editor != null) proceedings.setEditor(editor.image);
-		  if (number != null) proceedings.setNumber(number.image);
-		  if (volume != null) proceedings.setVolume(volume.image);
-		  if (series != null) proceedings.setSeries(series.image);
-		  if (organization != null) proceedings.setOrganization(organization.image);
-		  if (publisher != null) proceedings.setPublisher(publisher.image);
-		  if (address != null) proceedings.setAddress(address.image);
-		  if (month != null) proceedings.setMonth(month.image);
-		  if (note != null) proceedings.setNote(note.image);
-		  if (key != null) proceedings.setKey(key.image);
-		} else
-		{
-		  throw new ParsingError("[@proceedings] : Estes campos são obrigatórios: author, title, journal, year, volume.");
-		}
-	  } catch (ParsingError e)
-	  {
-	    System.out.println(e.getMessage());
-	  }
-	}
-}
-
-void techreport() : {Token reference = null, author = null, title = null, institution = null, year = null, type = null, number = null, address = null, month = null, note = null, key = null;}
-{
-	< OPENBRACES > (reference = <WORD>)? < COMMA >
-	(< AUTHOR > author = definition() < COMMA >)?
-	(< TITLE > title = definition() < COMMA >)?
-	(< INSTITUTION > institution = definition() < COMMA >)?
-	(< YEAR > year = definition() < COMMA >)?
-	(< TYPE > type = definition() < COMMA >)?
-	(< NUMBER > number = definition() < COMMA >)?
-	(< ADDRESS > address = definition() < COMMA >)?
-	(< MONTH > month = definition() < COMMA >)?
-	(< NOTE > note = definition() < COMMA >)?
-	(< KEY > key = definition() < COMMA >)?
-	< CLOSEBRACES >
-	{
-	  try {
-		if (reference == null) throw new ParsingError("[@techreport] : Falta uma chave de citação!");
-		if (author != null && title != null && institution != null && year != null)
-		{
-		  Techreport techreport;
-		  techreport = new Techreport(reference.image, author.image, title.image, institution.image, year.image);
-		  if (type != null) techreport.setType(type.image);
-		  if (number != null) techreport.setNumber(number.image);
-		  if (address != null) techreport.setAddress(address.image);
-		  if (month != null) techreport.setMonth(month.image);
-		  if (note != null) techreport.setNote(note.image);
-		  if (key != null) techreport.setKey(key.image);
-		} else
-		{
-		  throw new ParsingError("[@techreport] : Estes campos são obrigatórios: author, title, journal, year, volume.");
-		}
-	  } catch (ParsingError e)
-	  {
-	    System.out.println(e.getMessage());
-	  }
-  	}
-}
-
-void unpublished() : {Token reference = null, author = null, title = null, note = null, month = null, year = null, key = null;}
-{
-	< OPENBRACES > (reference = <WORD>)? < COMMA >
-	(< AUTHOR > author = definition() < COMMA >)?
-	(< TITLE > title = definition() < COMMA >)?
-	(< NOTE > note = definition() < COMMA >)?
-	(< MONTH > month = definition() < COMMA >)?
-	(< YEAR > year = definition() < COMMA >)?
-	(< KEY > key = definition() < COMMA >)?
-	< CLOSEBRACES >
-	{
-	try {
-		if (reference == null) throw new ParsingError("[@unpublished] : Falta uma chave de citação!");
-		if ( author != null  && title != null && note != null)
-		{
-		  Unpublished unpublished;
-		  unpublished = new Unpublished(reference.image, author.image, title.image, note.image);
-		  if (month != null) unpublished.setMonth(month.image);
-		  if (year != null) unpublished.setYear(year.image);
-		  if (key != null) unpublished.setKey(key.image);
-		} else
-		{
-		  throw new ParsingError("[@unpublished] : Estes campos são obrigatórios: author, title, journal, year, volume.");
-		}
-	  } catch (ParsingError e)
-	  {
-	    System.out.println(e.getMessage());
-	  }
-	}
-}
-*/
