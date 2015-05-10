@@ -13,9 +13,27 @@ public class BibTeX {
 	/* https://java.net/projects/javacc/lists/users/archive/2006-02/message/15
 		We're using hashmap instead of hashtable because we are not dealing with concurrency on threads. 
 	*/
-  private static HashMap<String, Token> symbolTable = new HashMap<String, Token>(); 
+  private static HashMap<String, HashMap<String, String> > symbolTable = new HashMap<String, HashMap<String, String>>();
   private static SimpleNode arvore;
+  private static String entryReading = null;
   public static void main(String args []) throws ParseException, IOException {
+     
+	symbolTable.put("@article", new HashMap<String, String >());
+    symbolTable.put("@book", new HashMap<String, String >());
+    symbolTable.put("@booklet", new HashMap<String, String >());
+    symbolTable.put("@conference", new HashMap<String, String >());
+    symbolTable.put("@inbook", new HashMap<String, String >());
+    symbolTable.put("@incollection", new HashMap<String, String >());
+    symbolTable.put("@inproceedings", new HashMap<String, String >());
+    symbolTable.put("@manual", new HashMap<String, String >());
+    symbolTable.put("@mastersthesis", new HashMap<String, String >());
+    symbolTable.put("@misc", new HashMap<String, String >());
+    symbolTable.put("@phdthesis", new HashMap<String, String >());
+    symbolTable.put("@proceedings", new HashMap<String, String >());
+    symbolTable.put("@techreport", new HashMap<String, String >());
+    symbolTable.put("@unpublished", new HashMap<String, String >());
+    
+
     String fname = "";
     Scanner sc = new Scanner(System.in);
     while (fileExist(fname) != true) {
@@ -26,8 +44,8 @@ public class BibTeX {
 	BibTeX parser = new BibTeX(new FileInputStream(new File(fname)));
 	arvore = parser.start();
 	//arvore.dump("");
-	//imprimirSymbolTable();
-	semanticAnalysis();
+	imprimirSymbolTable();
+	//semanticAnalysis();
 	sc.close();
   }
 
@@ -103,9 +121,12 @@ TOKEN :
 void imprimirSymbolTable() :{}
 {
   {
-	for (HashMap.Entry<String, Token> entry : symbolTable.entrySet()) {
-	    System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue().image);
-}
+    
+	for (HashMap.Entry<String, HashMap<String, String >> entry : symbolTable.entrySet()) {
+        	String onKey = entry.getKey();
+        	for( HashMap.Entry<String, String> entrada : entry.getValue().entrySet()){
+            System.out.println("Key = " + onKey + "|| " + "Entry = " + entrada.getKey() + ", Value = " + entry.getValue().get(entrada.getKey()));
+      }    }
   }
 }
 
@@ -127,7 +148,7 @@ SimpleNode start() : {Token t1;}
 	t1 = < PROCEEDINGS > |
 	t1 = < TECHREPORT >  |
 	t1 = < UNPUBLISHED >
-	)
+	)	{entryReading = t1.image;}
 	< OPENBRACES >
 	data()
 	< CLOSEBRACES >
@@ -177,7 +198,7 @@ void data(): {Token t1 = null;}
   (t1 = atribute()
   {
     jjtThis.jjtSetValue(t1.image);
-    System.out.println(jjtThis.jjtGetValue());
+    //System.out.println(jjtThis.jjtGetValue());
   }< COMMA >)*
 }
 
@@ -189,7 +210,8 @@ Token definition(Token attr) : {Token field = null;}
     else
     {
       jjtThis.jjtSetValue(field.image);
-      symbolTable.put(field.image, attr);
+      System.out.println(entryReading);
+      symbolTable.get(entryReading).put(attr.image, field.image);
     }
     return field;
   }
@@ -199,12 +221,11 @@ Token definition(Token attr) : {Token field = null;}
 void semanticAnalysis() :{}
 {
 	{
-		SimpleNode root = arvore;
-
 		if(arvore.jjtGetValue() != null) {
-		  System.out.println("tru");
-		  if (arvore.jjtGetValue().equals("@article")){
-		    System.out.println(arvore.jjtGetValue());
+		  if (arvore.jjtGetValue().equals("@unpublished")){
+		    for(int i = 0; i < arvore.jjtGetNumChildren(); i++)		    {
+		      SimpleNode node = (SimpleNode) arvore.jjtGetChild(i);
+		      System.out.println(node.jjtGetValue());		    }
 		  }
 		}
 	
