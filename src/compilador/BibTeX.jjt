@@ -455,13 +455,8 @@ void booklet(HashMap<String, String > dados) :{}
 	  }
   	}
 }
-<<<<<<< Updated upstream
-/*
-void conference(HashMap<String, String > dados) : {Token reference = null, author = null, title = null, booktitle = null, year = null, editor = null, volume = null, number = null, series = null, pages = null, address = null, month = null, organization = null, publisher = null, note = null, key = null;}
-=======
-*/
+
 void conference(HashMap<String, String > dados) : {}
->>>>>>> Stashed changes
 {
 	{
 	 try {
@@ -522,10 +517,7 @@ void conference(HashMap<String, String > dados) : {}
 	  }
 	}
 }
-<<<<<<< Updated upstream
-
-<<<<<<< HEAD
-=======
+/*
 void misc(HashMap<String, String > dados) : {}
 {
 	{
@@ -562,10 +554,8 @@ void misc(HashMap<String, String > dados) : {}
 		      	throw new ParsingError("[@Misc] " + entry.getKey() + " não é um campo válido.");
 		      	break;
 		    }
-		  
 		  }
 		  entradas.get("misc").add(novoMisc);
-		}
 	  } catch (ParsingError e)
 	  {
 	    System.out.println(e.getMessage());
