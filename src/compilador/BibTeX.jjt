@@ -657,7 +657,7 @@ void mastersthesis(HashMap<String, String > dados) : {}
 	  try {
 	    String reference = dados.get("reference"), title = dados.get("title"), author = dados.get("author"), school = dados.get("school"), year = dados.get("year");
 
-		if(reference == null || title == null || author == null || school == null || year = null) throw new ParsingError("[@MasterThesis] : Estes campos são obrigatórios: reference, title, author, title, school, year.");
+		if(reference == null || title == null || author == null || school == null || year == null) throw new ParsingError("[@MasterThesis] : Estes campos são obrigatórios: reference, title, author, title, school, year.");
 		else {
 		  Mastersthesis novoMasterThesis = new MasterThesis(reference, author, title, school, year);
 		  for (HashMap.Entry<String, String > entry : dados.entrySet()) {
