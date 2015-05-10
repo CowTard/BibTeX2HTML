@@ -142,7 +142,8 @@ void imprimirSymbolTable() :{}
         	String onKey = entry.getKey();
         	for( HashMap.Entry<String, String> entrada : entry.getValue().entrySet()){
             System.out.println("Key = " + onKey + "|| " + "Entry = " + entrada.getKey() + ", Value = " + entry.getValue().get(entrada.getKey()));
-      }    }
+      }
+    }
   }
 }
 
@@ -164,7 +165,8 @@ SimpleNode start() : {Token t1;}
 	t1 = < PROCEEDINGS > |
 	t1 = < TECHREPORT >  |
 	t1 = < UNPUBLISHED >
-	)	{entryReading = t1.image;}
+	)
+	{entryReading = t1.image;}
 	< OPENBRACES >
 	data()
 	< CLOSEBRACES >
@@ -239,7 +241,8 @@ void semanticAnalysis() :{}
 	{
 	for (HashMap.Entry<String, HashMap<String, String >> entry : symbolTable.entrySet()) {
         	String onKey = entry.getKey();
-        	switch(onKey)        	{
+        	switch(onKey)
+        	{
         	  case "@article":
         	  	article(entry.getValue());
         	  	break;
@@ -281,7 +284,8 @@ void semanticAnalysis() :{}
         	  	break;
         	  case "@unpublished":
         	  	//unpublished(entry.getValue());
-        	  	break;        	}
+        	  	break;
+        	}
       }
     }
 }
@@ -298,7 +302,8 @@ void article(HashMap<String, String > dados) : {}
 		  for (HashMap.Entry<String, String > entry : dados.entrySet()) {
 		    if (entry.getKey() == "reference" || entry.getKey() == "author" || entry.getKey() == "title" || entry.getKey() == "journal" || entry.getKey() == "year"){}
 		    else{
-		    switch(entry.getKey())		    {
+		    switch(entry.getKey())
+		    {
 		      case "volume":
 		      	novoArtigo.setVolume(entry.getValue());
 		      	break;
@@ -319,10 +324,12 @@ void article(HashMap<String, String > dados) : {}
 		      	break;
 		      default:
 		      	throw new ParsingError("[@Article] " + entry.getKey() + " não é um campo válido.");
-		      	break;		    }
+		      	break;
+		    }
 		  }
 		  }
-		  entradas.get("article").add(novoArtigo);		}
+		  entradas.get("article").add(novoArtigo);
+		}
 	  } catch (ParsingError e)
 	  {
 	    System.out.println(e.getMessage());
@@ -338,8 +345,10 @@ void book(HashMap<String, String > dados) : {}
          String reference = dados.get("reference"), author = dados.get("author"), editor = dados.get("editor"), title = dados.get("title"), publisher = dados.get("publisher"), year = dados.get("year");
 		if(reference == null || !(author == null ^ editor == null) || title == null || publisher == null || year == null) throw new ParsingError("[@book] : Estes campos são obrigatórios: author/editor, title, publisher, year.");
 		else {
+
 		  Book newBook;
 		  if (author != null)		  {		    newBook = new Book(reference, "author", author, title, publisher, year);		  }		  else		  {		    newBook = new Book(reference, "editor", editor, title, publisher, year);
+
 		  }
 		
 		      if(!(dados.get("volume")== null && dados.get("number")== null))
@@ -350,7 +359,8 @@ void book(HashMap<String, String > dados) : {}
 		  
 		  for (HashMap.Entry<String, String > entry : dados.entrySet()) {
 		    if (entry.getKey() == "reference" || entry.getKey() == "author" || entry.getKey() == "editor" || entry.getKey() == "title" || entry.getKey() == "publisher" || entry.getKey() == "year"){}
-		    else{		        
+		    else{
+		        
 		    switch(entry.getKey())
 		    {
 		      case "volume":
@@ -381,11 +391,14 @@ void book(HashMap<String, String > dados) : {}
 		      	throw new ParsingError("[@book] " + entry.getKey() + " não é um campo válido.");
 		      	break;
 		    }
-		  		  
+		  
+		  
 		   }
 		}
 		  entradas.get("book").add(newBook);
+
              }
+
 
 	  }	}	 catch (ParsingError e) {
 	    System.out.println(e.getMessage());
@@ -487,6 +500,244 @@ void conference(HashMap<String, String > dados) : {Token reference = null, autho
   	}
 }
 
+<<<<<<< HEAD
+=======
+void misc(HashMap<String, String > dados) : {}
+{
+	{
+	  try {
+	   	String reference = dados.get("reference");
+
+		Misc novoMisc = new Misc(reference);
+
+		 for (HashMap.Entry<String, String > entry : dados.entrySet()) {
+		    switch(entry.getKey())
+		    {
+		      case "author":
+		      	novoMisc.setAuthor(entry.getValue());
+		      	break;
+		      case "title":
+		      	novoMisc.setTitle(entry.getValue());
+		      	break;
+		      case "howpublished":
+		      	novoMisc.setHowpublished(entry.getValue());
+		      	break;
+		      case "month":
+		      	novoMisc.setMonth(entry.getValue());
+		      	break;
+		      case "year":
+		      	novoMisc.setYear(entry.getValue());
+		      	break;
+		      case "note":
+		      	novoMisc.setNote(entry.getValue());
+		      	break;
+		      case "key":
+		      	novoMisc.setKey(entry.getValue());
+		      	break;
+		      default:
+		      	throw new ParsingError("[@Misc] " + entry.getKey() + " não é um campo válido.");
+		      	break;
+		    }
+		  
+		  }
+		  entradas.get("misc").add(novoMisc);
+		}
+	  } catch (ParsingError e)
+	  {
+	    System.out.println(e.getMessage());
+	  }
+ 
+}
+
+void phdthesis(HashMap<String, String > dados) : {}
+{
+	{
+	  try {
+	    String reference = dados.get("reference"), author = dados.get("author"), title = dados.get("title"), school = dados.get("school"), year = dados.get("year");
+
+		if(reference == null || author == null || title == null || school == null || year == null) throw new ParsingError("[@Phdthesis] : Estes campos são obrigatórios: author, title, school, year.");
+		else {
+		  Phdthesis novoPhd = new Phdthesis(reference, author, title, school, year);
+		  for (HashMap.Entry<String, String > entry : dados.entrySet()) {
+		    if (entry.getKey() == "reference" || entry.getKey() == "author" || entry.getKey() == "title" || entry.getKey() == "school" || entry.getKey() == "year"){}
+		    else{
+		    switch(entry.getKey())
+		    {
+		      case "type":
+		      	novoPhd.setType(entry.getValue());
+		      	break;
+		      case "address":
+		      	novoPhd.setAddress(entry.getValue());
+		      	break;
+		      case "month":
+		      	novoPhd.setMonth(entry.getValue());
+		      	break;
+		      case "note":
+		      	novoPhd.setNote(entry.getValue());
+		      	break;
+		      case "key":
+		      	novoPhd.setKey(entry.getValue());
+		      	break;
+		      default:
+		      	throw new ParsingError("[@Phdthesis] " + entry.getKey() + " não é um campo válido.");
+		      	break;
+		    }
+		  }
+		  }
+		  entradas.get("phdthesis").add(novoPhd);
+		}
+	  } catch (ParsingError e)
+	  {
+	    System.out.println(e.getMessage());
+	  }
+  	}
+}
+
+void proceedings(HashMap<String, String > dados) : {}
+{
+	{
+	  try {
+	    String reference = dados.get("reference"), title = dados.get("title"), year = dados.get("year");
+
+		if(reference == null || title == null || year == null) throw new ParsingError("[@Proceedings] : Estes campos são obrigatórios: title, year.");
+		else {
+		  Proceedings novoProceeding = new Proceedings(reference, title, year);
+		  for (HashMap.Entry<String, String > entry : dados.entrySet()) {
+		    if (entry.getKey() == "reference" || entry.getKey() == "title" || entry.getKey() == "year"){}
+		    else{
+		    switch(entry.getKey())
+		    {
+		      case "editor":
+		      	novoProceeding.setEditor(entry.getValue());
+		      	break;
+		      case "volume":
+		      	novoProceeding.setVolume(entry.getValue());
+		      	break;
+		      case "number":
+		      	novoProceeding.setNumber(entry.getValue());
+		      	break;
+		      case "series":
+		      	novoProceeding.setSeries(entry.getValue());
+		      	break;
+		      case "address":
+		      	novoProceeding.setAddress(entry.getValue());
+		      	break;
+		      case "month":
+		      	novoProceeding.setMonth(entry.getValue());
+		      	break;
+		      case "publisher":
+		      	novoProceeding.setPublisher(entry.getValue());
+		      	break;
+		      case "organization":
+		      	novoProceeding.setOrganization(entry.getValue());
+		      	break;
+		      case "note":
+		      	novoProceeding.setNote(entry.getValue());
+		      	break;
+		      case "key":
+		      	novoProceeding.setKey(entry.getValue());
+		      	break;
+		      default:
+		      	throw new ParsingError("[@Proceedings] " + entry.getKey() + " não é um campo válido.");
+		      	break;
+		    }
+		  }
+		  }
+		  entradas.get("proceedings").add(novoProceeding);
+		}	
+	  } catch (ParsingError e)
+	  {
+	    System.out.println(e.getMessage());
+	  }
+  	}
+}
+
+void techreport(HashMap<String, String > dados) : {}
+{
+	{
+	  try {
+	    String reference = dados.get("reference"), author = dados.get("author"), title = dados.get("title"), institution = dados.get("institution"), year = dados.get("year");
+
+		if(reference == null || author == null || title == null || institution == null || year == null) throw new ParsingError("[@Techreport] : Estes campos são obrigatórios: author, title, institution, year.");
+		else {
+		  Techreport novoTechreport = new Techreport(reference, author, title, institution, year);
+		  for (HashMap.Entry<String, String > entry : dados.entrySet()) {
+		    if (entry.getKey() == "reference" || entry.getKey() == "author" || entry.getKey() == "title" || entry.getKey() == "institution" || entry.getKey() == "year"){}
+		    else{
+		    switch(entry.getKey())
+		    {
+		      case "type":
+		      	novoTechreport.setType(entry.getValue());
+		      	break;
+		      case "number":
+		      	novoTechreport.setNumber(entry.getValue());
+		      	break;
+		      case "address":
+		      	novoTechreport.setAddress(entry.getValue());
+		      	break;
+		      case "month":
+		      	novoTechreport.setMonth(entry.getValue());
+		      	break;
+		      case "note":
+		      	novoTechreport.setNote(entry.getValue());
+		      	break;
+		      case "key":
+		      	novoTechreport.setKey(entry.getValue());
+		      	break;
+		      default:
+		      	throw new ParsingError("[@Techreport] " + entry.getKey() + " não é um campo válido.");
+		      	break;
+		    }
+		  }
+		  }
+		  entradas.get("techreport").add(novoTechreport);
+		}	
+	  } catch (ParsingError e)
+	  {
+	    System.out.println(e.getMessage());
+	  }
+  	}
+}
+
+void unpublished(HashMap<String, String > dados) : {}
+{
+	{
+	  try {
+	    String reference = dados.get("reference"), author = dados.get("author"), title = dados.get("title"), note = dados.get("note");
+
+		if(reference == null || author == null || title == null || note == null) throw new ParsingError("[@Unpublished] : Estes campos são obrigatórios: author, title, note.");
+		else {
+		  Unpublished novoUnpublished = new Unpublished(reference, author, title, note);
+		  for (HashMap.Entry<String, String > entry : dados.entrySet()) {
+		    if (entry.getKey() == "reference" || entry.getKey() == "author" || entry.getKey() == "title" || entry.getKey() == "note"){}
+		    else{
+		    switch(entry.getKey())
+		    {
+		      case "month":
+		      	novoUnpublished.setMonth(entry.getValue());
+		      	break;
+		      case "year":
+		      	novoUnpublished.setYear(entry.getValue());
+		      	break;
+		      case "key":
+		      	novoUnpublished.setKey(entry.getValue());
+		      	break;
+		      default:
+		      	throw new ParsingError("[@Unpublished] " + entry.getKey() + " não é um campo válido.");
+		      	break;
+		    }
+		  }
+		  }
+		  entradas.get("unpublished").add(novoUnpublished);
+		}	
+	  } catch (ParsingError e)
+	  {
+	    System.out.println(e.getMessage());
+	  }
+  	}
+}
+/*
+>>>>>>> origin/master
 void inbook() : {Token reference = null, author = null, editor = null, title = null, chapter = null, pages = null, publisher = null, year = null, volume = null,
 					number = null, series = null, type = null, address = null, edition = null, month = null, note = null, key = null;}
 {
