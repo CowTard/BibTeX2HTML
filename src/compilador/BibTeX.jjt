@@ -204,7 +204,7 @@ void data(): {Token t1 = null;}
   }< COMMA >)*
 }
 
-Token definition(Token attr) : {Token field = null;}
+Token definition(Token attr): {Token field = null;}
 {
     < EQUALS > field = < FIELD >
   {
@@ -213,12 +213,19 @@ Token definition(Token attr) : {Token field = null;}
     {
       jjtThis.jjtSetValue(field.image);
       //System.out.println(entryReading);
-      symbolTable.get(entryReading).put(attr.image, field.image);
+      try
+      {
+	      if (symbolTable.get(entryReading).get(attr.image) == null) {
+	      	symbolTable.get(entryReading).put(attr.image, field.image);
+		  }
+		  else throw new ParsingError("["+entryReading+"] tem o campo " + attr.image + " repetido.");
+	}catch(ParsingError e)	  {
+	    System.out.println(e.getMessage());
+	  }
     }
     return field;
   }
 }
-
 
 void semanticAnalysis() :{}
 {
@@ -871,7 +878,7 @@ void inproceedings(HashMap<String, String > dados) : {}
 	{
 	 try {
 	   	String reference = dados.get("reference"), author = dados.get("author"), title = dados.get("title"), bookTitle = dados.get("booktitle"), year = dados.get("year");
-	   	if (reference == null || author == null || title == null || bookTitle == null || year == null) throw new ParsingError("[@inproceedings] : Falta uma chave de citação!");
+	   	if (reference == null || author == null || title == null || bookTitle == null || year == null) throw new ParsingError("[@inproceedings] : Estes campos são obrigatórios: reference, author, title, booktitle.");
 		Inproceedings newInproceedings = new Inproceedings(reference, author, title, bookTitle, year);
 		int checkingTwoParams = 2;
 		  for (HashMap.Entry<String, String > entry : dados.entrySet()) {
