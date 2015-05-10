@@ -244,22 +244,22 @@ void semanticAnalysis() :{}
         	  	article(entry.getValue());
         	  	break;
         	  case "@book":
-        	  	book(entry.getValue());
+        	  	//book(entry.getValue());
         	  	break;
         	  case "@booklet":
-        	  	booklet(entry.getValue());
+        	  	//booklet(entry.getValue());
         	  	break;
         	  case "@conference":
-        	  	conference(entry.getValue());
+        	  	//conference(entry.getValue());
         	  	break;
         	  case "@inbook":
-        	  	inbook(entry.getValue());
+        	  	//inbook(entry.getValue());
         	  	break;
         	  case "@incollection":
-        	  	incollection(entry.getValue());
+        	  	//incollection(entry.getValue());
         	  	break;
         	  case "@inproceedings":
-        	  	inproceedings(entry.getValue());
+        	  	//inproceedings(entry.getValue());
         	  	break;
         	  case "@manual":
         	  	manual(entry.getValue());
@@ -268,19 +268,19 @@ void semanticAnalysis() :{}
         	  	mastersthesis(entry.getValue());
         	  	break;
         	  case "@misc":
-        	  	misc(entry.getValue());
+        	  	//misc(entry.getValue());
         	  	break;
         	  case "@phdthesis":
-        	  	phdthesis(entry.getValue());
+        	  	//phdthesis(entry.getValue());
         	  	break;
         	  case "@proceedings":
-        	  	proceedings(entry.getValue());
+        	  	//proceedings(entry.getValue());
         	  	break;
         	  case "@techreport":
-        	  	techreport(entry.getValue());
+        	  	//techreport(entry.getValue());
         	  	break;
         	  case "@unpublished":
-        	  	unpublished(entry.getValue());
+        	  	//unpublished(entry.getValue());
         	  	break;        	}
       }
     }
@@ -606,35 +606,35 @@ void manual(HashMap<String, String > dados) : {}
 
 		if(reference == null || title == null) throw new ParsingError("[@Manual] : Estes campos são obrigatórios: reference, title.");
 		else {
-		  Manual novoManual = new manual(reference, title);
+		  Manual novoManual = new Manual(reference, title);
 		  for (HashMap.Entry<String, String > entry : dados.entrySet()) {
 		    if (entry.getKey() == "reference" || entry.getKey() == "title"){}
 		    else{
 		    switch(entry.getKey())
 		    {
 		      case "author":
-		      	novoArtigo.setAuthor(entry.getValue());
+		      	novoManual.setAuthor(entry.getValue());
 		      	break;
 		      case "organization":
-		      	novoArtigo.setOrganization(entry.getValue());
+		      	novoManual.setOrganization(entry.getValue());
 		      	break;
 		      case "address":
-		      	novoArtigo.setAdress(entry.getValue());
+		      	novoManual.setAddress(entry.getValue());
 		      	break;
 		      case "edition":
-		      	novoArtigo.setEdition(entry.getValue());
+		      	novoManual.setEdition(entry.getValue());
 		      	break;
 		      case "month":
-		      	novoArtigo.setMonth(entry.getValue());
+		      	novoManual.setMonth(entry.getValue());
 		      	break;
 		      case "year":
-		      	novoArtigo.setYear(entry.getValue());
+		      	novoManual.setYear(entry.getValue());
 		      	break;
 		      case "note":
-		      	novoArtigo.setNote(entry.getValue());
+		      	novoManual.setNote(entry.getValue());
 		      	break;
 		      case "key":
-		      	novoArtigo.setKey(entry.getValue());
+		      	novoManual.setKey(entry.getValue());
 		      	break;
 		      default:
 		      	throw new ParsingError("[@Manual] " + entry.getKey() + " não é um campo válido.");
@@ -659,7 +659,7 @@ void mastersthesis(HashMap<String, String > dados) : {}
 
 		if(reference == null || title == null || author == null || school == null || year == null) throw new ParsingError("[@MasterThesis] : Estes campos são obrigatórios: reference, title, author, title, school, year.");
 		else {
-		  Mastersthesis novoMasterThesis = new MasterThesis(reference, author, title, school, year);
+		  Mastersthesis novoMasterThesis = new Mastersthesis(reference, author, title, school, year);
 		  for (HashMap.Entry<String, String > entry : dados.entrySet()) {
 		    if (entry.getKey() == "reference" || entry.getKey() == "title" || entry.getKey() == "author" || entry.getKey() == "school" || entry.getKey() == "year"){}
 		    else{
