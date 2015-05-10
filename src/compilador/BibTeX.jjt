@@ -329,80 +329,117 @@ void article(HashMap<String, String > dados) : {}
 	  }
   	}
 }
-/*
-void book() : {Token reference = null , author = null, editor = null, title = null, publisher = null, year = null, number = null, volume = null, series = null, address = null, edition = null, month = null, note = null, key = null;}
+
+void book(HashMap<String, String > dados) : {}
 {
-	< OPENBRACES > (reference = <WORD>)? < COMMA >
-    (( (< AUTHOR > author = definition()) | (< EDITOR > editor = definition()) ) < COMMA >)?
-    (< TITLE > title = definition() < COMMA >)?
-    (< PUBLISHER > publisher = definition() < COMMA >)?
-    (< YEAR > year = definition() < COMMA >)?
-    ( (<VOLUME> volume = definition() | < NUMBER > number = definition()) < COMMA >)?
-    (< SERIES > series = definition() < COMMA >)?
-    (< ADDRESS > address = definition() < COMMA >)?
-    (< EDITION > edition = definition() < COMMA >)?
-    (< MONTH > month = definition() < COMMA >)?
-    (< NOTE > note = definition() < COMMA >)?
-    (< KEY > key = definition() < COMMA >)?
-    < CLOSEBRACES >
+	
     {
       try {
-		if (reference == null) throw new ParsingError("[@book] : Falta uma chave de citação!");
-		if ( (author != null || editor != null) && title != null && publisher != null && year != null)
-		{
-		  Book livro;
-		  if (author != null) livro = new Book(reference.image,"author", author.image, title.image, publisher.image, year.image);
-		  else  livro = new Book(reference.image,"editor", editor.image, title.image, publisher.image, year.image);
+         String reference = dados.get("reference"), author = dados.get("author"), editor = dados.get("editor"), title = dados.get("title"), publisher = dados.get("publisher"), year = dados.get("year");
+		if(reference == null || !(author == null ^ editor == null) || title == null || publisher == null || year == null) throw new ParsingError("[@book] : Estes campos são obrigatórios: author/editor, title, publisher, year.");
+		else {
+		  if (author != null)		  {		    Book newBook = new Book(reference, "author", author, title, journal, year);		  }		  else		  {		    Book newBook = new Book(reference, "editor", editor, title, journal, year);
+		  }
+		
+		      if(!(dados.get("volume")== null && dados.get("number")== null))
+		      {throw new ParsingError("[@book] " + entry.getKey() + " não é um campo compatível.");}
+		      else
+		  {
+		    
 		  
-		  if (volume != null) livro.setVolume(volume.image);
-		  if (number != null) livro.setNumber(number.image);
-		  if (series != null) livro.setSeries(series.image);
-		  if (address != null) livro.setAddress(address.image);
-		  if (edition != null) livro.setEdition(edition.image);
-		  if (month != null) livro.setMonth(month.image);
-		  if (note != null) livro.setNote(note.image);
-		  if (key != null) livro.setKey(key.image);
-		} else {
-		  throw new ParsingError("[@book] : Estes campos são obrigatórios: author, title, journal, year, volume.");
-		}
+		  for (HashMap.Entry<String, String > entry : dados.entrySet()) {
+		    if (entry.getKey() == "reference" || entry.getKey() == "author" || entry.getKey() == "editor" || entry.getKey() == "title" || entry.getKey() == "publisher" || entry.getKey() == "year"){}
+		    else{		        
+		    switch(entry.getKey())
+		    {
+		      case "volume":
+		      	newBook.setVolume(entry.getValue());
+		      	break;
+		      case "number":
+		      	newBook.setNumber(entry.getValue());
+		      	break;
+		      case "series":
+		      	newBook.setSeries(entry.getValue());
+		      	break;
+		      case "address":
+		      	newBook.setAddress(entry.getValue());
+		      	break;
+		      case "edition":
+		      	newBook.setEdition(entry.getValue());
+		      	break;
+		      case "month":
+		      	newBook.setMonth(entry.getValue());
+		      	break;
+		      	case "note":
+		      	newBook.setNote(entry.getValue());
+		      	break;
+		      	case "key":
+		      	newBook.setKey(entry.getValue());
+		      	break;
+		      default:
+		      	throw new ParsingError("[@book] " + entry.getKey() + " não é um campo válido.");
+		      	break;
+		    }
+		  		  
+		   }
+		  }
+		  entradas.get("book").add(newBook);
+       }      }
+
 	  } catch (ParsingError e) {
 	    System.out.println(e.getMessage());
 	  }
   	}
 }
 
-void booklet() :{Token reference = null, title = null, author = null, howpublished = null, address = null, month = null, year = null, note = null, key = null;}
+void booklet() :{}
 {
-  	< OPENBRACES > (reference = <WORD>)? < COMMA >
-    (< TITLE > title = definition() < COMMA >)?
-    (< AUTHOR > author = definition() < COMMA >)?
-    (< HOWPUBLISHED > howpublished = definition() < COMMA >)?
-    (< ADDRESS > address = definition() < COMMA >)?
-    (< MONTH > month = definition() < COMMA >)?
-    (< YEAR > year = definition() < COMMA >)?
-    (< NOTE > note = definition() < COMMA >)?
-    (< KEY > key = definition() < COMMA >)?
-    < CLOSEBRACES >
-	{
-	 try {
-	  if (reference == null) throw new ParsingError("[@booklet] : Falta uma chave de citação!");
-	  if (title != null)
-	  {
-	    Booklet blt = new Booklet(reference.image, title.image);
-	    if (author != null) blt.setAuthor(author.image);
-	    if (howpublished != null) blt.setHowPublished(howpublished.image);
-	    if (address != null) blt.setAddress(address.image);
-	    if (month != null) blt.setMonth(month.image);
-	    if (year != null) blt.setYear(year.image);
-	    if (note != null) blt.setNote(note.image);
-	    if (key != null) blt.setKey(key.image);
-		} else {
-		  throw new ParsingError("[@booklet] : Estes campos são obrigatórios: author, title, journal, year, volume.");
+  {
+	  try {
+	    String reference = dados.get("reference"), title = dados.get("title");
+
+		if(reference == null || author == null) throw new ParsingError("[@booklet] : Este campo é obrigatóris:  title.");
+		else {
+		  Booklet newBooklet = new Booklet(reference, title);
+		  for (HashMap.Entry<String, String > entry : dados.entrySet()) {
+		    if (entry.getKey() == "reference" || entry.getKey() == "title"){}
+		    else{
+		    switch(entry.getKey())
+		    {
+		      case "author":
+		      	newBooklet.setVolume(entry.getValue());
+		      	break;
+		      case "howpublished":
+		      	newBooklet.setNumber(entry.getValue());
+		      	break;
+		      case "address":
+		      	newBooklet.setPages(entry.getValue());
+		      	break;
+		      case "month":
+		      	newBooklet.setMonth(entry.getValue());
+		      	break;
+		      case "year":
+		      	newBooklet.setYear(entry.getValue());
+		      	break;
+		      case "note":
+		      	newBooklet.setNote(entry.getValue());
+		      	break;
+		      case "key":
+		      	newBooklet.setKey(entry.getValue());
+		      	break;
+		      default:
+		      	throw new ParsingError("[@booklet] " + entry.getKey() + " não é um campo válido.");
+		      	break;
+		    }
+		  }
+		  }
+		  entradas.get("booklet").add(newBooklet);
 		}
-	  } catch (ParsingError e) {
+	  } catch (ParsingError e)
+	  {
 	    System.out.println(e.getMessage());
 	  }
-	}
+  	}
 }
 
 void conference() : {Token reference = null, author = null, title = null, booktitle = null, year = null, editor = null, volume = null, number = null, series = null, pages = null, address = null, month = null, organization = null, publisher = null, note = null, key = null;}
@@ -448,7 +485,7 @@ void conference() : {Token reference = null, author = null, title = null, bookti
 	  }
   	}
 }
-
+/*
 void inbook() : {Token reference = null, author = null, editor = null, title = null, chapter = null, pages = null, publisher = null, year = null, volume = null,
 					number = null, series = null, type = null, address = null, edition = null, month = null, note = null, key = null;}
 {
