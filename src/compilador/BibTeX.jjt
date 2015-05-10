@@ -242,93 +242,50 @@ void semanticAnalysis() :{}
         	switch(onKey)        	{
         	  case "@article":
         	  	article(entry.getValue());
+        	  	break;
+        	  case "@book":
+        	  	book(entry.getValue());
+        	  	break;
+        	  case "@booklet":
+        	  	booklet(entry.getValue());
+        	  	break;
+        	  case "@conference":
+        	  	conference(entry.getValue());
+        	  	break;
+        	  case "@inbook":
+        	  	inbook(entry.getValue());
+        	  	break;
+        	  case "@incollection":
+        	  	incollection(entry.getValue());
+        	  	break;
+        	  case "@inproceedings":
+        	  	inproceedings(entry.getValue());
+        	  	break;
+        	  case "@manual":
+        	  	manual(entry.getValue());
+        	  	break;
+        	  case "@mastersthesis":
+        	  	mastersthesis(entry.getValue());
+        	  	break;
+        	  case "@misc":
+        	  	misc(entry.getValue());
+        	  	break;
+        	  case "@phdthesis":
+        	  	phdthesis(entry.getValue());
+        	  	break;
+        	  case "@proceedings":
+        	  	proceedings(entry.getValue());
+        	  	break;
+        	  case "@techreport":
+        	  	techreport(entry.getValue());
+        	  	break;
+        	  case "@unpublished":
+        	  	unpublished(entry.getValue());
         	  	break;        	}
       }
     }
 }
 
-
- /*
-Token authorAtribute() :{Token author;}
-{
-	< AUTHOR > author = definition() < COMMA >
-	{
-	  return author;
-	}
-}
-
-Token titleAtribute() :{Token title;}
-{
-	< TITLE > title = definition() < COMMA >
-	{
-	  return title;
-	}
-}
-
-Token jornalAtribute() :{Token jornal;}
-{
-	< JOURNAL > jornal = definition() < COMMA >
-	{
-	  return jornal;
-	}
-}
-
-Token yearAtribute() :{Token year;}
-{
-  < YEAR > year = definition() < COMMA >
-  {
-	return year;
-  }
-}
-
-Token volumeAtribute() :{Token volume;}
-{
-  < VOLUME > volume = definition() < COMMA >
-  {
-	return volume;
- }
-}
-
-Token numberAtribute() :{Token number;}
-{
-  < NUMBER > number = definition() < COMMA >
-  {
-	return number;
-  }
-}
-
-Token pagesAtribute() :{Token pages;}
-{
-  < PAGES > pages = definition() < COMMA >
-  {
-    return pages;
-  }
-}
-
-Token monthAtributes() :{Token month;}
-{
-  < MONTH > month = definition() < COMMA >
-  {
-    return month;
-  }
-}
-
-Token noteAtributes() :{Token note;}
-{
-  < NOTE > note = definition() < COMMA >
-  {
-    return note;
-  }
-}
-
-Token keyAtributes() :{Token key;}
-{
-  < KEY > key = definition() < COMMA >
-  {
-    return key;
-  }
-}
-*/
 void article(HashMap<String, String > dados) : {}
 {
 	{
