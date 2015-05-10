@@ -356,8 +356,8 @@ void book(HashMap<String, String > dados) : {}
 
 		  }
 		
-		      if(!(dados.get("volume")== null && dados.get("number")== null))
-		      {throw new ParsingError("[@book] Vulome e number são incompativeis em conjunto.");}
+		      if(dados.get("volume") != null && dados.get("number") != null)
+		      {throw new ParsingError("[@book] Volume e number nao podem existir simultaneamente.");}
 		      else
 		  {
 		    
@@ -531,10 +531,11 @@ void misc(HashMap<String, String > dados) : {}
 	{
 	  try {
 	   	String reference = dados.get("reference");
-
+        
 		Misc novoMisc = new Misc(reference);
 
 		 for (HashMap.Entry<String, String > entry : dados.entrySet()) {
+		   if (entry.getKey() == "reference") continue;
 		    switch(entry.getKey())
 		    {
 		      case "author":
