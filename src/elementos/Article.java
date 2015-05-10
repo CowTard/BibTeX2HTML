@@ -3,12 +3,15 @@ package elementos;
 public class Article extends Entry {
 	private String author, title, journal, year, volume, number, pages, month, note, key;
 
-	public Article(String reference, String author, String title, String journal, String year, String volume) {
+	public Article(String reference, String author, String title, String journal, String year) {
 		super(reference);
 		this.author = author;
 		this.title = title;
 		this.journal = journal;
 		this.year = year;
+	}
+	
+	public void setVolume(String volume){
 		this.volume = volume;
 	}
 	
@@ -39,7 +42,7 @@ public class Article extends Entry {
 		result += "\nTitle: " + title;
 		result += "\nJournal: " + journal;
 		result += "\nYear: " + year;
-		result += "\nVolume: " + volume;
+		if (!volume.equals("null")) result += "\nVolume: " + volume;
 		if (!number.equals("null")) result += "\nNumber: " + number;
 		if (!pages.equals("null")) result += "\nPages: " + pages;
 		if (!month.equals("null")) result += "\nMonth: " + month;

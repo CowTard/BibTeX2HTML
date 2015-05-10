@@ -2,6 +2,7 @@ PARSER_BEGIN(BibTeX)
 
 package compilador;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.io.IOException;
 import java.io.FileInputStream;
@@ -14,10 +15,11 @@ public class BibTeX {
 		We're using hashmap instead of hashtable because we are not dealing with concurrency on threads. 
 	*/
   private static HashMap<String, HashMap<String, String> > symbolTable = new HashMap<String, HashMap<String, String>>();
+  private static HashMap<String, ArrayList< Entry > > entradas = new HashMap<String, ArrayList< Entry > >();
   private static SimpleNode arvore;
   private static String entryReading = null;
   public static void main(String args []) throws ParseException, IOException {
-     
+    
 	symbolTable.put("@article", new HashMap<String, String >());
     symbolTable.put("@book", new HashMap<String, String >());
     symbolTable.put("@booklet", new HashMap<String, String >());
@@ -32,7 +34,22 @@ public class BibTeX {
     symbolTable.put("@proceedings", new HashMap<String, String >());
     symbolTable.put("@techreport", new HashMap<String, String >());
     symbolTable.put("@unpublished", new HashMap<String, String >());
-    
+
+    entradas.put("article", new ArrayList<Entry >());
+    entradas.put("book", new ArrayList<Entry >());
+    entradas.put("booklet", new ArrayList<Entry >());
+    entradas.put("conference", new ArrayList<Entry >());
+    entradas.put("inbook", new ArrayList<Entry >());
+    entradas.put("incollection", new ArrayList<Entry >());
+    entradas.put("inproceedings", new ArrayList<Entry >());
+    entradas.put("manual", new ArrayList<Entry >());
+    entradas.put("mastersthesis", new ArrayList<Entry >());
+    entradas.put("misc", new ArrayList<Entry >());
+    entradas.put("phdthesis", new ArrayList<Entry >());
+    entradas.put("proceedings", new ArrayList<Entry >());
+    entradas.put("techreport", new ArrayList<Entry >());
+    entradas.put("unpublished", new ArrayList<Entry >());
+
 
     String fname = "";
     Scanner sc = new Scanner(System.in);
@@ -44,8 +61,8 @@ public class BibTeX {
 	BibTeX parser = new BibTeX(new FileInputStream(new File(fname)));
 	arvore = parser.start();
 	//arvore.dump("");
-	imprimirSymbolTable();
-	//semanticAnalysis();
+	//imprimirSymbolTable();
+	semanticAnalysis();
 	sc.close();
   }
 
@@ -121,7 +138,6 @@ TOKEN :
 void imprimirSymbolTable() :{}
 {
   {
-    
 	for (HashMap.Entry<String, HashMap<String, String >> entry : symbolTable.entrySet()) {
         	String onKey = entry.getKey();
         	for( HashMap.Entry<String, String> entrada : entry.getValue().entrySet()){
@@ -155,7 +171,7 @@ SimpleNode start() : {Token t1;}
 )+ < EOF >
 	{
 	jjtThis.jjtSetValue(t1.image);
-	System.out.println(jjtThis.jjtGetValue());
+	//System.out.println(jjtThis.jjtGetValue());
     return jjtThis;
   }
 }
@@ -194,7 +210,7 @@ Token atribute(): {Token t1 = null;}
 
 void data(): {Token t1 = null;}
 {
-  < WORD > <COMMA > // TODO: Alterar
+  (t1 = < WORD >) {symbolTable.get(entryReading).put("reference", t1.image);} <COMMA > // TODO: Alterar
   (t1 = atribute()
   {
     jjtThis.jjtSetValue(t1.image);
@@ -210,7 +226,7 @@ Token definition(Token attr) : {Token field = null;}
     else
     {
       jjtThis.jjtSetValue(field.image);
-      System.out.println(entryReading);
+      //System.out.println(entryReading);
       symbolTable.get(entryReading).put(attr.image, field.image);
     }
     return field;
@@ -221,15 +237,14 @@ Token definition(Token attr) : {Token field = null;}
 void semanticAnalysis() :{}
 {
 	{
-		if(arvore.jjtGetValue() != null) {
-		  if (arvore.jjtGetValue().equals("@unpublished")){
-		    for(int i = 0; i < arvore.jjtGetNumChildren(); i++)		    {
-		      SimpleNode node = (SimpleNode) arvore.jjtGetChild(i);
-		      System.out.println(node.jjtGetValue());		    }
-		  }
-		}
-	
-	}
+	for (HashMap.Entry<String, HashMap<String, String >> entry : symbolTable.entrySet()) {
+        	String onKey = entry.getKey();
+        	switch(onKey)        	{
+        	  case "@article":
+        	  	article(entry.getValue());
+        	  	break;        	}
+      }
+    }
 }
 
 
@@ -314,13 +329,43 @@ Token keyAtributes() :{Token key;}
   }
 }
 */
-void article(SimpleNode root) : {Token reference = null, author = null, title = null, journal = null, year = null, volume = null, number = null, pages = null, month = null, note = null, key = null;}
+void article(HashMap<String, String > dados) : {}
 {
-	
 	{
 	  try {
-		if (reference == null) throw new ParsingError("[@article] : Falta uma chave de citação!");
-		
+	    String reference = dados.get("reference"), author = dados.get("author"), title = dados.get("title"), journal = dados.get("journal"), year = dados.get("year");
+
+		if(reference == null || author == null || title == null || journal == null || year == null) throw new ParsingError("[@Article] : Estes campos são obrigatórios: author, title, journal, year.");
+		else {
+		  Article novoArtigo = new Article(reference, author, title, journal, year);
+		  for (HashMap.Entry<String, String > entry : dados.entrySet()) {
+		    if (entry.getKey() == "reference" || entry.getKey() == "author" || entry.getKey() == "title" || entry.getKey() == "journal" || entry.getKey() == "year"){}
+		    else{
+		    switch(entry.getKey())		    {
+		      case "volume":
+		      	novoArtigo.setVolume(entry.getValue());
+		      	break;
+		      case "number":
+		      	novoArtigo.setNumber(entry.getValue());
+		      	break;
+		      case "pages":
+		      	novoArtigo.setPages(entry.getValue());
+		      	break;
+		      case "month":
+		      	novoArtigo.setMonth(entry.getValue());
+		      	break;
+		      case "note":
+		      	novoArtigo.setNote(entry.getValue());
+		      	break;
+		      case "key":
+		      	novoArtigo.setKey(entry.getValue());
+		      	break;
+		      default:
+		      	throw new ParsingError("[@Article] " + entry.getKey() + " não é um campo válido.");
+		      	break;		    }
+		  }
+		  }
+		  entradas.get("article").add(novoArtigo);		}
 	  } catch (ParsingError e)
 	  {
 	    System.out.println(e.getMessage());
