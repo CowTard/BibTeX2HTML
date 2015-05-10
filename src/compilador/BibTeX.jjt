@@ -18,21 +18,6 @@ public class BibTeX {
   private static SimpleNode arvore;
   private static String entryReading = null;
   public static void main(String args []) throws ParseException, IOException {
-    
-	symbolTable.put("@article", new HashMap<String, String >());
-    symbolTable.put("@book", new HashMap<String, String >());
-    symbolTable.put("@booklet", new HashMap<String, String >());
-    symbolTable.put("@conference", new HashMap<String, String >());
-    symbolTable.put("@inbook", new HashMap<String, String >());
-    symbolTable.put("@incollection", new HashMap<String, String >());
-    symbolTable.put("@inproceedings", new HashMap<String, String >());
-    symbolTable.put("@manual", new HashMap<String, String >());
-    symbolTable.put("@mastersthesis", new HashMap<String, String >());
-    symbolTable.put("@misc", new HashMap<String, String >());
-    symbolTable.put("@phdthesis", new HashMap<String, String >());
-    symbolTable.put("@proceedings", new HashMap<String, String >());
-    symbolTable.put("@techreport", new HashMap<String, String >());
-    symbolTable.put("@unpublished", new HashMap<String, String >());
 
     entradas.put("article", new ArrayList<Entry >());
     entradas.put("book", new ArrayList<Entry >());
@@ -165,7 +150,7 @@ SimpleNode start() : {Token t1;}
 	t1 = < TECHREPORT >  |
 	t1 = < UNPUBLISHED >
 	)
-	{entryReading = t1.image;}
+	{entryReading = t1.image; symbolTable.put(t1.image, new HashMap<String, String >());}
 	< OPENBRACES >
 	data()
 	< CLOSEBRACES >
@@ -420,7 +405,7 @@ void booklet(HashMap<String, String > dados) :{}
 	  try {
 	    String reference = dados.get("reference"), title = dados.get("title");
 
-		if(reference == null || title == null) throw new ParsingError("[@booklet] : Este campo é obrigatóris:  title.");
+		if(reference == null || title == null) throw new ParsingError("[@booklet] : Este campo é obrigatório:  title.");
 		else {
 		  Booklet newBooklet = new Booklet(reference, title);
 		  for (HashMap.Entry<String, String > entry : dados.entrySet()) {
@@ -469,7 +454,7 @@ void conference(HashMap<String, String > dados) : {}
 	{
 	 try {
 	   	String reference = dados.get("reference"), author = dados.get("author"), title = dados.get("title"), bookTitle = dados.get("booktitle"), year = dados.get("year");
-	   	if (reference == null || author == null || title == null || bookTitle == null || year == null) throw new ParsingError("[@conference] : Falta uma chave de citação!");
+	   	if (reference == null || author == null || title == null || bookTitle == null || year == null) throw new ParsingError("[@conference] : Estes campos são obrigatórios: reference, author, title, booktitle.");
 		Conference novaConference = new Conference(reference, author, title, bookTitle, year);
 		int checkingTwoParams = 2;
 		  for (HashMap.Entry<String, String > entry : dados.entrySet()) {
