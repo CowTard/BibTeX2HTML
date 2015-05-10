@@ -338,11 +338,12 @@ void book(HashMap<String, String > dados) : {}
          String reference = dados.get("reference"), author = dados.get("author"), editor = dados.get("editor"), title = dados.get("title"), publisher = dados.get("publisher"), year = dados.get("year");
 		if(reference == null || !(author == null ^ editor == null) || title == null || publisher == null || year == null) throw new ParsingError("[@book] : Estes campos são obrigatórios: author/editor, title, publisher, year.");
 		else {
-		  if (author != null)		  {		    Book newBook = new Book(reference, "author", author, title, journal, year);		  }		  else		  {		    Book newBook = new Book(reference, "editor", editor, title, journal, year);
+		  Book newBook;
+		  if (author != null)		  {		    newBook = new Book(reference, "author", author, title, publisher, year);		  }		  else		  {		    newBook = new Book(reference, "editor", editor, title, publisher, year);
 		  }
 		
 		      if(!(dados.get("volume")== null && dados.get("number")== null))
-		      {throw new ParsingError("[@book] " + entry.getKey() + " não é um campo compatível.");}
+		      {throw new ParsingError("[@book] Vulome e number são incompativeis em conjunto.");}
 		      else
 		  {
 		    
@@ -382,23 +383,23 @@ void book(HashMap<String, String > dados) : {}
 		    }
 		  		  
 		   }
-		  }
+		}
 		  entradas.get("book").add(newBook);
-       }      }
+             }
 
-	  } catch (ParsingError e) {
+	  }	}	 catch (ParsingError e) {
 	    System.out.println(e.getMessage());
 	  }
   	}
 }
 
-void booklet() :{}
+void booklet(HashMap<String, String > dados) :{}
 {
   {
 	  try {
 	    String reference = dados.get("reference"), title = dados.get("title");
 
-		if(reference == null || author == null) throw new ParsingError("[@booklet] : Este campo é obrigatóris:  title.");
+		if(reference == null || title == null) throw new ParsingError("[@booklet] : Este campo é obrigatóris:  title.");
 		else {
 		  Booklet newBooklet = new Booklet(reference, title);
 		  for (HashMap.Entry<String, String > entry : dados.entrySet()) {
@@ -407,13 +408,13 @@ void booklet() :{}
 		    switch(entry.getKey())
 		    {
 		      case "author":
-		      	newBooklet.setVolume(entry.getValue());
+		      	newBooklet.setAuthor(entry.getValue());
 		      	break;
 		      case "howpublished":
-		      	newBooklet.setNumber(entry.getValue());
+		      	newBooklet.setHowPublished(entry.getValue());
 		      	break;
 		      case "address":
-		      	newBooklet.setPages(entry.getValue());
+		      	newBooklet.setAddress(entry.getValue());
 		      	break;
 		      case "month":
 		      	newBooklet.setMonth(entry.getValue());
@@ -441,8 +442,8 @@ void booklet() :{}
 	  }
   	}
 }
-
-void conference() : {Token reference = null, author = null, title = null, booktitle = null, year = null, editor = null, volume = null, number = null, series = null, pages = null, address = null, month = null, organization = null, publisher = null, note = null, key = null;}
+/*
+void conference(HashMap<String, String > dados) : {Token reference = null, author = null, title = null, booktitle = null, year = null, editor = null, volume = null, number = null, series = null, pages = null, address = null, month = null, organization = null, publisher = null, note = null, key = null;}
 {
 	< OPENBRACES > (reference = <WORD>)? < COMMA >
 	(< AUTHOR > author = definition() < COMMA >)?
@@ -485,7 +486,7 @@ void conference() : {Token reference = null, author = null, title = null, bookti
 	  }
   	}
 }
-/*
+
 void inbook() : {Token reference = null, author = null, editor = null, title = null, chapter = null, pages = null, publisher = null, year = null, volume = null,
 					number = null, series = null, type = null, address = null, edition = null, month = null, note = null, key = null;}
 {
