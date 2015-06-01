@@ -5,7 +5,7 @@
   
 ## Main Contributors
   
-  * [@CowTard](www.github.com/CowTard)
-  * [@Sukigu](www.github.com/Sukigu)
-  * [@Alfa04](www.github.com/Alfa04)
-  * [@Joaorpsoares](www.github.com/JoaoRpSoares)
+  * [@CowTard](https://www.github.com/CowTard)
+  * [@Sukigu](https://www.github.com/Sukigu)
+  * [@alfa04](https://www.github.com/alfa04)
+  * [@joaorpsoares](https://www.github.com/joaorpsoares)
