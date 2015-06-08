@@ -10,223 +10,186 @@ import java.util.Scanner;
 import elementos.*;
 
 public class BibTeX {
-	/* https://java.net/projects/javacc/lists/users/archive/2006-02/message/15
-		We're using hashmap instead of hashtable because we are not dealing with concurrency on threads. 
-	*/
-  private static HashMap<String, HashMap<String, String> > symbolTable = new HashMap<String, HashMap<String, String>>();
-  private static HashMap<String, ArrayList< Entry > > entradas = new HashMap<String, ArrayList< Entry > >();
-  private static SimpleNode arvore;
-  private static String entryReading = null;
-  public static void main(String args []) throws ParseException, IOException {
 
-    entradas.put("article", new ArrayList<Entry >());
-    entradas.put("book", new ArrayList<Entry >());
-    entradas.put("booklet", new ArrayList<Entry >());
-    entradas.put("conference", new ArrayList<Entry >());
-    entradas.put("inbook", new ArrayList<Entry >());
-    entradas.put("incollection", new ArrayList<Entry >());
-    entradas.put("inproceedings", new ArrayList<Entry >());
-    entradas.put("manual", new ArrayList<Entry >());
-    entradas.put("mastersthesis", new ArrayList<Entry >());
-    entradas.put("misc", new ArrayList<Entry >());
-    entradas.put("phdthesis", new ArrayList<Entry >());
-    entradas.put("proceedings", new ArrayList<Entry >());
-    entradas.put("techreport", new ArrayList<Entry >());
-    entradas.put("unpublished", new ArrayList<Entry >());
+	private static HashMap < String, HashMap < String, String > > symbolTable = new HashMap < String, HashMap < String, String >> ();
+	private static HashMap < String, Entry > entradas = new HashMap < String, Entry > ();
 
+	private static Entry entradaRecente = null;
+	private static SimpleNode simpleN;
+	private static String entryReading = null;
+	private static int lastGoodLine = 0;
+	
+public static void main(String args[]) throws ParseException, IOException {
 
-    String fname = "";
-    Scanner sc = new Scanner(System.in);
-    while (fileExist(fname) != true) {
-	    System.out.print("Introduza o ficheiro que pretende usar > ");
-	    fname = sc.nextLine();
+		String fname = "";
+		Scanner sc = new Scanner(System. in );
+		while (fileExist(fname) != true) {
+			System.out.print("Introduza o ficheiro que pretende usar > ");
+			fname = sc.nextLine();
+			System.out.print("\n\n\n\n");
+		}
+
+		BibTeX parser = new BibTeX(new FileInputStream(new File(fname)));
+		simpleN = parser.start();
+
+		//simpleN.dump("");
+		semanticAnalysis();
+		sc.close();
 	}
 
-	BibTeX parser = new BibTeX(new FileInputStream(new File(fname)));
-	arvore = parser.start();
-	//arvore.dump("");
-	//imprimirSymbolTable();
-	semanticAnalysis();
-	sc.close();
-  }
-
-  private static boolean fileExist(String filename) {
-	File file = new File(filename);
-	return file.exists();
-  }
+	private static boolean fileExist(String filename) {
+		File file = new File(filename);
+		return file.exists();
+	}
 }
 
 PARSER_END(BibTeX)
 
-SKIP :
-{
+SKIP: {
 	" " | "\r" | "\t" | "\n"
 }
 
-TOKEN : // 1st level (entries)
-{
-	< ARTICLE : "@article" > |
-	< BOOK : "@book" > |
-	< BOOKLET : "@booklet" > |
-	< CONFERENCE : "@conference" > |
-	< INBOOK : "@inbook" > |
-	< INCOLLECTION : "@incollection" > |
-	< INPROCEEDINGS : "@inproceedings" > |
-	< MANUAL : "@manual" > |
-	< MASTERSTHESIS : "@mastersthesis" > |
-	< MISC : "@misc" > |
-	< PHDTHESIS : "@phdthesis" > |
-	< PROCEEDINGS : "@proceedings" > |
-	< TECHREPORT : "@techreport" > |
-	< UNPUBLISHED : "@unpublished" >
+TOKEN: // 1st level (entries)
+{ < ARTICLE: "@article" > | < BOOK: "@book" > | < BOOKLET: "@booklet" > | < CONFERENCE: "@conference" > | < INBOOK: "@inbook" > | < INCOLLECTION: "@incollection" > | < INPROCEEDINGS: "@inproceedings" > | < MANUAL: "@manual" > | < MASTERSTHESIS: "@mastersthesis" > | < MISC: "@misc" > | < PHDTHESIS: "@phdthesis" > | < PROCEEDINGS: "@proceedings" > | < TECHREPORT: "@techreport" > | < UNPUBLISHED: "@unpublished" >
 }
 
-TOKEN : // 2nd level [fields]
-{
-	< AUTHOR : "author" > |
-	< TITLE : "title" > |
-	< JOURNAL : "journal" > |
-	< YEAR : "year" > |
-	< VOLUME : "volume" > |
-	< NUMBER : "number" > |
-	< PAGES : "pages" > |
-	< MONTH : "month" > |
-	< NOTE : "note" > |
-	< KEY : "key" > |
-	< EDITOR : "editor" > |
-	< PUBLISHER : "publisher" > |
-	< SERIES : "series" > |
-	< ADDRESS : "address" > |
-	< EDITION : "edition" > |
-	< HOWPUBLISHED : "howpublished" > |
-	< CHAPTER : "chapter" > |
-	< TYPE : "type" > |
-	< BOOKTITLE : "booktitle" > |
-	< ORGANIZATION : "organization" > |
-	< SCHOOL : "school" > |
-	< INSTITUTION : "institution" >
+TOKEN: // 2nd level [fields]
+{ < AUTHOR: "author" > | < TITLE: "title" > | < JOURNAL: "journal" > | < YEAR: "year" > | < VOLUME: "volume" > | < NUMBER: "number" > | < PAGES: "pages" > | < MONTH: "month" > | < NOTE: "note" > | < KEY: "key" > | < EDITOR: "editor" > | < PUBLISHER: "publisher" > | < SERIES: "series" > | < ADDRESS: "address" > | < EDITION: "edition" > | < HOWPUBLISHED: "howpublished" > | < CHAPTER: "chapter" > | < TYPE: "type" > | < BOOKTITLE: "booktitle" > | < ORGANIZATION: "organization" > | < SCHOOL: "school" > | < INSTITUTION: "institution" >
 }
 
-TOKEN :
-{
-	< FIELD : "\"" (< WORD > | " ")+ "\"" > |
-	< WORD : (< CHARACTER > | < INTEGER >)+ > |
-	< CHARACTER : ["A"-"Z", "a"-"z"] > |
-	< INTEGER : ["0"-"9"] > |
-	< OPENBRACES : "{" > |
-	< CLOSEBRACES : "}" > |
-	< COMMA : "," > |
-	< EQUALS : "=" >
+TOKEN: { < FIELD: "\"" ( < WORD > | " ") + "\"" > | < WORD: ( < CHARACTER > | < INTEGER > ) + > | < CHARACTER: ["A" - "Z", "a" - "z"] > | < INTEGER: ["0" - "9"] > | < OPENBRACES: "{" > | < CLOSEBRACES: "}" > | < COMMA: "," > | < EQUALS: "=" >
 }
 
-void imprimirSymbolTable() :{}
-{
-  {
-	for (HashMap.Entry<String, HashMap<String, String >> entry : symbolTable.entrySet()) {
-        	String onKey = entry.getKey();
-        	for( HashMap.Entry<String, String> entrada : entry.getValue().entrySet()){
-            System.out.println("Key = " + onKey + "|| " + "Entry = " + entrada.getKey() + ", Value = " + entry.getValue().get(entrada.getKey()));
-      }
-    }
-  }
-}
-
-SimpleNode start() : {Token t1;}
-{
-  (
-    (
-	t1 = < ARTICLE > |
-	t1 = < BOOK > |
-	t1 = < BOOKLET > |
-	t1 = < CONFERENCE > |
-	t1 = < INBOOK > |
-	t1 = < INCOLLECTION >  |
-	t1 = < INPROCEEDINGS > |
-	t1 = < MANUAL > |
-	t1 = < MASTERSTHESIS > |
-	t1 = < MISC > |
-	t1 = < PHDTHESIS > |
-	t1 = < PROCEEDINGS > |
-	t1 = < TECHREPORT >  |
-	t1 = < UNPUBLISHED >
-	)
-	{entryReading = t1.image; symbolTable.put(t1.image, new HashMap<String, String >());}
-	< OPENBRACES >
-	data()
-	< CLOSEBRACES >
-)+ < EOF >
+void imprimirSymbolTable(): {} {
 	{
-	jjtThis.jjtSetValue(t1.image);
-	//System.out.println(jjtThis.jjtGetValue());
-    return jjtThis;
-  }
+		System.out.println("### TABELA DE SIMBOLOS ###");
+		for (HashMap.Entry < String, HashMap < String, String >> entry: symbolTable.entrySet()) {
+			String onKey = entry.getKey();
+			for (HashMap.Entry < String, String > entrada: entry.getValue().entrySet()) {
+				System.out.println("Key = " + onKey + "|| " + "Entry = " + entrada.getKey() + ", Value = " + entry.getValue().get(entrada.getKey()));
+			}
+		}
+	}
 }
 
-Token atribute(): {Token t1 = null;}
+SimpleNode start(): {Token t1;}
 {
-  (
-  	t1 = < AUTHOR> |
-	t1 = < TITLE> |
-	t1 = < JOURNAL> |
-	t1 = < YEAR> |
-	t1 = < VOLUME> |
-	t1 = < NUMBER> |
-	t1 = < PAGES> |
-	t1 = < MONTH> |
-	t1 = < NOTE> |
-	t1 = < KEY> |
-	t1 = < EDITOR> |
-	t1 = < PUBLISHER> |
-	t1 = < SERIES> |
-	t1 = < ADDRESS> |
-	t1 = < EDITION> |
-	t1 = < HOWPUBLISHED> |
-	t1 = < CHAPTER> |
-	t1 = < TYPE> |
-	t1 = < BOOKTITLE> |
-	t1 = < ORGANIZATION> |
-	t1 = < SCHOOL> |
-	t1 = < INSTITUTION>
-)
-	definition(t1)
-	{
-	  return t1;
+	(
+	(
+	t1 = < ARTICLE > | t1 = < BOOK > | t1 = < BOOKLET > | t1 = < CONFERENCE > | t1 = < INBOOK > | t1 = < INCOLLECTION > | t1 = < INPROCEEDINGS > | t1 = < MANUAL > | t1 = < MASTERSTHESIS > | t1 = < MISC > | t1 = < PHDTHESIS > | t1 = < PROCEEDINGS > | t1 = < TECHREPORT > | t1 = < UNPUBLISHED > ) {
+		entryReading = t1.image;
+		switch (entryReading) {
+			case "@article":
+				entradaRecente = new Article();
+				break;
+			case "@book":
+				entradaRecente = new Book();
+				break;
+			case "@booklet":
+				entradaRecente = new Booklet();
+				break;
+			case "@conference":
+				entradaRecente = new Conference();
+				break;
+			case "@inbook":
+				entradaRecente = new Inbook();
+				break;
+			case "@incollection":
+				entradaRecente = new Incollection();
+				break;
+			case "@inproceedings":
+				entradaRecente = new Inproceedings();
+				break;
+			case "@manual":
+				entradaRecente = new Manual();
+				break;
+			case "@mastersthesis":
+				entradaRecente = new Mastersthesis();
+				break;
+			case "@misc":
+				entradaRecente = new Misc();
+				break;
+			case "@phdthesis":
+				entradaRecente = new Phdthesis();
+				break;
+			case "@proceedings":
+				entradaRecente = new Proceedings();
+				break;
+			case "@techreport":
+				entradaRecente = new Techreport();
+				break;
+			case "@unpublished":
+				entradaRecente = new Unpublished();
+				break;
+		}
+	} < OPENBRACES > data() < CLOSEBRACES > ) + < EOF > {
+		//jjtThis.jjtSetValue(t1.image);
+		//System.out.println(jjtThis.jjtGetValue());
+		return jjtThis;
 	}
 }
 
 void data(): {Token t1 = null;}
 {
-  (t1 = < WORD >) {symbolTable.get(entryReading).put("reference", t1.image);} <COMMA > // TODO: Alterar
-  (t1 = atribute()
-  {
-    jjtThis.jjtSetValue(t1.image);
-    //System.out.println(jjtThis.jjtGetValue());
-  }< COMMA >)*
+	(t1 = < WORD > ) {
+		entradas.put(t1.image, entradaRecente);
+		symbolTable.put(t1.image, new HashMap < String, String > ());
+		entryReading = t1.image;
+		lastGoodLine = t1.endLine;
+		jjtThis.jjtSetValue(t1.image);
+		//System.out.println(jjtThis.jjtGetValue());
+	} < COMMA > // TODO: Alterar
+	(t1 = atribute()  < COMMA > ) *
+}
+
+Token atribute(): {Token t1 = null;}
+{
+	(t1 = < AUTHOR > | t1 = < TITLE > | t1 = < JOURNAL > |
+	 t1 = < YEAR > | t1 = < VOLUME > | t1 = < NUMBER > |
+	 t1 = < PAGES > | t1 = < MONTH > | t1 = < NOTE > |
+	 t1 = < KEY > | t1 = < EDITOR > | t1 = < PUBLISHER > |
+	 t1 = < SERIES > | t1 = < ADDRESS > | t1 = < EDITION > |
+	 t1 = < HOWPUBLISHED > | t1 = < CHAPTER > | t1 = < TYPE > |
+	 t1 = < BOOKTITLE > | t1 = < ORGANIZATION > | t1 = < SCHOOL > |
+	 t1 = < INSTITUTION > )
+	definition(t1) {
+	  	jjtThis.jjtSetValue(t1.image);
+		//System.out.println(" " + jjtThis.jjtGetValue());
+		return t1;
+	}
 }
 
 Token definition(Token attr): {Token field = null;}
-{
-    < EQUALS > field = < FIELD >
-  {
-    if (field == null) System.out.println("There was an error in syntactic analysis");
-    else
-    {
-      jjtThis.jjtSetValue(field.image);
-      //System.out.println(entryReading);
-      try
-      {
-	      if (symbolTable.get(entryReading).get(attr.image) == null) {
-	      	symbolTable.get(entryReading).put(attr.image, field.image);
-		  }
-		  else throw new ParsingError("["+entryReading+"] tem o campo " + attr.image + " repetido.");
-	}catch(ParsingError e)	  {
-	    System.out.println(e.getMessage());
-	  }
-    }
-    return field;
-  }
+ {
+ 	  < EQUALS > (field = < FIELD > ) ?
+ 		{
+			{
+				try {
+					if (field == null) throw new ParsingError("[WARNING] Variavel sem valor declarado na linha " + lastGoodLine);
+					else {
+						jjtThis.jjtSetValue(field.image);
+						if (symbolTable.get(entryReading).get(attr.image) == null) {
+							lastGoodLine = field.endLine;
+							symbolTable.get(entryReading).put(attr.image, field.image);
+						} else throw new ParsingError("[WARNING] A referência " + entryReading + " tem o campo \'" + attr.image + "\' repetido na linha " + field.beginLine);
+					}
+				} catch (ParsingError e) {
+					System.out.println(e.getMessage());
+				}
+			}
+			return field;
+	}
 }
 
+void semanticAnalysis():{}{
+  {
+    for(int i = 0; i < simpleN.jjtGetNumChildren(); i++)    {		SimpleNode temp = (SimpleNode) simpleN.jjtGetChild(i);
+		System.out.println(temp.jjtGetValue());
+		System.out.println(temp.jjtGetNumChildren());
+    }
+    SimpleNode temp = (SimpleNode) simpleN.jjtGetChild(0);  }}
+
+/*
 void semanticAnalysis() :{}
 {
 	{
@@ -1030,4 +993,5 @@ void mastersthesis(HashMap<String, String > dados) : {}
 	    System.out.println(e.getMessage());
 	  }
   	}
-}
+ }
+  	*/

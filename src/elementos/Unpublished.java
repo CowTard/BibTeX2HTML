@@ -4,11 +4,13 @@ public class Unpublished extends Entry {
 	
 	private String author, title, note, month, year, key;
 	
-	public Unpublished(String reference, String author, String title, String note){
-		super(reference);
-		this.author = author;
-		this.title = title;
-		this.note = note;
+	public Unpublished(){
+		super();
+	}
+	
+	public boolean isValid() {
+		if (author != null && title != null && note != null) return true;
+		else return false;
 	}
 	
 	public String toString(){
@@ -23,8 +25,18 @@ public class Unpublished extends Entry {
 		
 		return result + "\n\n";
 	}
-	
-	
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
 
 	public void setMonth(String month) {
 		this.month = month;
@@ -37,6 +49,5 @@ public class Unpublished extends Entry {
 	public void setKey(String key) {
 		this.key = key;
 	}
-
-
+	
 }

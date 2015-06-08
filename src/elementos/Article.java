@@ -3,36 +3,63 @@ package elementos;
 public class Article extends Entry {
 	private String author, title, journal, year, volume, number, pages, month, note, key;
 
-	public Article(String reference, String author, String title, String journal, String year) {
-		super(reference);
+	public Article() {
+		super();
+	}
+	
+
+	public void setAuthor(String author) {
 		this.author = author;
+	}
+
+
+	public void setTitle(String title) {
 		this.title = title;
+	}
+
+
+	public void setJournal(String journal) {
 		this.journal = journal;
+	}
+
+
+	public void setYear(String year) {
 		this.year = year;
 	}
-	
-	public void setVolume(String volume){
+
+
+	public void setVolume(String volume) {
 		this.volume = volume;
 	}
-	
-	public void setNumber(String number){
+
+
+	public void setNumber(String number) {
 		this.number = number;
 	}
-	
-	public void setPages(String pages){
+
+
+	public void setPages(String pages) {
 		this.pages = pages;
 	}
-	
-	public void setMonth(String month){
+
+
+	public void setMonth(String month) {
 		this.month = month;
 	}
-	
-	public void setNote(String note){
+
+
+	public void setNote(String note) {
 		this.note = note;
 	}
-	
-	public void setKey(String key){
+
+
+	public void setKey(String key) {
 		this.key = key;
+	}
+	
+	public boolean isValid() {
+		if (author != null && title != null && journal != null && year != null) return true;
+		else return false;
 	}
 
 	public String toString(){

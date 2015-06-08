@@ -3,32 +3,58 @@ package elementos;
 public class Phdthesis extends Entry {
 	private String author, title, school, year, type, address, month, note, key;
 	
-	public Phdthesis(String reference, String author, String title, String school, String year) {
-		super(reference);
+	public Phdthesis() {
+		super();
+	}
+
+
+	public void setAuthor(String author) {
 		this.author = author;
+	}
+
+
+	public void setTitle(String title) {
 		this.title = title;
+	}
+
+
+	public void setSchool(String school) {
 		this.school = school;
+	}
+
+
+	public void setYear(String year) {
 		this.year = year;
 	}
 
-	public void setType(String type){
+
+	public void setType(String type) {
 		this.type = type;
 	}
-	
-	public void setAddress(String address){
+
+
+	public void setAddress(String address) {
 		this.address = address;
 	}
-	
-	public void setMonth(String month){
+
+
+	public void setMonth(String month) {
 		this.month = month;
 	}
-	
-	public void setNote(String note){
+
+
+	public void setNote(String note) {
 		this.note = note;
 	}
 
-	public void setKey(String key){
+
+	public void setKey(String key) {
 		this.key = key;
+	}
+	
+	public boolean isValid() {
+		if (author != null && title != null && school != null && year != null) return true;
+		else return false;
 	}
 
 	public String toString(){

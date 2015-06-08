@@ -3,44 +3,56 @@ package elementos;
 public class Misc extends Entry {
 	private String author, title, howpublished, month, year, note, key;
 	
-	public Misc(String reference){
-		super(reference);
-		this.author = null;
-		this.title = null;
-		this.howpublished = null;
-		this.month = null;
-		this.year = null;
-		this.note = null;
-		this.key = null;
+	public Misc(){
+		super();
 	}
 
-	public void setAuthor(String author){
+
+
+	public void setAuthor(String author) {
 		this.author = author;
 	}
 
-	public void setTitle(String title){
+
+
+	public void setTitle(String title) {
 		this.title = title;
 	}
-	
-	public void setHowpublished(String howpublished){
+
+
+
+	public void setHowpublished(String howpublished) {
 		this.howpublished = howpublished;
 	}
-	
-	public void setMonth(String month){
+
+
+
+	public void setMonth(String month) {
 		this.month = month;
 	}
 
-	public void setYear(String year){
+
+
+	public void setYear(String year) {
 		this.year = year;
 	}
-	
-	public void setNote(String note){
+
+
+
+	public void setNote(String note) {
 		this.note = note;
 	}
 
-	public void setKey(String key){
+
+
+	public void setKey(String key) {
 		this.key = key;
 	}
+	
+	public boolean isValid() {
+		return true;
+	}
+
 
 	public String toString(){
 		String result = "";
