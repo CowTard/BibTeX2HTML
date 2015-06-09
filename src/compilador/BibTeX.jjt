@@ -18,8 +18,8 @@ public class BibTeX {
 	private static SimpleNode simpleN;
 	private static String entryReading = null;
 	private static int lastGoodLine = 0;
-	
-public static void main(String args[]) throws ParseException, IOException {
+
+	public static void main(String args[]) throws ParseException, IOException {
 
 		String fname = "";
 		Scanner sc = new Scanner(System. in );
@@ -63,14 +63,7 @@ TOKEN: // 2nd level [fields]
 { < AUTHOR: "author" > | < CROSSREF: "crossref" > | < TITLE: "title" > | < JOURNAL: "journal" > | < YEAR: "year" > | < VOLUME: "volume" > | < NUMBER: "number" > | < PAGES: "pages" > | < MONTH: "month" > | < NOTE: "note" > | < KEY: "key" > | < EDITOR: "editor" > | < PUBLISHER: "publisher" > | < SERIES: "series" > | < ADDRESS: "address" > | < EDITION: "edition" > | < HOWPUBLISHED: "howpublished" > | < CHAPTER: "chapter" > | < TYPE: "type" > | < BOOKTITLE: "booktitle" > | < ORGANIZATION: "organization" > | < SCHOOL: "school" > | < INSTITUTION: "institution" >
 }
 
-TOKEN: {
-  < FIELD: "\"" ( < WORD > | " ") + "\"" > |
-  < WORD: ( < CHARACTER > | < INTEGER > ) + > |
-  < CHARACTER: ["A" - "Z", "a" - "z"] > |
-  < INTEGER: ["0" - "9"] > | < OPENBRACES: "{" > |
-  < CLOSEBRACES: "}" > |
-  < COMMA: "," > |
-  < EQUALS: "=" >
+TOKEN: { < FIELD: "\"" ( < WORD > | " ") * "\"" > | < WORD: ( < CHARACTER > | < INTEGER > ) + > | < CHARACTER: ["A" - "Z", "a" - "z"] > | < INTEGER: ["0" - "9"] > | < OPENBRACES: "{" > | < CLOSEBRACES: "}" > | < COMMA: "," > | < EQUALS: "=" >
 }
 
 void imprimirSymbolTable(): {} {
@@ -85,11 +78,12 @@ void imprimirSymbolTable(): {} {
 	}
 }
 
-SimpleNode start(): {Token t1;}
-{
+SimpleNode start(): {
+	Token t1;
+} {
 	(
 	(
-	t1 = < ARTICLE > | t1 = < CROSSREF > | t1 = < BOOK > | t1 = < BOOKLET > | t1 = < CONFERENCE > | t1 = < INBOOK > | t1 = < INCOLLECTION > | t1 = < INPROCEEDINGS > | t1 = < MANUAL > | t1 = < MASTERSTHESIS > | t1 = < MISC > | t1 = < PHDTHESIS > | t1 = < PROCEEDINGS > | t1 = < TECHREPORT > | t1 = < UNPUBLISHED > ) {
+	t1 = < ARTICLE > | t1 = < BOOK > | t1 = < BOOKLET > | t1 = < CONFERENCE > | t1 = < INBOOK > | t1 = < INCOLLECTION > | t1 = < INPROCEEDINGS > | t1 = < MANUAL > | t1 = < MASTERSTHESIS > | t1 = < MISC > | t1 = < PHDTHESIS > | t1 = < PROCEEDINGS > | t1 = < TECHREPORT > | t1 = < UNPUBLISHED > ) {
 		entryReading = t1.image;
 		switch (entryReading) {
 			case "@article":
@@ -136,14 +130,13 @@ SimpleNode start(): {Token t1;}
 				break;
 		}
 	} < OPENBRACES > data() < CLOSEBRACES > ) + < EOF > {
-		//jjtThis.jjtSetValue(t1.image);
-		//System.out.println(jjtThis.jjtGetValue());
 		return jjtThis;
 	}
 }
 
-void data(): {Token t1 = null;}
-{
+void data(): {
+	Token t1 = null;
+} {
 	(t1 = < WORD > ) {
 		entradas.put(t1.image, entradaRecente);
 		symbolTable.put(t1.image, new HashMap < String, String > ());
@@ -152,71 +145,83 @@ void data(): {Token t1 = null;}
 		jjtThis.jjtSetValue(t1);
 		//System.out.println(jjtThis.jjtGetValue());
 	} < COMMA > // TODO: Alterar
-	(t1 = atribute()  < COMMA > ) *
+	(t1 = atribute() < COMMA > ) *
 }
 
-Token atribute(): {Token t1 = null;}
-{
-	(t1 = < AUTHOR > | t1 = < CROSSREF > | t1 = < TITLE > | t1 = < JOURNAL > |
-	 t1 = < YEAR > | t1 = < VOLUME > | t1 = < NUMBER > |
-	 t1 = < PAGES > | t1 = < MONTH > | t1 = < NOTE > |
-	 t1 = < KEY > | t1 = < EDITOR > | t1 = < PUBLISHER > |
-	 t1 = < SERIES > | t1 = < ADDRESS > | t1 = < EDITION > |
-	 t1 = < HOWPUBLISHED > | t1 = < CHAPTER > | t1 = < TYPE > |
-	 t1 = < BOOKTITLE > | t1 = < ORGANIZATION > | t1 = < SCHOOL > |
-	 t1 = < INSTITUTION > )
+Token atribute(): {
+	Token t1 = null;
+} {
+	(t1 = < AUTHOR > | t1 = < CROSSREF > | t1 = < TITLE > | t1 = < JOURNAL > | t1 = < YEAR > | t1 = < VOLUME > | t1 = < NUMBER > | t1 = < PAGES > | t1 = < MONTH > | t1 = < NOTE > | t1 = < KEY > | t1 = < EDITOR > | t1 = < PUBLISHER > | t1 = < SERIES > | t1 = < ADDRESS > | t1 = < EDITION > | t1 = < HOWPUBLISHED > | t1 = < CHAPTER > | t1 = < TYPE > | t1 = < BOOKTITLE > | t1 = < ORGANIZATION > | t1 = < SCHOOL > | t1 = < INSTITUTION > )
 	definition(t1) {
-	  	jjtThis.jjtSetValue(t1);
+		jjtThis.jjtSetValue(t1);
 		//System.out.println(" " + jjtThis.jjtGetValue());
 		return t1;
 	}
 }
 
-Token definition(Token attr): {Token field = null;}
- {
- 	  < EQUALS > (field = < FIELD > ) ?
- 		{
-			{
-				try {
-					if (field == null) throw new ParsingError("[WARNING-Linha " + lastGoodLine + "] Variavel sem valor declarado.");
-					else {
-						jjtThis.jjtSetValue(field.image);
-						if (symbolTable.get(entryReading).get(attr.image) == null) {
-							lastGoodLine = field.endLine;
-							symbolTable.get(entryReading).put(attr.image, field.image);
-						} else throw new ParsingError("[WARNING-Linha " + field.beginLine + "] A referência " + entryReading + " tem o campo \'" + attr.image + "\' repetido.");
-					}
-				} catch (ParsingError e) {
-					System.out.println(e.getMessage());
+Token definition(Token attr): {
+	Token field = null;
+} { < EQUALS > (field = < FIELD > ) ? {
+		{
+			try {
+				if (field == null) throw new ParsingError("[WARNING-Linha " + lastGoodLine + "] Variavel sem valor declarado.");
+				else {
+					jjtThis.jjtSetValue(field.image);
+					if (symbolTable.get(entryReading).get(attr.image) == null) {
+						lastGoodLine = field.endLine;
+						symbolTable.get(entryReading).put(attr.image, field.image);
+					} else throw new ParsingError("[WARNING-Linha " + field.beginLine + "] A referência " + entryReading + " tem o campo \'" + attr.image + "\' repetido.");
 				}
+			} catch (ParsingError e) {
+				System.out.println(e.getMessage());
 			}
-			return field;
+		}
+		return field;
 	}
 }
 
-void semanticAnalysis():{}{
-  { 
-    for(int i = 0; i < simpleN.jjtGetNumChildren(); i++)    {		SimpleNode temp = (SimpleNode) simpleN.jjtGetChild(i);
-		Token tempToken = (Token) temp.jjtGetValue();
-		String reference = tempToken.image;
-		//System.out.println("PAI: " + reference);
-		for (int j = 0; j < temp.jjtGetNumChildren(); j++)		{
-		  SimpleNode temp_ = (SimpleNode) temp.jjtGetChild(j);
-		  Token tempToken_ = (Token) temp_.jjtGetValue();
-	      //System.out.println(" " + tempToken_.image + " >" + symbolTable.get(reference).get(tempToken_.image));
-	      if (addingToObjects(reference, tempToken_.image, symbolTable.get(reference).get(tempToken_.image)) == false)	      {
-	        System.out.println("[WARNING-Linha " + tempToken_.beginLine + "] A referência " + reference + " tem o campo \'" + tempToken_.image + "\' que não é um atributo de " +  entradas.get(reference).getClass().getSimpleName());	      }		}
-		try 		{		  String erros = entradas.get(reference).isValid();
-		  if (erros != "")
-		  	throw new ParsingError("[ERROR-Linha " + tempToken.beginLine + "] A referência " + reference + " precisa do(s) seguinte(s) campo(s) \'" + erros + "\'.");
-		}catch(ParsingError e)		{
-		  System.out.println(e.getMessage());
-		  System.exit(0);		}
-    }
-    SimpleNode temp = (SimpleNode) simpleN.jjtGetChild(0);  }}
+void semanticAnalysis(): {} {
+	{
+		for (int i = 0; i < simpleN.jjtGetNumChildren(); i++) {
+			SimpleNode temp = (SimpleNode) simpleN.jjtGetChild(i);
+			Token tempToken = (Token) temp.jjtGetValue();
+			String reference = tempToken.image;
+			for (int j = 0; j < temp.jjtGetNumChildren(); j++) {
+				SimpleNode temp_ = (SimpleNode) temp.jjtGetChild(j);
+				Token tempToken_ = (Token) temp_.jjtGetValue();
 
-boolean addingToObjects(String reference, String attribute, String value) : {}
-{	{
+				if (tempToken_.image.equals("crossref")) {
+					String nameWithoutQuotes = symbolTable.get(reference).get("crossref").substring(1,symbolTable.get(reference).get("crossref").length()-1);
+					Entry temporaria = entradas.get(nameWithoutQuotes);
+					if (temporaria == null) {
+						System.out.println("[WARNING-Linha " + tempToken_.beginLine + "] A referência " + reference + " tem o campo \'" + tempToken_.image + "\' nulo.");
+						symbolTable.get(reference).remove("crossref");
+					}
+					else {
+						if (addingToObjects(reference, tempToken_.image, symbolTable.get(reference).get(tempToken_.image)) == false) {
+							System.out.println("[WARNING-Linha " + tempToken_.beginLine + "] A referência " + reference + " tem o campo \'" + tempToken_.image + "\' que não é um atributo de " + entradas.get(reference).getClass().getSimpleName());
+						}
+					}
+				}
+				else if (addingToObjects(reference, tempToken_.image, symbolTable.get(reference).get(tempToken_.image)) == false) {
+					System.out.println("[WARNING-Linha " + tempToken_.beginLine + "] A referência " + reference + " tem o campo \'" + tempToken_.image + "\' que não é um atributo de " + entradas.get(reference).getClass().getSimpleName());
+				}
+			}
+			try {
+				String erros = entradas.get(reference).isValid();
+				if (erros != "") throw new ParsingError("[ERROR-Linha " + tempToken.beginLine + "] A referência " + reference + " precisa do(s) seguinte(s) campo(s) \'" + erros + "\'.");
+			} catch (ParsingError e) {
+				System.out.println(e.getMessage());
+				System.exit(0);
+			}
+		}
+		SimpleNode temp = (SimpleNode) simpleN.jjtGetChild(0);
+	}
+}
+
+boolean addingToObjects(String reference, String attribute, String value): {} {
+	{
 		String attr = attribute.toLowerCase();
-		return entradas.get(reference).addattribute(attr, value);	}
+		return entradas.get(reference).addattribute(attr, value);
+	}
 }

@@ -1,7 +1,7 @@
 package elementos;
 
 public class Proceedings extends Entry {
-	private String title, year, editor, volume, number, series, address, month, publisher, organization, note, key;
+	private String crossref, title, year, editor, volume, number, series, address, month, publisher, organization, note, key;
 	
 	public Proceedings(){
 		super();
@@ -58,9 +58,17 @@ public class Proceedings extends Entry {
 			setKey(value);
 			aRetornar = true;
 			break;
+		case "crossref":
+			setCrossRef(value);
+			aRetornar = true;
+			break;
 		default: break;
 		}
 		return aRetornar;
+	}
+
+	private void setCrossRef(String value) {
+		this.crossref = value;
 	}
 
 	public void setTitle(String title) {

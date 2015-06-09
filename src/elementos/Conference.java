@@ -3,7 +3,7 @@ package elementos;
 import compilador.ParseException;
 
 public class Conference extends Entry {
-	private String author, title, booktitle, year, editor, volume, number, series, pages, address, month, organization, publisher, note, key;
+	private String author, title, booktitle, year, editor, volume, number, series, pages, address, month, organization, publisher, note, key, crossref;
 
 	public Conference() {
 		super();
@@ -72,12 +72,20 @@ public class Conference extends Entry {
 			setKey(value);
 			aRetornar = true;
 			break;
+		case "crossref":
+			setCrossRef(value);
+			aRetornar = true;
+			break;
 		default: break;
 		}
 		return aRetornar;
 	}
 
 	
+
+	private void setCrossRef(String value) {
+		this.crossref = value;
+	}
 
 	public void setAuthor(String author) {
 		this.author = author;

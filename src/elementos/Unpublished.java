@@ -1,7 +1,7 @@
 package elementos;
 
 public class Unpublished extends Entry {
-	private String author, title, note, month, year, key;
+	private String crossref, author, title, note, month, year, key;
 	
 	public Unpublished(){
 		super();
@@ -34,11 +34,19 @@ public class Unpublished extends Entry {
 			setKey(value);
 			aRetornar = true;
 			break;
+		case "crossref":
+			setCrossRef(value);
+			aRetornar = true;
+			break;
 		default: break;
 		}
 		return aRetornar;
 	}
 	
+	private void setCrossRef(String value) {
+		this.crossref = value;
+	}
+
 	public String isValid() {
 		String aRetornar = "";
 		if (author == null) aRetornar +="author-";

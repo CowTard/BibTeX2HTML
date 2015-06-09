@@ -3,7 +3,7 @@ package elementos;
 import compilador.ParseException;
 
 public class Incollection extends Entry {
-	private String author, title, booktitle, publisher, year, editor, volume, number, series, type, chapter, pages, address, edition, month, note, key;
+	private String crossref, author, title, booktitle, publisher, year, editor, volume, number, series, type, chapter, pages, address, edition, month, note, key;
 	
 	public Incollection() {
 		super();
@@ -80,11 +80,19 @@ public class Incollection extends Entry {
 			setKey(value);
 			aRetornar = true;
 			break;
+		case "crossref":
+			setCrossRef(value);
+			aRetornar = true;
+			break;
 		default: break;
 		}
 		return aRetornar;
 	}
 
+
+	private void setCrossRef(String value) {
+		this.crossref = value;
+	}
 
 	public void setAuthor(String author) {
 		this.author = author;

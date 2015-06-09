@@ -13,7 +13,7 @@ public class Inbook extends Entry {
 	private String volume;
 	private String number;
 	private String series;
-	private String type;
+	private String crosskey;
 	private String address;
 	private String edition;
 	private String month;
@@ -67,10 +67,6 @@ public class Inbook extends Entry {
 			setSeries(value);
 			aRetornar = true;
 			break;
-		case "type":
-			setType(value);
-			aRetornar = true;
-			break;
 		case "address":
 			setAddress(value);
 			aRetornar = true;
@@ -91,11 +87,19 @@ public class Inbook extends Entry {
 			setKey(value);
 			aRetornar = true;
 			break;
+		case "crossref":
+			setCrossRef(value);
+			aRetornar = true;
+			break;
 		default: break;
 		}
 		return aRetornar;
 	}
 
+
+	private void setCrossRef(String value) {
+		this.crosskey = value;
+	}
 
 	public void setAuthor(String author) {
 		this.author = author;
@@ -179,12 +183,6 @@ public void setPages(String pages){
 	public void setSeries(String series) {
 		this.series = series;
 	}
-
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
 
 	public void setAddress(String address) {
 		this.address = address;

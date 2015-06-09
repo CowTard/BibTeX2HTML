@@ -1,7 +1,7 @@
 package elementos;
 
 public class Book extends Entry {
-	String author, editor, title, publisher, year, volume, number, series, address, edition, month, note, key;
+	String author, editor, title, publisher, year, volume, number, series, address, edition, month, note, key, crossref;
 	
 	public Book() {
 		super();
@@ -62,9 +62,17 @@ public class Book extends Entry {
 			setKey(value);
 			aRetornar = true;
 			break;
+		case "crossref":
+			setCrossRef(value);
+			aRetornar = true;
+			break;
 		default: break;
 		}
 		return aRetornar;
+	}
+
+	private void setCrossRef(String value) {
+		this.crossref = value;
 	}
 
 	public void setAuthor(String author) {
