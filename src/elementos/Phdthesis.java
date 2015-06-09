@@ -1,7 +1,7 @@
 package elementos;
 
 public class Phdthesis extends Entry {
-	private String author, title, school, year, type, address, month, note, key;
+	private String crossref, author, title, school, year, type, address, month, note, key;
 	
 	public Phdthesis() {
 		super();
@@ -46,9 +46,17 @@ public class Phdthesis extends Entry {
 			setKey(value);
 			aRetornar = true;
 			break;
+		case "crossref":
+			setCrossRef(value);
+			aRetornar = true;
+			break;
 		default: break;
 		}
 		return aRetornar;
+	}
+
+	private void setCrossRef(String value) {
+		this.crossref = value;
 	}
 
 	public void setAuthor(String author) {

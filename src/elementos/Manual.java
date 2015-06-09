@@ -1,7 +1,7 @@
 package elementos;
 
 public class Manual extends Entry {
-	private String author, title, organization, address, edition, month, year, note, key;
+	private String author, title, organization, address, edition, month, year, note, key, crossref;
 	
 	public Manual(){
 		super();
@@ -46,9 +46,17 @@ public class Manual extends Entry {
 			setKey(value);
 			aRetornar = true;
 			break;
+		case "crossref":
+			setCrossRef(value);
+			aRetornar = true;
+			break;
 		default: break;
 		}
 		return aRetornar;
+	}
+	
+	private void setCrossRef(String value) {
+		this.crossref = crossref;
 	}
 	
 	public void setTitle(String title) {

@@ -1,7 +1,9 @@
 package elementos;
 
+import compilador.ParseException;
+
 public class Inbook extends Entry {
-	private String author, editor, title, chapter, pages, publisher, year, volume, number, series, type, address, edition, month, note, key;
+	private String author, editor, title, chapter, pages, publisher, year, volume, number, series, type, address, edition, month, note, key, crosskey;
 	
 	public Inbook(){
 		super();
@@ -50,10 +52,6 @@ public class Inbook extends Entry {
 			setSeries(value);
 			aRetornar = true;
 			break;
-		case "type":
-			setType(value);
-			aRetornar = true;
-			break;
 		case "address":
 			setAddress(value);
 			aRetornar = true;
@@ -74,9 +72,17 @@ public class Inbook extends Entry {
 			setKey(value);
 			aRetornar = true;
 			break;
+		case "crossref":
+			setCrossRef(value);
+			aRetornar = true;
+			break;
 		default: break;
 		}
 		return aRetornar;
+	}
+
+	private void setCrossRef(String value) {
+		this.crosskey = value;
 	}
 
 	public void setAuthor(String author) {
@@ -95,8 +101,40 @@ public class Inbook extends Entry {
 		this.chapter = chapter;
 	}
 
-	public void setPages(String pages) {
-		this.pages = pages;
+	public void setPages(String pages){
+		String[] pagesSplit = pages.split("-");
+		
+		if(pagesSplit.length == 0)
+			this.pages = pages;
+		
+		else if(pagesSplit.length == 1){
+			this.pages = pagesSplit[0];
+		}
+		
+		else if(pagesSplit.length == 2){
+			int part1 = Integer.parseInt(pagesSplit[0]);
+			int part2 = Integer.parseInt(pagesSplit[1]);
+			
+			if(part1 > part2){
+				String tmp = pagesSplit[0];
+				pagesSplit[0] = pagesSplit[1];
+				pagesSplit[1] = tmp;
+			}
+			
+			else if(part1 == part2){
+				this.pages = pagesSplit[0];
+			}
+			
+			else this.pages = pages;
+		}
+		
+		else{
+			try {
+				throw new ParseException("Pages not in the correct format.");
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public void setPublisher(String publisher) {

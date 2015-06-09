@@ -1,7 +1,7 @@
 package elementos;
 
 public class Techreport extends Entry {
-	private String author, title, institution, year, type, number, address, month, note, key;
+	private String author, title, institution, year, type, number, address, month, note, key, crossref;
 	
 	public Techreport(){
 		super();
@@ -50,11 +50,19 @@ public class Techreport extends Entry {
 			setKey(value);
 			aRetornar = true;
 			break;
+		case "crossref":
+			setCrossRef(value);
+			aRetornar = true;
+			break;
 		default: break;
 		}
 		return aRetornar;
 	}
 	
+	private void setCrossRef(String value) {
+		this.crossref = value;
+	}
+
 	public void setAuthor(String author) {
 		this.author = author;
 	}
