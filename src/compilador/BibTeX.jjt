@@ -64,10 +64,10 @@ TOKEN: // 1st level (entries)
 }
 
 TOKEN: // 2nd level [fields]
-{ < AUTHOR: "author" > | < CROSSREF: "crossref" > | < TITLE: "title" > | < JOURNAL: "journal" > | < YEAR: "year" > | < VOLUME: "volume" > | < NUMBER: "number" > | < PAGES: "pages" > | < MONTH: "month" > | < NOTE: "note" > | < KEY: "key" > | < EDITOR: "editor" > | < PUBLISHER: "publisher" > | < SERIES: "series" > | < ADDRESS: "address" > | < EDITION: "edition" > | < HOWPUBLISHED: "howpublished" > | < CHAPTER: "chapter" > | < TYPE: "type" > | < BOOKTITLE: "booktitle" > | < ORGANIZATION: "organization" > | < SCHOOL: "school" > | < INSTITUTION: "institution" >
+{ < AUTHOR: "author" > | < CROSSREF: "crossref" > | < TITLE: "title" > | < JOURNAL: "journal" > | < YEAR: "year" > | < VOLUME: "volume" > | < NUMBER: "number" > | < PAGES: "pages" > | < MONTH: "month" > | < NOTE: "note" > | < KEY: "key" > | < EDITOR: "editor" > | < PUBLISHER: "publisher" > | < SERIES: "series" > | < ADDRESS: "address" > | < EDITION: "edition" > | < HOWPUBLISHED: "howpublished" > | < CHAPTER: "chapter" > | < BOOKTITLE: "booktitle" > | < ORGANIZATION: "organization" > | < SCHOOL: "school" > | < INSTITUTION: "institution" >
 }
 
-TOKEN: { < FIELD: "\"" ( < WORD > | " ") * "\"" > | < WORD: ( < CHARACTER > | < INTEGER > ) + > | < CHARACTER: ["A" - "Z", "a" - "z"] > | < INTEGER: ["0" - "9"] > | < OPENBRACES: "{" > | < CLOSEBRACES: "}" > | < COMMA: "," > | < EQUALS: "=" >
+TOKEN: { < FIELD: "\"" ( < WORD > | " ") * "\"" > | < WORD: ( < CHARACTER > | < INTEGER > ) + > | < CHARACTER: ["A" - "Z", "a" - "z"] > | < INTEGER: ["0" - "9"] > | < OPENBRACES: "{" > | < CLOSEBRACES: "}" > | < COMMA: "," > | < PERIOD: "." > | < EQUALS: "=" > | < DASH: "-" >
 }
 
 void imprimirSymbolTable(): {} {
@@ -155,7 +155,7 @@ void data(): {
 Token atribute(): {
 	Token t1 = null;
 } {
-	(t1 = < AUTHOR > | t1 = < CROSSREF > | t1 = < TITLE > | t1 = < JOURNAL > | t1 = < YEAR > | t1 = < VOLUME > | t1 = < NUMBER > | t1 = < PAGES > | t1 = < MONTH > | t1 = < NOTE > | t1 = < KEY > | t1 = < EDITOR > | t1 = < PUBLISHER > | t1 = < SERIES > | t1 = < ADDRESS > | t1 = < EDITION > | t1 = < HOWPUBLISHED > | t1 = < CHAPTER > | t1 = < TYPE > | t1 = < BOOKTITLE > | t1 = < ORGANIZATION > | t1 = < SCHOOL > | t1 = < INSTITUTION > )
+	(t1 = < AUTHOR > | t1 = < CROSSREF > | t1 = < TITLE > | t1 = < JOURNAL > | t1 = < YEAR > | t1 = < VOLUME > | t1 = < NUMBER > | t1 = < PAGES > | t1 = < MONTH > | t1 = < NOTE > | t1 = < KEY > | t1 = < EDITOR > | t1 = < PUBLISHER > | t1 = < SERIES > | t1 = < ADDRESS > | t1 = < EDITION > | t1 = < HOWPUBLISHED > | t1 = < CHAPTER > | t1 = < BOOKTITLE > | t1 = < ORGANIZATION > | t1 = < SCHOOL > | t1 = < INSTITUTION > )
 	definition(t1) {
 		jjtThis.jjtSetValue(t1);
 		//System.out.println(" " + jjtThis.jjtGetValue());
