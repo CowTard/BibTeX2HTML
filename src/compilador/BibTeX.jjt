@@ -191,19 +191,17 @@ void semanticAnalysis(): {} {
 				Token tempToken_ = (Token) temp_.jjtGetValue();
 
 				if (tempToken_.image.equals("crossref")) {
-					String nameWithoutQuotes = symbolTable.get(reference).get("crossref").substring(1,symbolTable.get(reference).get("crossref").length()-1);
+					String nameWithoutQuotes = symbolTable.get(reference).get("crossref").substring(1, symbolTable.get(reference).get("crossref").length() - 1);
 					Entry temporaria = entradas.get(nameWithoutQuotes);
 					if (temporaria == null) {
 						System.out.println("[WARNING-Linha " + tempToken_.beginLine + "] A referência " + reference + " tem o campo \'" + tempToken_.image + "\' nulo.");
 						symbolTable.get(reference).remove("crossref");
-					}
-					else {
+					} else {
 						if (addingToObjects(reference, tempToken_.image, symbolTable.get(reference).get(tempToken_.image)) == false) {
-							System.out.println("[WARNING-Linha " + tempToken_.beginLine + "] A referência " + reference + " tem o campo \'" + tempToken_.image + "\' que não é um atributo de " + entradas.get(reference).getClass().getSimpleName());
-						}
+								System.out.println("[WARNING-Linha " + tempToken_.beginLine + "] CrossRef a referenciar o mesmo objecto");
+							}
 					}
-				}
-				else if (addingToObjects(reference, tempToken_.image, symbolTable.get(reference).get(tempToken_.image)) == false) {
+				} else if (addingToObjects(reference, tempToken_.image, symbolTable.get(reference).get(tempToken_.image)) == false) {
 					System.out.println("[WARNING-Linha " + tempToken_.beginLine + "] A referência " + reference + " tem o campo \'" + tempToken_.image + "\' que não é um atributo de " + entradas.get(reference).getClass().getSimpleName());
 				}
 			}
@@ -221,6 +219,10 @@ void semanticAnalysis(): {} {
 
 boolean addingToObjects(String reference, String attribute, String value): {} {
 	{
+	  	if (attribute.equals("crossref"))	  	{
+	  	  if (reference.equals(value.substring(1,value.length()-1)))	  	  {
+			return false;
+	  	  }	  	}
 		String attr = attribute.toLowerCase();
 		return entradas.get(reference).addattribute(attr, value);
 	}
