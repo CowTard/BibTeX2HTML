@@ -55,41 +55,33 @@ public class Mastersthesis extends Entry {
 		this.author = author;
 	}
 
-
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
 
 	public void setSchool(String school) {
 		this.school = school;
 	}
 
-
 	public void setYear(String year) {
 		this.year = year;
 	}
-
 
 	public void setType(String type) {
 		this.type = type;
 	}
 
-
 	public void setAddress(String address) {
 		this.address = address;
 	}
-
 
 	public void setMonth(String month) {
 		this.month = month;
 	}
 
-
 	public void setNote(String note) {
 		this.note = note;
 	}
-
 
 	public void setKey(String key) {
 		this.key = key;
@@ -119,10 +111,7 @@ public class Mastersthesis extends Entry {
 		if (month != null) contents += " " + month;
 		contents += " " + year + ".";
 		if (note != null) contents += " " + note + ".";
-		
-		//type
-		
+				
 		return contents;
-		
 	}
 }

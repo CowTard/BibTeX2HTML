@@ -47,42 +47,33 @@ public class Booklet extends Entry {
 		return aRetornar;
 	}
 
-	
-
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
-
+	
 	public void setAuthor(String author) {
 		this.author = author;
 	}
-
 
 	public void setHowpublished(String howpublished) {
 		this.howpublished = howpublished;
 	}
 
-
 	public void setAddress(String address) {
 		this.address = address;
 	}
-
 
 	public void setMonth(String month) {
 		this.month = month;
 	}
 
-
 	public void setYear(String year) {
 		this.year = year;
 	}
 
-
 	public void setNote(String note) {
 		this.note = note;
 	}
-
 
 	public void setKey(String key) {
 		this.key = key;
@@ -102,6 +93,7 @@ public class Booklet extends Entry {
 		if (key != null) contents += "[" + key + "]";
 		else if (author != null && year != null) contents += "[" + author.substring(0, 3) + year.substring(2, 4) + "]";
 		else contents += "[booklet]";
+		
 		if (author != null) contents += " " + author + ".";
 		contents += " " + title + ".";
 		if (howpublished != null) contents += " " + howpublished + ",";
@@ -112,5 +104,4 @@ public class Booklet extends Entry {
 		
 		return contents;
 	}
-	
 }

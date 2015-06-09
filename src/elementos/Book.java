@@ -71,61 +71,49 @@ public class Book extends Entry {
 		this.author = author;
 	}
 
-
 	public void setEditor(String editor) {
 		this.editor = editor;
 	}
-
 
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
-
 	public void setPublisher(String publisher) {
 		this.publisher = publisher;
 	}
-
 
 	public void setYear(String year) {
 		this.year = year;
 	}
 
-
 	public void setVolume(String volume) {
 		this.volume = volume;
 	}
 
-
 	public void setNumber(String number) {
 		this.number = number;
 	}
-
-
+	
 	public void setSeries(String series) {
 		this.series = series;
 	}
-
 
 	public void setAddress(String address) {
 		this.address = address;
 	}
 
-
 	public void setEdition(String edition) {
 		this.edition = edition;
 	}
-
 
 	public void setMonth(String month) {
 		this.month = month;
 	}
 
-
 	public void setNote(String note) {
 		this.note = note;
 	}
-
 
 	public void setKey(String key) {
 		this.key = key;
@@ -146,16 +134,16 @@ public class Book extends Entry {
 		String contents = "";
 		
 		if (key != null) contents += "[" + key + "]";
-		else if (author != null && year != null) contents += "[" + author.substring(0, 3) + year.substring(2, 4) + "]";
-		else if (editor != null && year != null) contents += "[" + editor.substring(0, 3) + year.substring(2, 4) + "]";
+		else if (author != null) contents += "[" + author.substring(0, 3) + year.substring(2, 4) + "]";
+		else if (editor != null) contents += "[" + editor.substring(0, 3) + year.substring(2, 4) + "]";
 		else contents += "[book]";
 		
 		if (author != null) contents += " " + author + ".";
 		if (editor != null) contents += " " + editor + ".";
 		contents += " <i>" + title + "</i>,";
-		if (volume != null && number != null)contents += " volume " + volume + " of " + number + ".";
+		if (volume != null && number != null) contents += " volume " + volume + " of " + number + ".";
 		contents += " " +  publisher + ",";
-		if (address != null) contents += " " + address + " ";
+		if (address != null) contents += " " + address + ",";
 		if (edition != null) contents += " " + edition + " edition,";
 		if (month != null) contents += " " + month;
 		contents += " " + year + ".";
@@ -163,5 +151,4 @@ public class Book extends Entry {
 		
 		return contents;
 	}
-	
 }

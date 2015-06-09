@@ -75,76 +75,61 @@ public class Inproceedings extends Entry {
 		return aRetornar;
 	}
 	
-
 	public void setAuthor(String author) {
 		this.author = author;
 	}
-
 
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
-
 	public void setBooktitle(String booktitle) {
 		this.booktitle = booktitle;
 	}
-
 
 	public void setYear(String year) {
 		this.year = year;
 	}
 
-
 	public void setEditor(String editor) {
 		this.editor = editor;
 	}
-
 
 	public void setVolume(String volume) {
 		this.volume = volume;
 	}
 
-
 	public void setNumber(String number) {
 		this.number = number;
 	}
-
 
 	public void setSeries(String series) {
 		this.series = series;
 	}
 
-
 	public void setPages(String pages) {
 		this.pages = pages;
 	}
-
 
 	public void setAddress(String address) {
 		this.address = address;
 	}
 
-
 	public void setMonth(String month) {
 		this.month = month;
 	}
-
 
 	public void setOrganization(String organization) {
 		this.organization = organization;
 	}
 
-
 	public void setPublisher(String publisher) {
 		this.publisher = publisher;
 	}
 
-
 	public void setNote(String note) {
 		this.note = note;
 	}
-
 
 	public void setKey(String key) {
 		this.key = key;
@@ -181,9 +166,6 @@ public class Inproceedings extends Entry {
 		if (publisher != null) contents += " " + publisher + ".";
 		if (note != null) contents += " " + note + ".";
 		
-		//type
-		
 		return contents;
-		
 	}
 }

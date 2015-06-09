@@ -83,86 +83,69 @@ public class Incollection extends Entry {
 		return aRetornar;
 	}
 
-
 	public void setAuthor(String author) {
 		this.author = author;
 	}
-
 
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
-
 	public void setBooktitle(String booktitle) {
 		this.booktitle = booktitle;
 	}
-
 
 	public void setPublisher(String publisher) {
 		this.publisher = publisher;
 	}
 
-
 	public void setYear(String year) {
 		this.year = year;
 	}
-
 
 	public void setEditor(String editor) {
 		this.editor = editor;
 	}
 
-
 	public void setVolume(String volume) {
 		this.volume = volume;
 	}
-
 
 	public void setNumber(String number) {
 		this.number = number;
 	}
 
-
 	public void setSeries(String series) {
 		this.series = series;
 	}
-
 
 	public void setType(String type) {
 		this.type = type;
 	}
 
-
 	public void setChapter(String chapter) {
 		this.chapter = chapter;
 	}
-
 
 	public void setPages(String pages) {
 		this.pages = pages;
 	}
 
-
 	public void setAddress(String address) {
 		this.address = address;
 	}
-
 
 	public void setEdition(String edition) {
 		this.edition = edition;
 	}
 
-
 	public void setMonth(String month) {
 		this.month = month;
 	}
 
-
 	public void setNote(String note) {
 		this.note = note;
 	}
-
 
 	public void setKey(String key) {
 		this.key = key;
@@ -186,14 +169,13 @@ public class Incollection extends Entry {
 		if (key != null) contents += "[" + key + "]";
 		else contents += "[" + author.substring(0, 3) + year.substring(2, 4) + "]";
 		
-		
-		
 		contents += " " + author + ".";
 		contents += " " + title + ".";
 		if (editor != null) contents += " In " + editor + ", editor,";
-		contents += " " + booktitle + ",";
-		if (volume != null && series != null) contents += " volume " + volume + " of " + series + ",";
-		else if (number != null && series != null) contents += " number " + number + " of " + series + ",";
+		contents += " <i>" + booktitle + "</i>,";
+		if (volume != null) contents += " volume " + volume;
+		else if (number != null) contents += " number " + number;
+		if (series != null) contents += " of " + series + ",";
 		if (chapter != null) contents += " chapter " + chapter + ",";
 		if (pages != null) contents += " pages " + pages + ".";
 		contents += " " + publisher + ",";
@@ -203,8 +185,6 @@ public class Incollection extends Entry {
 		contents += " " + year + ".";
 		if (note != null) contents += " " + note + ".";
 
-		
 		return contents;
-		
 	}
 }

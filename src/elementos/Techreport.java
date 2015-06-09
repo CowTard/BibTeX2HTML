@@ -1,7 +1,6 @@
 package elementos;
 
 public class Techreport extends Entry {
-	
 	private String author, title, institution, year, type, number, address, month, note, key;
 	
 	public Techreport(){

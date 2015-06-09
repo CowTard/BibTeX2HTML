@@ -129,9 +129,8 @@ public class Proceedings extends Entry {
 		
 		if (editor != null) contents += " " + editor + ", editor.";
 		contents += " " + title + ",";
-		if (volume != null) contents += " volume " + volume;
-		else if (number != null) contents += " number " + number;
-		if (series != null) contents += " of " + series + ",";
+		if (volume != null && series != null) contents += " volume " + volume + " of " + series + ",";
+		else if (number != null && series != null) contents += " number " + number + " of " + series + ",";
 		if (address != null) contents += " " + address + ",";
 		if (month != null) contents += " " + month;
 		contents += " " + year + ".";

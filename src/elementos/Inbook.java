@@ -1,22 +1,7 @@
 package elementos;
 
 public class Inbook extends Entry {
-	private String author;
-	private String editor;
-	private String title;
-	private String chapter;
-	private String pages;
-	private String publisher;
-	private String year;
-	private String volume;
-	private String number;
-	private String series;
-	private String type;
-	private String address;
-	private String edition;
-	private String month;
-	private String note;
-	private String key;
+	private String author, editor, title, chapter, pages, publisher, year, volume, number, series, type, address, edition, month, note, key;
 	
 	public Inbook(){
 		super();
@@ -94,81 +79,65 @@ public class Inbook extends Entry {
 		return aRetornar;
 	}
 
-
 	public void setAuthor(String author) {
 		this.author = author;
 	}
-
 
 	public void setEditor(String editor) {
 		this.editor = editor;
 	}
 
-
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
 
 	public void setChapter(String chapter) {
 		this.chapter = chapter;
 	}
 
-
 	public void setPages(String pages) {
 		this.pages = pages;
 	}
-
 
 	public void setPublisher(String publisher) {
 		this.publisher = publisher;
 	}
 
-
 	public void setYear(String year) {
 		this.year = year;
 	}
-
 
 	public void setVolume(String volume) {
 		this.volume = volume;
 	}
 
-
 	public void setNumber(String number) {
 		this.number = number;
 	}
-
 
 	public void setSeries(String series) {
 		this.series = series;
 	}
 
-
 	public void setType(String type) {
 		this.type = type;
 	}
-
 
 	public void setAddress(String address) {
 		this.address = address;
 	}
 
-
 	public void setEdition(String edition) {
 		this.edition = edition;
 	}
-
 
 	public void setMonth(String month) {
 		this.month = month;
 	}
 
-
 	public void setNote(String note) {
 		this.note = note;
 	}
-
 
 	public void setKey(String key) {
 		this.key = key;
@@ -190,9 +159,10 @@ public class Inbook extends Entry {
 		String contents = "";
 		
 		if (key != null) contents += "[" + key + "]";
-		else if (author != null && year != null) contents += "[" + author.substring(0, 3) + year.substring(2, 4) + "]";
-		else if (editor != null && year != null) contents += "[" + editor.substring(0, 3) + year.substring(2, 4) + "]";
+		else if (author != null) contents += "[" + author.substring(0, 3) + year.substring(2, 4) + "]";
+		else if (editor != null) contents += "[" + editor.substring(0, 3) + year.substring(2, 4) + "]";
 		else contents += "[inbook]";
+		
 		if (author != null) contents += " " + author + ".";
 		if (editor != null) contents += " " + editor + ".";
 		contents += " <i>" + title + "</i>,";
@@ -208,7 +178,5 @@ public class Inbook extends Entry {
 		if (note != null) contents += " " + note + ".";
 		
 		return contents;
-	}
-	
-	
+	}	
 }
