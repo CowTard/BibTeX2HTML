@@ -160,4 +160,28 @@ public class Book extends Entry {
 		
 		return result + "\n\n";
 	}
+	
+	@Override
+	public String printContents() {
+		String contents = "";
+		
+		if (key != null) contents += "[" + key + "]";
+		else if (author != null && year != null) contents += "[" + author.substring(0, 3) + year.substring(2, 4) + "]";
+		else if (editor != null && year != null) contents += "[" + editor.substring(0, 3) + year.substring(2, 4) + "]";
+		else contents += "[book]";
+		
+		if (author != null) contents += " " + author + ".";
+		if (editor != null) contents += " " + editor + ".";
+		contents += " <i>" + title + "</i>,";
+		if (volume != null && number != null)contents += " volume" + volume + " of " + number + ".";
+		contents += " " +  publisher + ",";
+		if (address != null) contents += " " + address + " ";
+		if (edition != null) contents += " " + edition + "edition,";
+		if (month != null) contents += " " + month;
+		contents += " " + year + ".";
+		if (note != null) contents += " " + note + ".";
+		
+		return contents;
+	}
+	
 }

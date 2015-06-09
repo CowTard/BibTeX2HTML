@@ -109,4 +109,23 @@ public class Booklet extends Entry {
 		
 		return result + "\n\n";
 	}
+	
+	@Override
+	public String printContents() {
+		String contents = "";
+		
+		if (key != null) contents += "[" + key + "]";
+		else if (author != null && year != null) contents += "[" + author.substring(0, 3) + year.substring(2, 4) + "]";
+		else contents += "[booklet]";
+		if (author != null) contents += " " + author + ".";
+		contents += " " + title + ".";
+		if (howpublished != null) contents += " " + howpublished + ",";
+		if (address != null) contents += " " + address + ",";
+		if (month != null) contents += " " + month;
+		if (year != null) contents += " " + year + ".";
+		if (note != null) contents += " " + note + ".";
+		
+		return contents;
+	}
+	
 }
