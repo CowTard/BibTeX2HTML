@@ -198,16 +198,14 @@ void semanticAnalysis(): {} {
 					String nameWithoutQuotes = symbolTable.get(reference).get("crossref").substring(1, symbolTable.get(reference).get("crossref").length() - 1);
 					Entry temporaria = entradas.get(nameWithoutQuotes);
 					if (temporaria == null) {
-						System.out.println("[WARNING-Linha " + tempToken_.beginLine + "] A referência " + reference + " tem o campo \'" + tempToken_.image + "\' nulo.");
+						System.out.println("[WARNING-Linha " + tempToken_.beginLine + "] A referência " + reference + " está a referenciar um objeto que não existe.");
 						symbolTable.get(reference).remove("crossref");
 					} else {
-						if (addingToObjects(reference, tempToken_.image, symbolTable.get(reference).get(tempToken_.image)) == false) {
-								System.out.println("[WARNING-Linha " + tempToken_.beginLine + "] CrossRef a referenciar o mesmo objecto");
-							}
+						addingToObjects(tempToken, reference, tempToken_.image, symbolTable.get(reference).get(tempToken_.image));
 					}
-				} else if (addingToObjects(reference, tempToken_.image, symbolTable.get(reference).get(tempToken_.image)) == false) {
-					System.out.println("[WARNING-Linha " + tempToken_.beginLine + "] A referência " + reference + " tem o campo \'" + tempToken_.image + "\' que não é um atributo de " + entradas.get(reference).getClass().getSimpleName());
-				}
+				} else {
+					addingToObjects(tempToken,reference, tempToken_.image, symbolTable.get(reference).get(tempToken_.image));
+					}
 			}
 			try {
 				String erros = entradas.get(reference).isValid();
@@ -221,13 +219,30 @@ void semanticAnalysis(): {} {
 	}
 }
 
-boolean addingToObjects(String reference, String attribute, String value): {} {
-	{
-	  	if (attribute.equals("crossref"))	  	{
-	  	  if (reference.equals(value.substring(1,value.length()-1)))	  	  {
-			return false;
-	  	  }	  	}
+void addingToObjects(Token temp, String reference, String attribute, String value): {} {
+	{		  
+		  if(attribute.equals("crossref")) {
+			if (reference.equals(value.substring(1,value.length()-1))){
+				System.out.println("[ERROR-Linha " + temp.beginLine + "] CrossRef a referenciar o mesmo objecto");
+				System.exit(0);
+	  	  	}
+		  } else if (attribute.equals("month"))
+		  {
+		  } else if (attribute.equals("year"))
+		  {
+		  }else if (attribute.equals("volume"))
+		  {
+		  }else if (attribute.equals("number"))
+		  {
+		  }else if (attribute.equals("pages"))
+		  {
+		  }else if (attribute.equals("chapter"))
+		  {
+		  }
+		  
 		String attr = attribute.toLowerCase();
-		return entradas.get(reference).addattribute(attr, value);
+		if (!entradas.get(reference).addattribute(attr, value)){
+			System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' que não é um atributo de " + entradas.get(reference).getClass().getSimpleName());
+		}
 	}
 }
