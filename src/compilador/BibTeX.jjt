@@ -34,6 +34,12 @@ public static void main(String args[]) throws ParseException, IOException {
 
 		//simpleN.dump("");
 		semanticAnalysis();
+		/*
+		for (HashMap.Entry < String, Entry> entry: entradas.entrySet()) {
+			String onKey = entry.getKey();
+			System.out.println(entradas.get(onKey).toString());
+		}
+		*/
 		sc.close();
 	}
 
@@ -54,7 +60,7 @@ TOKEN: // 1st level (entries)
 }
 
 TOKEN: // 2nd level [fields]
-{ < AUTHOR: "author" > | < TITLE: "title" > | < JOURNAL: "journal" > | < YEAR: "year" > | < VOLUME: "volume" > | < NUMBER: "number" > | < PAGES: "pages" > | < MONTH: "month" > | < NOTE: "note" > | < KEY: "key" > | < EDITOR: "editor" > | < PUBLISHER: "publisher" > | < SERIES: "series" > | < ADDRESS: "address" > | < EDITION: "edition" > | < HOWPUBLISHED: "howpublished" > | < CHAPTER: "chapter" > | < TYPE: "type" > | < BOOKTITLE: "booktitle" > | < ORGANIZATION: "organization" > | < SCHOOL: "school" > | < INSTITUTION: "institution" >
+{ < AUTHOR: "author" > | < CROSSREF: "crossref" > | < TITLE: "title" > | < JOURNAL: "journal" > | < YEAR: "year" > | < VOLUME: "volume" > | < NUMBER: "number" > | < PAGES: "pages" > | < MONTH: "month" > | < NOTE: "note" > | < KEY: "key" > | < EDITOR: "editor" > | < PUBLISHER: "publisher" > | < SERIES: "series" > | < ADDRESS: "address" > | < EDITION: "edition" > | < HOWPUBLISHED: "howpublished" > | < CHAPTER: "chapter" > | < TYPE: "type" > | < BOOKTITLE: "booktitle" > | < ORGANIZATION: "organization" > | < SCHOOL: "school" > | < INSTITUTION: "institution" >
 }
 
 TOKEN: {
@@ -83,7 +89,7 @@ SimpleNode start(): {Token t1;}
 {
 	(
 	(
-	t1 = < ARTICLE > | t1 = < BOOK > | t1 = < BOOKLET > | t1 = < CONFERENCE > | t1 = < INBOOK > | t1 = < INCOLLECTION > | t1 = < INPROCEEDINGS > | t1 = < MANUAL > | t1 = < MASTERSTHESIS > | t1 = < MISC > | t1 = < PHDTHESIS > | t1 = < PROCEEDINGS > | t1 = < TECHREPORT > | t1 = < UNPUBLISHED > ) {
+	t1 = < ARTICLE > | t1 = < CROSSREF > | t1 = < BOOK > | t1 = < BOOKLET > | t1 = < CONFERENCE > | t1 = < INBOOK > | t1 = < INCOLLECTION > | t1 = < INPROCEEDINGS > | t1 = < MANUAL > | t1 = < MASTERSTHESIS > | t1 = < MISC > | t1 = < PHDTHESIS > | t1 = < PROCEEDINGS > | t1 = < TECHREPORT > | t1 = < UNPUBLISHED > ) {
 		entryReading = t1.image;
 		switch (entryReading) {
 			case "@article":
@@ -151,7 +157,7 @@ void data(): {Token t1 = null;}
 
 Token atribute(): {Token t1 = null;}
 {
-	(t1 = < AUTHOR > | t1 = < TITLE > | t1 = < JOURNAL > |
+	(t1 = < AUTHOR > | t1 = < CROSSREF > | t1 = < TITLE > | t1 = < JOURNAL > |
 	 t1 = < YEAR > | t1 = < VOLUME > | t1 = < NUMBER > |
 	 t1 = < PAGES > | t1 = < MONTH > | t1 = < NOTE > |
 	 t1 = < KEY > | t1 = < EDITOR > | t1 = < PUBLISHER > |

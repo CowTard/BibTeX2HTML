@@ -88,21 +88,6 @@ public class Misc extends Entry {
 		return "";
 	}
 
-
-	public String toString(){
-		String result = "";
-		
-		if (author != null) result += "\nAuthor: " + author;
-		if (title != null) result += "\nTitle: " + title;
-		if (howpublished != null) result += "\nHowpublished: " + howpublished;
-		if (month != null) result += "\nMonth: " + month;
-		if (year != null) result += "\nYear: " + year;
-		if (note != null) result += "\nNote: " + note;
-		if (key != null) result += "\nKey: " + key;
-		
-		return result + "\n\n";
-	}
-	
 	@Override
 	public String printContents() {
 		String contents = "";

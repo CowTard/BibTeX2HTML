@@ -94,21 +94,6 @@ public class Booklet extends Entry {
 		if (aRetornar == "") return "";
 		else return aRetornar.substring(0, aRetornar.length()-1);
 	}
-
-	public String toString(){
-		String result = "";
-
-		result += "Title: " + title;
-		if (author != null) result += "\nAuthor: " + author;
-		if (howpublished != null) result += "\nHowpublished: " + howpublished;
-		if (address != null) result += "\nAddress: " + address;
-		if (month != null) result += "\nMonth: " + month;
-		if (year != null) result += "\nYear: " + year;
-		if (note != null) result += "\nNote: " + note;
-		if (key != null) result += "\nKey: " + key;
-		
-		return result + "\n\n";
-	}
 	
 	@Override
 	public String printContents() {

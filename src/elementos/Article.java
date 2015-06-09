@@ -113,25 +113,7 @@ public class Article extends Entry {
 		if (aRetornar == "") return "";
 		else return aRetornar.substring(0, aRetornar.length()-1);
 	}
-
-	public String toString(){
-		String result = "";
-
-		result += "Author: " + author;
-		result += "\nTitle: " + title;
-		result += "\nJournal: " + journal;
-		result += "\nYear: " + year;
-		if (!volume.equals("null")) result += "\nVolume: " + volume;
-		if (!number.equals("null")) result += "\nNumber: " + number;
-		if (!pages.equals("null")) result += "\nPages: " + pages;
-		if (!month.equals("null")) result += "\nMonth: " + month;
-		if (!note.equals("null")) result += "\nNote: " + note;
-		if (!key.equals("null")) result += "\nKey: " + key;
-
-		return result + "\n\n";
-	}
-
-
+	
 	@Override
 	public String printContents() {
 		String contents = "";
