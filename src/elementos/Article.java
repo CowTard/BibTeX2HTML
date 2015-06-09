@@ -69,33 +69,27 @@ public class Article extends Entry {
 		this.author = author;
 	}
 
-
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
 
 	public void setJournal(String journal) {
 		this.journal = journal;
 	}
 
-
 	public void setYear(String year) {
 		this.year = year;
 	}
-
 
 	public void setVolume(String volume) {
 		this.volume = volume;
 	}
 
-
 	public void setNumber(String number) {
 		this.number = number;
 	}
 
-
-public void setPages(String pages){
+	public void setPages(String pages){
 		
 		String[] pagesSplit = pages.split("-");
 		
@@ -130,19 +124,15 @@ public void setPages(String pages){
 				e.printStackTrace();
 			}
 		}
-			
 	}
-
 
 	public void setMonth(String month) {
 		this.month = month;
 	}
 
-
 	public void setNote(String note) {
 		this.note = note;
 	}
-
 
 	public void setKey(String key) {
 		this.key = key;

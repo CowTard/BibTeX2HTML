@@ -79,61 +79,49 @@ public class Book extends Entry {
 		this.author = author;
 	}
 
-
 	public void setEditor(String editor) {
 		this.editor = editor;
 	}
-
 
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
-
 	public void setPublisher(String publisher) {
 		this.publisher = publisher;
 	}
-
 
 	public void setYear(String year) {
 		this.year = year;
 	}
 
-
 	public void setVolume(String volume) {
 		this.volume = volume;
 	}
 
-
 	public void setNumber(String number) {
 		this.number = number;
 	}
-
-
+	
 	public void setSeries(String series) {
 		this.series = series;
 	}
-
 
 	public void setAddress(String address) {
 		this.address = address;
 	}
 
-
 	public void setEdition(String edition) {
 		this.edition = edition;
 	}
-
 
 	public void setMonth(String month) {
 		this.month = month;
 	}
 
-
 	public void setNote(String note) {
 		this.note = note;
 	}
-
 
 	public void setKey(String key) {
 		this.key = key;
@@ -154,6 +142,7 @@ public class Book extends Entry {
 		String contents = "";
 		
 		if (key != null) contents += "[" + key + "]";
+
 		else if (author != null && year != null) contents += "[" + author.substring(1, 3) + year.substring(2, 4) + "]";
 		else if (editor != null && year != null) contents += "[" + editor.substring(1, 3) + year.substring(2, 4) + "]";
 		else contents += "[book]";
@@ -168,8 +157,8 @@ public class Book extends Entry {
 		if (month != null) contents += " " + month.substring(1, month.length()-1);
 		contents += " " + year.substring(1, year.length()-1) + ".";
 		if (note != null) contents += " " + note.substring(1, note.length()-1) + ".";
+
 		
 		return contents;
 	}
-	
 }

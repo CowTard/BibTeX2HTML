@@ -3,7 +3,7 @@ package elementos;
 import compilador.ParseException;
 
 public class Incollection extends Entry {
-	private String crossref, author, title, booktitle, publisher, year, editor, volume, number, series, type, chapter, pages, address, edition, month, note, key;
+	private String author, title, booktitle, publisher, year, editor, volume, number, series, chapter, pages, address, edition, month, note, key, crossref;
 	
 	public Incollection() {
 		super();
@@ -48,10 +48,6 @@ public class Incollection extends Entry {
 			setSeries(value);
 			aRetornar = true;
 			break;
-		case "type":
-			setType(value);
-			aRetornar = true;
-			break;
 		case "chapter":
 			setChapter(value);
 			aRetornar = true;
@@ -89,68 +85,51 @@ public class Incollection extends Entry {
 		return aRetornar;
 	}
 
-
 	private void setCrossRef(String value) {
 		this.crossref = value;
 	}
-
+	
 	public void setAuthor(String author) {
 		this.author = author;
 	}
-
 
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
-
 	public void setBooktitle(String booktitle) {
 		this.booktitle = booktitle;
 	}
-
 
 	public void setPublisher(String publisher) {
 		this.publisher = publisher;
 	}
 
-
 	public void setYear(String year) {
 		this.year = year;
 	}
-
 
 	public void setEditor(String editor) {
 		this.editor = editor;
 	}
 
-
 	public void setVolume(String volume) {
 		this.volume = volume;
 	}
-
 
 	public void setNumber(String number) {
 		this.number = number;
 	}
 
-
 	public void setSeries(String series) {
 		this.series = series;
 	}
-
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
 
 	public void setChapter(String chapter) {
 		this.chapter = chapter;
 	}
 
-
-public void setPages(String pages){
-		
+	public void setPages(String pages){
 		String[] pagesSplit = pages.split("-");
 		
 		if(pagesSplit.length == 0)
@@ -184,29 +163,23 @@ public void setPages(String pages){
 				e.printStackTrace();
 			}
 		}
-			
 	}
-
 
 	public void setAddress(String address) {
 		this.address = address;
 	}
 
-
 	public void setEdition(String edition) {
 		this.edition = edition;
 	}
-
 
 	public void setMonth(String month) {
 		this.month = month;
 	}
 
-
 	public void setNote(String note) {
 		this.note = note;
 	}
-
 
 	public void setKey(String key) {
 		this.key = key;
@@ -230,14 +203,13 @@ public void setPages(String pages){
 		if (key != null) contents += "[" + key + "]";
 		else contents += "[" + author.substring(0, 3) + year.substring(2, 4) + "]";
 		
-		
-		
 		contents += " " + author + ".";
 		contents += " " + title + ".";
 		if (editor != null) contents += " In " + editor + ", editor,";
-		contents += " " + booktitle + ",";
-		if (volume != null && series != null) contents += " volume " + volume + " of " + series + ",";
-		else if (number != null && series != null) contents += " number " + number + " of " + series + ",";
+		contents += " <i>" + booktitle + "</i>,";
+		if (volume != null) contents += " volume " + volume;
+		else if (number != null) contents += " number " + number;
+		if (series != null) contents += " of " + series + ",";
 		if (chapter != null) contents += " chapter " + chapter + ",";
 		if (pages != null) contents += " pages " + pages + ".";
 		contents += " " + publisher + ",";
@@ -247,8 +219,6 @@ public void setPages(String pages){
 		contents += " " + year + ".";
 		if (note != null) contents += " " + note + ".";
 
-		
 		return contents;
-		
 	}
 }

@@ -3,22 +3,7 @@ package elementos;
 import compilador.ParseException;
 
 public class Inbook extends Entry {
-	private String author;
-	private String editor;
-	private String title;
-	private String chapter;
-	private String pages;
-	private String publisher;
-	private String year;
-	private String volume;
-	private String number;
-	private String series;
-	private String crosskey;
-	private String address;
-	private String edition;
-	private String month;
-	private String note;
-	private String key;
+	private String author, editor, title, chapter, pages, publisher, year, volume, number, series, address, edition, month, note, key, crosskey;
 	
 	public Inbook(){
 		super();
@@ -96,7 +81,6 @@ public class Inbook extends Entry {
 		return aRetornar;
 	}
 
-
 	private void setCrossRef(String value) {
 		this.crosskey = value;
 	}
@@ -105,24 +89,19 @@ public class Inbook extends Entry {
 		this.author = author;
 	}
 
-
 	public void setEditor(String editor) {
 		this.editor = editor;
 	}
-
 
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
-
 	public void setChapter(String chapter) {
 		this.chapter = chapter;
 	}
 
-
-public void setPages(String pages){
-		
+	public void setPages(String pages){
 		String[] pagesSplit = pages.split("-");
 		
 		if(pagesSplit.length == 0)
@@ -156,29 +135,23 @@ public void setPages(String pages){
 				e.printStackTrace();
 			}
 		}
-			
 	}
-
 
 	public void setPublisher(String publisher) {
 		this.publisher = publisher;
 	}
 
-
 	public void setYear(String year) {
 		this.year = year;
 	}
-
 
 	public void setVolume(String volume) {
 		this.volume = volume;
 	}
 
-
 	public void setNumber(String number) {
 		this.number = number;
 	}
-
 
 	public void setSeries(String series) {
 		this.series = series;
@@ -188,21 +161,17 @@ public void setPages(String pages){
 		this.address = address;
 	}
 
-
 	public void setEdition(String edition) {
 		this.edition = edition;
 	}
-
 
 	public void setMonth(String month) {
 		this.month = month;
 	}
 
-
 	public void setNote(String note) {
 		this.note = note;
 	}
-
 
 	public void setKey(String key) {
 		this.key = key;
@@ -224,11 +193,13 @@ public void setPages(String pages){
 		String contents = "";
 		
 		if (key != null) contents += "[" + key + "]";
+
 		else if (author != null && year != null) contents += "[" + author.substring(1, 3) + year.substring(2, 4) + "]";
 		else if (editor != null && year != null) contents += "[" + editor.substring(1, 3) + year.substring(2, 4) + "]";
 		else contents += "[inbook]";
 		if (author != null) contents += " " + author.substring(1, author.length()-1) + ".";
 		if (editor != null) contents += " " + editor.substring(1, editor.length()-1) + ".";
+
 		contents += " <i>" + title + "</i>,";
 		if (volume != null && series != null) contents += " volume " + volume.substring(1, volume.length()-1) + " of " + series.substring(1, series.length()-1) + ",";
 		if (number != null && series != null) contents += " number " + number.substring(1, number.length()-1) + " of " + series.substring(1, series.length()-1) + ",";
@@ -242,7 +213,5 @@ public void setPages(String pages){
 		if (note != null) contents += " " + note.substring(1, note.length()-1) + ".";
 		
 		return contents;
-	}
-	
-	
+	}	
 }

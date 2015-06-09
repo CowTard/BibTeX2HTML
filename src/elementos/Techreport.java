@@ -1,8 +1,7 @@
 package elementos;
 
 public class Techreport extends Entry {
-	
-	private String crossref, author, title, institution, year, type, number, address, month, note, key;
+	private String author, title, institution, year, number, address, month, note, key, crossref;
 	
 	public Techreport(){
 		super();
@@ -25,10 +24,6 @@ public class Techreport extends Entry {
 			break;
 		case "year":
 			setYear(value);
-			aRetornar = true;
-			break;
-		case "type":
-			setType(value);
 			aRetornar = true;
 			break;
 		case "number":
@@ -78,10 +73,6 @@ public class Techreport extends Entry {
 
 	public void setYear(String year) {
 		this.year = year;
-	}
-
-	public void setType(String type) {
-		this.type = type;
 	}
 
 	public void setNumber(String number) {

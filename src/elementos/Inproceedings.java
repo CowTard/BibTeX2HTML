@@ -3,7 +3,7 @@ package elementos;
 import compilador.ParseException;
 
 public class Inproceedings extends Entry {
-	private String crossref, author, title, booktitle, year, editor, volume, number, series, pages, address, month, organization, publisher, note, key;
+	private String author, title, booktitle, year, editor, volume, number, series, pages, address, month, organization, publisher, note, key, crossref;
 
 	public Inproceedings() {
 		super();
@@ -81,54 +81,44 @@ public class Inproceedings extends Entry {
 		return aRetornar;
 	}
 	
-
 	private void setCrossRef(String value) {
 		this.crossref = value;
 		
 	}
-
+	
 	public void setAuthor(String author) {
 		this.author = author;
 	}
-
 
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
-
 	public void setBooktitle(String booktitle) {
 		this.booktitle = booktitle;
 	}
-
 
 	public void setYear(String year) {
 		this.year = year;
 	}
 
-
 	public void setEditor(String editor) {
 		this.editor = editor;
 	}
-
 
 	public void setVolume(String volume) {
 		this.volume = volume;
 	}
 
-
 	public void setNumber(String number) {
 		this.number = number;
 	}
-
 
 	public void setSeries(String series) {
 		this.series = series;
 	}
 
-
-public void setPages(String pages){
-		
+	public void setPages(String pages){
 		String[] pagesSplit = pages.split("-");
 		
 		if(pagesSplit.length == 0)
@@ -162,34 +152,27 @@ public void setPages(String pages){
 				e.printStackTrace();
 			}
 		}
-			
 	}
-
 
 	public void setAddress(String address) {
 		this.address = address;
 	}
 
-
 	public void setMonth(String month) {
 		this.month = month;
 	}
-
 
 	public void setOrganization(String organization) {
 		this.organization = organization;
 	}
 
-
 	public void setPublisher(String publisher) {
 		this.publisher = publisher;
 	}
 
-
 	public void setNote(String note) {
 		this.note = note;
 	}
-
 
 	public void setKey(String key) {
 		this.key = key;
@@ -226,9 +209,6 @@ public void setPages(String pages){
 		if (publisher != null) contents += " " + publisher + ".";
 		if (note != null) contents += " " + note + ".";
 		
-		//type
-		
 		return contents;
-		
 	}
 }

@@ -1,7 +1,7 @@
 package elementos;
 
 public class Manual extends Entry {
-	private String crossref, author, title, organization, address, edition, month, year, note, key;
+	private String author, title, organization, address, edition, month, year, note, key, crossref;
 	
 	public Manual(){
 		super();
@@ -55,59 +55,41 @@ public class Manual extends Entry {
 		return aRetornar;
 	}
 	
-	
-	
 	private void setCrossRef(String value) {
 		this.crossref = crossref;
 	}
-
+	
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
-
 
 	public void setAuthor(String author) {
 		this.author = author;
 	}
 
-
-
 	public void setOrganization(String organization) {
 		this.organization = organization;
 	}
-
-
 
 	public void setAddress(String address) {
 		this.address = address;
 	}
 
-
-
 	public void setEdition(String edition) {
 		this.edition = edition;
 	}
-
-
 
 	public void setMonth(String month) {
 		this.month = month;
 	}
 
-
-
 	public void setYear(String year) {
 		this.year = year;
 	}
 
-
-
 	public void setNote(String note) {
 		this.note = note;
 	}
-
-
 
 	public void setKey(String key) {
 		this.key = key;
@@ -120,8 +102,6 @@ public class Manual extends Entry {
 		else return aRetornar.substring(0, aRetornar.length()-1);
 	}
 
-
-
 	@Override
 	public String printContents() {
 		String contents = "";
@@ -131,16 +111,14 @@ public class Manual extends Entry {
 		else contents += "[manual]";
 			
 		if (author != null) contents += " " + author + ".";
-		contents += " " + title + ".";
+		contents += " <i>" + title + "</i>.";
 		if (organization != null) contents += " " + organization + ",";
 		if (address != null) contents += " " + address + ",";
 		if (edition != null) contents += " " + edition + " edition,";
 		if (month != null) contents += " " + month;
 		if (year != null) contents += " " + year + ".";
 		if (note != null) contents += " " + note + ".";
-		
-		
+				
 		return contents;
-		
 	}
 }

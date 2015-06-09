@@ -1,7 +1,7 @@
 package elementos;
 
 public class Misc extends Entry {
-	private String crossref, author, title, howpublished, month, year, note, key;
+	private String author, title, howpublished, month, year, note, key, crossref;
 	
 	public Misc(){
 		super();
@@ -47,46 +47,33 @@ public class Misc extends Entry {
 		return aRetornar;
 	}
 
-
 	private void setCrossRef(String value) {
 		this.crossref = value;
 	}
-
+	
 	public void setAuthor(String author) {
 		this.author = author;
 	}
-
-
 
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
-
-
 	public void setHowpublished(String howpublished) {
 		this.howpublished = howpublished;
 	}
-
-
 
 	public void setMonth(String month) {
 		this.month = month;
 	}
 
-
-
 	public void setYear(String year) {
 		this.year = year;
 	}
 
-
-
 	public void setNote(String note) {
 		this.note = note;
 	}
-
-
 
 	public void setKey(String key) {
 		this.key = key;
@@ -114,4 +101,3 @@ public class Misc extends Entry {
 		return contents;
 	}
 }
-
