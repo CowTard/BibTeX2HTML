@@ -236,6 +236,52 @@ void addingToObjects(Token temp, String reference, String attribute, String valu
 		  {
 		  }else if (attribute.equals("pages"))
 		  {
+		    
+			String finale = value.substring(1,value.length()-1);
+			if(finale.matches("[0-9]+")){
+			}
+			else if(finale.matches("[0-9-]+")){
+				
+				String[] pagesSplit = finale.split("-");
+				if(pagesSplit.length == 1){
+					System.out.println("Tem um '-' a mais mas foi convertido.");
+				}
+				
+				else if(pagesSplit.length == 2){
+					int part1 = Integer.parseInt(pagesSplit[0]);
+					int part2 = Integer.parseInt(pagesSplit[1]);
+					
+					if(part1 > part2){
+						String novaPages = pagesSplit[1] + "-" + pagesSplit[0];
+						value = "\"" + novaPages + "\"";
+					}
+					
+					else if(part1 == part2){
+						value = "\"" + pagesSplit[0] + "\"";
+					}
+				}
+				
+				else{
+					/*try {
+						throw new ParseException("Pages not in the correct format.");
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}*/
+					System.out.println("Pages not in the correct format.");
+				}
+				
+			}
+			
+			else{
+				/*try {
+					throw new ParseException("Pages not in the correct format.");
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}*/
+				System.out.println("Pages not in the correct format.");
+			
+		}
+		    
 		  }else if (attribute.equals("chapter"))
 		  {
 		  }
