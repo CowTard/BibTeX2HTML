@@ -163,19 +163,18 @@ public void setPages(String pages){
 		String contents = "";
 		
 		if (key != null) contents += "[" + key + "]";
-		else contents += "[" + author.substring(0, 3) + year.substring(2, 4) + "]";
+		else contents += "[" + author.substring(1, 3) + year.substring(2, 4) + "]";
 		
-		contents += " " + author + ".";
-		contents += " " + title + ".";
-		contents += " <i>" + journal + "</i>,";
-		if (volume != null) contents += " " + volume;
-		if (number != null) contents += "(" + number + ")";
-		if (pages != null) contents += ":" + pages + ",";
-		if (month != null) contents += " " + month;
-		contents += " " + year + ".";
-		if (note != null) contents += " " + note + ".";
+		contents += " " + author.substring(1, author.length()-1) + ".";
+		contents += " " + title.substring(1, title.length()-1) + ".";
+		contents += " <i>" + journal.substring(1, journal.length()-1) + "</i>,";
+		if (volume != null) contents += " " + volume.substring(1, volume.length()-1);
+		if (number != null) contents += "(" + number.substring(1, number.length()-1) + ")";
+		if (pages != null) contents += ":" + pages.substring(1, pages.length()-1) + ",";
+		if (month != null) contents += " " + month.substring(1, month.length()-1);
+		contents += " " + year.substring(1, year.length()-1) + ".";
+		if (note != null) contents += " " + note.substring(1, note.length()-1) + ".";
 		
 		return contents;
 	}
 }
-

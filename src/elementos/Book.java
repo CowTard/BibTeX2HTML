@@ -154,20 +154,20 @@ public class Book extends Entry {
 		String contents = "";
 		
 		if (key != null) contents += "[" + key + "]";
-		else if (author != null && year != null) contents += "[" + author.substring(0, 3) + year.substring(2, 4) + "]";
-		else if (editor != null && year != null) contents += "[" + editor.substring(0, 3) + year.substring(2, 4) + "]";
+		else if (author != null && year != null) contents += "[" + author.substring(1, 3) + year.substring(2, 4) + "]";
+		else if (editor != null && year != null) contents += "[" + editor.substring(1, 3) + year.substring(2, 4) + "]";
 		else contents += "[book]";
 		
-		if (author != null) contents += " " + author + ".";
-		if (editor != null) contents += " " + editor + ".";
-		contents += " <i>" + title + "</i>,";
-		if (volume != null && number != null)contents += " volume " + volume + " of " + number + ".";
-		contents += " " +  publisher + ",";
-		if (address != null) contents += " " + address + " ";
-		if (edition != null) contents += " " + edition + " edition,";
-		if (month != null) contents += " " + month;
-		contents += " " + year + ".";
-		if (note != null) contents += " " + note + ".";
+		if (author != null) contents += " " + author.substring(1, author.length()-1) + ".";
+		if (editor != null) contents += " " + editor.substring(1, editor.length()-1) + ".";
+		contents += " <i>" + title.substring(1, title.length()-1) + "</i>,";
+		if (volume != null && number != null)contents += " volume " + volume.substring(1, volume.length()-1) + " of " + number.substring(1, number.length()-1) + ".";
+		contents += " " +  publisher.substring(1, publisher.length()-1) + ",";
+		if (address != null) contents += " " + address.substring(1, address.length()-1) + " ";
+		if (edition != null) contents += " " + edition.substring(1, edition.length()-1) + " edition,";
+		if (month != null) contents += " " + month.substring(1, month.length()-1);
+		contents += " " + year.substring(1, year.length()-1) + ".";
+		if (note != null) contents += " " + note.substring(1, note.length()-1) + ".";
 		
 		return contents;
 	}
