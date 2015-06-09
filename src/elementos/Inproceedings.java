@@ -160,25 +160,30 @@ public class Inproceedings extends Entry {
 		else return aRetornar.substring(0, aRetornar.length()-1);
 	}
 
-	public String toString(){
-		String result = "";
+	@Override
+	public String printContents() {
+		String contents = "";
 		
-		result += "Author: " + author;
-		result += "\nTitle: " + title;
-		result += "\nBooktitle: " + booktitle;
-		result += "\nYear: " + year;
-		if (editor != null) result += "Editor: " + editor;
-		if (volume != null) result += "\nVolume: " + volume;
-		if (number != null) result += "\nNumber: " + number;
-		if (series != null) result += "\nSeries: " + series;
-		if (pages != null) result += "\nPages: " + pages;
-		if (address != null) result += "\nAddress: " + address;
-		if (month != null) result += "\nMonth: " + month;
-		if (organization != null) result += "\nOrganization: " + organization;
-		if (publisher != null) result += "\nPublisher: " + publisher;
-		if (note != null) result += "\nNote: " + note;
-		if (key != null) result += "\nKey: " + key;
+		if (key != null) contents += "[" + key + "]";
+		else contents += "[" + author.substring(0, 3) + year.substring(2, 4) + "]";
 		
-		return result + "\n\n";
+		contents += " " + author + ".";
+		contents += " " + title + ".";
+		if (editor != null) contents += " In " + editor + ", editor,";
+		contents += " " + booktitle + ",";
+		if (volume != null && series != null) contents += " volume " + volume + " of " + series + ",";
+		else if (number != null && series != null) contents += " number " + number + " of " + series + ",";
+		if (pages != null) contents += " pages " + pages + ",";
+		if (address != null) contents += " " + address + ",";
+		if (month != null) contents += " " + month;
+		contents += " " + year + ".";
+		if (organization != null) contents += " " + organization + ",";
+		if (publisher != null) contents += " " + publisher + ".";
+		if (note != null) contents += " " + note + ".";
+		
+		//type
+		
+		return contents;
+		
 	}
 }

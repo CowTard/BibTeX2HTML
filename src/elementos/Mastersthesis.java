@@ -105,19 +105,24 @@ public class Mastersthesis extends Entry {
 		else return aRetornar.substring(0, aRetornar.length()-1);
 	}
 
-	public String toString(){
-		String result = "";
-	
-		result += "Author: " + author;
-		result += "\nTitle: " + title;
-		result += "\nSchool: " + school;
-		result += "\nYear: " + year;
-		if (type != null) result += "\nType: " + type;
-		if (address != null) result += "\nAddress: " + address;
-		if (month != null) result += "\nMonth: " + month;
-		if (note != null) result += "\nNote: " + note;
-		if (key != null) result += "\nKey: " + key;
+	@Override
+	public String printContents() {
+		String contents = "";
 		
-		return result + "\n\n";
+		if (key != null) contents += "[" + key + "]";
+		else contents += "[" + author.substring(0, 3) + year.substring(2, 4) + "]";
+		
+		contents += " " + author + ".";
+		contents += " " + title + ".";
+		contents += " Master's thesis, " + school + ",";
+		if (address != null) contents += " " + address + ",";
+		if (month != null) contents += " " + month;
+		contents += " " + year + ".";
+		if (note != null) contents += " " + note + ".";
+		
+		//type
+		
+		return contents;
+		
 	}
 }

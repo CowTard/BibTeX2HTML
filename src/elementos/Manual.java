@@ -113,19 +113,26 @@ public class Manual extends Entry {
 	}
 
 
-	public String toString(){
-		String result = "";
-	
-		result += "Title: " + title;
-		if (author != null) result += "\nAuthor: " + author;
-		if (organization != null) result += "\nOrganization: " + organization;
-		if (address != null) result += "\nAddress: " + address;
-		if (edition != null) result += "\nEdition: " + edition;
-		if (month != null) result += "\nMonth: " + month;
-		if (year != null) result += "\nYear: " + year;
-		if (note != null) result += "\nNote: " + note;
-		if (key != null) result += "\nKey: " + key;
+
+	@Override
+	public String printContents() {
+		String contents = "";
 		
-		return result + "\n\n";
+		if (key != null) contents += "[" + key + "]";
+		else if (author != null && year != null) contents += "[" + author.substring(0, 3) + year.substring(2, 4) + "]";
+		else contents += "[manual]";
+			
+		if (author != null) contents += " " + author + ".";
+		contents += " " + title + ".";
+		if (organization != null) contents += " " + organization + ",";
+		if (address != null) contents += " " + address + ",";
+		if (edition != null) contents += " " + edition + " edition,";
+		if (month != null) contents += " " + month;
+		if (year != null) contents += " " + year + ".";
+		if (note != null) contents += " " + note + ".";
+		
+		
+		return contents;
+		
 	}
 }
