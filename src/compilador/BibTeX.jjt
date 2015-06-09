@@ -242,10 +242,43 @@ void addingToObjects(Token temp, String reference, String attribute, String valu
 		    		  		}
 		  } else if (attribute.equals("year"))
 		  {
+		    	String finale = value.substring(1,value.length()-1);
+				if(finale.matches("[0-9]+")){
+					int inteiro = Integer.parseInt(value);
+					if(inteiro < 0){
+						System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);
+	  				}	
+				}
+				
+				else{
+					System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);
+				}
 		  }else if (attribute.equals("volume"))
 		  {
+		    String finale = value.substring(1,value.length()-1);
+				if(finale.matches("[0-9]+")){
+					int inteiro = Integer.parseInt(value);
+					if(inteiro < 0){
+						System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);
+	  				}	
+				}
+				
+				else{
+					System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);
+				}
 		  }else if (attribute.equals("number"))
 		  {
+		    String finale = value.substring(1,value.length()-1);
+			if(finale.matches("[0-9]+")){
+				int inteiro = Integer.parseInt(value);
+				if(inteiro < 0){
+					System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);
+  				}	
+			}
+			
+			else{
+				System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);
+			}
 		  }else if (attribute.equals("pages"))
 		  {
 		    
@@ -256,7 +289,7 @@ void addingToObjects(Token temp, String reference, String attribute, String valu
 				
 				String[] pagesSplit = finale.split("-");
 				if(pagesSplit.length == 1){
-					System.out.println("Tem um '-' a mais mas foi convertido.");
+					System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale + "mas foi convertido corretamente");
 					value = "\"" + pagesSplit[0] + "\"";
 				}
 				
@@ -275,28 +308,29 @@ void addingToObjects(Token temp, String reference, String attribute, String valu
 				}
 				
 				else{
-					/*try {
-						throw new ParseException("Pages not in the correct format.");
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}*/
-					System.out.println("Pages not in the correct format.");
+					System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);
 				}
 				
 			}
 			
 			else{
-				/*try {
-					throw new ParseException("Pages not in the correct format.");
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}*/
-				System.out.println("Pages not in the correct format.");
+				System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);
 			
 		}
 		    
 		  }else if (attribute.equals("chapter"))
 		  {
+		    String finale = value.substring(1,value.length()-1);
+			if(finale.matches("[0-9]+")){
+				int inteiro = Integer.parseInt(value);
+				if(inteiro < 0){
+					System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);
+  				}	
+			}
+			
+			else{
+				System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);
+			}
 		  }
 		  
 		String attr = attribute.toLowerCase();
