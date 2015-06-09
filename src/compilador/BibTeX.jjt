@@ -31,26 +31,31 @@ public class BibTeX {
 
 	public static void main(String args[]) throws ParseException, IOException {
 
-		String fname = "";
+		String fname = "", debug = "";
 		Scanner sc = new Scanner(System. in );
 		while (fileExist(fname) != true) {
 			System.out.print("Introduza o ficheiro que pretende usar > ");
 			fname = sc.nextLine();
-			System.out.print("\n\n");
 		}
 
 		while(true){
 		  System.out.print("Que level de debug pretende?[NO_DEBUG, LVL1_DEBUG, LVL2_DEBUG] > ");
-		  fname = sc.nextLine();
-		  if (fname.toLowerCase().equals("no_debug")){
-		  	DEBUG_LEVEL = NO_DEBUG;  		  }
-		  else if (fname.toLowerCase().equals("lvl1_debug")){
-		  	DEBUG_LEVEL = LVL1_DEBUG;  
+		  debug = sc.nextLine();
+		  if (debug.toLowerCase().equals("no_debug")){
+		  	DEBUG_LEVEL = NO_DEBUG;
+		  	break;
 		  }
-		  else if (fname.toLowerCase().equals("lvl2_debug")){
-		  	DEBUG_LEVEL = LVL2_DEBUG;  
-		  }		}
+		  else if (debug.toLowerCase().equals("lvl1_debug")){
+		  	DEBUG_LEVEL = LVL1_DEBUG;
+		  	break;
+		  }
+		  else if (debug.toLowerCase().equals("lvl2_debug")){
+		  	DEBUG_LEVEL = LVL2_DEBUG;
+		  	break;
+		  }
+		}
 
+		System.out.print("\n\n\n\n");
 		BibTeX parser = new BibTeX(new FileInputStream(new File(fname)));
 		simpleN = parser.start();
 
@@ -64,6 +69,8 @@ public class BibTeX {
 		}
 		
 		sc.close();
+
+		System.out.println("\n\n\nAll ok. You file is your directory! :)");
 	}
 
 	private static boolean fileExist(String filename) {
@@ -196,6 +203,7 @@ Token definition(Token attr): {
 					} else throw new ParsingError("[WARNING-Linha " + field.beginLine + "] A referência " + entryReading + " tem o campo \'" + attr.image + "\' repetido.");
 				}
 			} catch (ParsingError e) {
+			  if (DEBUG_LEVEL >= LVL1_DEBUG)
 				System.out.println(e.getMessage());
 			}
 		}
@@ -217,8 +225,10 @@ void semanticAnalysis(): {} {
 					String nameWithoutQuotes = symbolTable.get(reference).get("crossref").substring(1, symbolTable.get(reference).get("crossref").length() - 1);
 					Entry temporaria = entradas.get(nameWithoutQuotes);
 					if (temporaria == null) {
+					  if (DEBUG_LEVEL >= LVL1_DEBUG)					  {
 						System.out.println("[WARNING-Linha " + tempToken_.beginLine + "] A referência " + reference + " está a referenciar um objeto que não existe.");
 						symbolTable.get(reference).remove("crossref");
+				}
 					} else {
 						addingToObjects(tempToken, reference, tempToken_.image, symbolTable.get(reference).get(tempToken_.image));
 					}
@@ -255,58 +265,70 @@ void addingToObjects(Token temp, String reference, String attribute, String valu
 		    	  		System.out.println("[ERROR-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + value);
 		    	  		System.exit(0);
 		  				}
-					} else						{
-						  System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + value);						}
-		    		  		}
+					} else
+						{
+						  if (DEBUG_LEVEL == LVL2_DEBUG)
+						  System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + value);
+						}
+		    	
+	  		}
 		  } else if (attribute.equals("year"))
 		  {
 		    	String finale = value.substring(1,value.length()-1);
 				if(finale.matches("[0-9]+")){
-					int inteiro = Integer.parseInt(value);
+					int inteiro = Integer.parseInt(finale);
 					if(inteiro < 0){
+					  if (DEBUG_LEVEL >= LVL1_DEBUG)
 						System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);
 	  				}	
 				}
 				
 				else{
-					System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);
+					System.out.println("[ERROR-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);
+					System.exit(0);
 				}
 		  }else if (attribute.equals("volume"))
 		  {
 		    String finale = value.substring(1,value.length()-1);
 				if(finale.matches("[0-9]+")){
-					int inteiro = Integer.parseInt(value);
+					int inteiro = Integer.parseInt(finale);
 					if(inteiro < 0){
+					  if (DEBUG_LEVEL >= LVL1_DEBUG)
 						System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);
 	  				}	
 				}
 				
 				else{
-					System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);
+					System.out.println("[ERROR-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale + ", deve ser introduzido um inteiro");
+					System.exit(0);
 				}
 		  }else if (attribute.equals("number"))
 		  {
 		    String finale = value.substring(1,value.length()-1);
 			if(finale.matches("[0-9]+")){
-				int inteiro = Integer.parseInt(value);
+				int inteiro = Integer.parseInt(finale);
 				if(inteiro < 0){
-					System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);
+				  if (DEBUG_LEVEL >= LVL1_DEBUG)
+					System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale + ", mas foi corrigido");
   				}	
 			}
 			
 			else{
-				System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);
+				System.out.println("[ERROR-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);
+				System.exit(0);
 			}
 		  }else if (attribute.equals("pages"))
 		  {
 		    
 			String finale = value.substring(1,value.length()-1);
-			if(finale.matches("[0-9]+")){
+			if(finale.matches("[0-9]+")){
+
 			}
 			else if(finale.matches("[0-9-]+")){
 				
 				String[] pagesSplit = finale.split("-");
 				if(pagesSplit.length == 1){
+				  if (DEBUG_LEVEL >= LVL1_DEBUG)
 					System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale + "mas foi convertido corretamente");
 					value = "\"" + pagesSplit[0] + "\"";
 				}
@@ -326,7 +348,8 @@ void addingToObjects(Token temp, String reference, String attribute, String valu
 				}
 				
 				else{
-					System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);
+					System.out.println("[ERROR-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale + ", não sendo possivel recuperar.");
+					System.exit(0);
 				}
 				
 			}
@@ -340,19 +363,22 @@ void addingToObjects(Token temp, String reference, String attribute, String valu
 		  {
 		    String finale = value.substring(1,value.length()-1);
 			if(finale.matches("[0-9]+")){
-				int inteiro = Integer.parseInt(value);
+				int inteiro = Integer.parseInt(finale);
 				if(inteiro < 0){
+				  if (DEBUG_LEVEL >= LVL1_DEBUG)
 					System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);
   				}	
 			}
 			
 			else{
-				System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);
+				System.out.println("[ERROR-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale + ", devendo ter um valor inteiro");
+				System.exit(0);
 			}
 		  }
 		  
 		String attr = attribute.toLowerCase();
-		if (!entradas.get(reference).addattribute(attr, value)){
+		if (!entradas.get(reference).addattribute(attr, attr)){
+		  if (DEBUG_LEVEL >= LVL1_DEBUG)
 			System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' que não é um atributo de " + entradas.get(reference).getClass().getSimpleName());
 		}
 	}
