@@ -141,7 +141,7 @@ public class Book extends Entry {
 	public String printContents() {
 		String contents = "";
 		
-		if (key != null) contents += "[" + key + "]";
+		if (key != null) contents += "[" + key.substring(1, key.length()-1) + "]";
 
 		else if (author != null && year != null) contents += "[" + author.substring(1, 3) + year.substring(2, 4) + "]";
 		else if (editor != null && year != null) contents += "[" + editor.substring(1, 3) + year.substring(2, 4) + "]";

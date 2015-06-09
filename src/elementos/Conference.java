@@ -191,7 +191,7 @@ public class Conference extends Entry {
 	public String printContents() {
 		String contents = "";
 		
-		if (key != null) contents += "[" + key + "]";
+		if (key != null) contents += "[" + key.substring(1, key.length()-1) + "]";
 		else contents += "[" + author.substring(1, 3) + year.substring(2, 4) + "]";
 		
 		contents += " " + author.substring(1, author.length()-1) + ".";

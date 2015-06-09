@@ -192,22 +192,22 @@ public class Inproceedings extends Entry {
 	public String printContents() {
 		String contents = "";
 		
-		if (key != null) contents += "[" + key + "]";
-		else contents += "[" + author.substring(0, 3) + year.substring(2, 4) + "]";
+		if (key != null) contents += "[" + key.substring(1, key.length()-1) + "]";
+		else contents += "[" + author.substring(1, 3) + year.substring(2, 4) + "]";
 		
-		contents += " " + author + ".";
-		contents += " " + title + ".";
-		if (editor != null) contents += " In " + editor + ", editor,";
-		contents += " <i>" + booktitle + "</i>,";
-		if (volume != null && series != null) contents += " volume " + volume + " of " + series + ",";
-		else if (number != null && series != null) contents += " number " + number + " of " + series + ",";
-		if (pages != null) contents += " pages " + pages + ",";
-		if (address != null) contents += " " + address + ",";
-		if (month != null) contents += " " + month;
-		contents += " " + year + ".";
-		if (organization != null) contents += " " + organization + ",";
-		if (publisher != null) contents += " " + publisher + ".";
-		if (note != null) contents += " " + note + ".";
+		contents += " " + author.substring(1, author.length()-1) + ".";
+		contents += " " + title.substring(1, title.length()-1) + ".";
+		if (editor != null) contents += " In " + editor.substring(1, editor.length()-1) + ", editor,";
+		contents += " <i>" + booktitle.substring(1, booktitle.length()-1) + "</i>,";
+		if (volume != null && series != null) contents += " volume " + volume.substring(1, volume.length()-1) + " of " + series + ",";
+		else if (number != null && series != null) contents += " number " + number.substring(1, number.length()-1) + " of " + series.substring(1, series.length()-1) + ",";
+		if (pages != null) contents += " pages " + pages.substring(1, pages.length()-1) + ",";
+		if (address != null) contents += " " + address.substring(1, address.length()-1) + ",";
+		if (month != null) contents += " " + month.substring(1, month.length()-1);
+		contents += " " + year.substring(1, year.length()-1) + ".";
+		if (organization != null) contents += " " + organization.substring(1, organization.length()-1) + ",";
+		if (publisher != null) contents += " " + publisher.substring(1, publisher.length()-1) + ".";
+		if (note != null) contents += " " + note.substring(1, note.length()-1) + ".";
 		
 		return contents;
 	}

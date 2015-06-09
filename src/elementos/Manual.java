@@ -106,18 +106,18 @@ public class Manual extends Entry {
 	public String printContents() {
 		String contents = "";
 		
-		if (key != null) contents += "[" + key + "]";
-		else if (author != null && year != null) contents += "[" + author.substring(0, 3) + year.substring(2, 4) + "]";
+		if (key != null) contents += "[" + key.substring(1, key.length()-1) + "]";
+		else if (author != null && year != null) contents += "[" + author.substring(1, 3) + year.substring(2, 4) + "]";
 		else contents += "[manual]";
 			
-		if (author != null) contents += " " + author + ".";
-		contents += " <i>" + title + "</i>.";
-		if (organization != null) contents += " " + organization + ",";
-		if (address != null) contents += " " + address + ",";
-		if (edition != null) contents += " " + edition + " edition,";
-		if (month != null) contents += " " + month;
-		if (year != null) contents += " " + year + ".";
-		if (note != null) contents += " " + note + ".";
+		if (author != null) contents += " " + author.substring(1, author.length()-1) + ".";
+		contents += " <i>" + title.substring(1, title.length()-1) + "</i>.";
+		if (organization != null) contents += " " + organization.substring(1, organization.length()-1) + ",";
+		if (address != null) contents += " " + address.substring(1, address.length()-1) + ",";
+		if (edition != null) contents += " " + edition.substring(1, edition.length()-1) + " edition,";
+		if (month != null) contents += " " + month.substring(1, month.length()-1);
+		if (year != null) contents += " " + year.substring(1, year.length()-1) + ".";
+		if (note != null) contents += " " + note.substring(1, note.length()-1) + ".";
 				
 		return contents;
 	}

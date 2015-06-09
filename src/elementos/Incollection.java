@@ -200,24 +200,24 @@ public class Incollection extends Entry {
 	public String printContents() {
 		String contents = "";
 		
-		if (key != null) contents += "[" + key + "]";
-		else contents += "[" + author.substring(0, 3) + year.substring(2, 4) + "]";
+		if (key != null) contents += "[" + key.substring(1, key.length()-1) + "]";
+		else contents += "[" + author.substring(1, 3) + year.substring(2, 4) + "]";
 		
-		contents += " " + author + ".";
-		contents += " " + title + ".";
-		if (editor != null) contents += " In " + editor + ", editor,";
-		contents += " <i>" + booktitle + "</i>,";
-		if (volume != null) contents += " volume " + volume;
-		else if (number != null) contents += " number " + number;
-		if (series != null) contents += " of " + series + ",";
-		if (chapter != null) contents += " chapter " + chapter + ",";
-		if (pages != null) contents += " pages " + pages + ".";
-		contents += " " + publisher + ",";
-		if (address != null) contents += " " + address + ",";
-		if (edition != null) contents += " " + edition + " edition,";
-		if (month != null) contents += " " + month;
-		contents += " " + year + ".";
-		if (note != null) contents += " " + note + ".";
+		contents += " " + author.substring(1, author.length()-1) + ".";
+		contents += " " + title.substring(1, title.length()-1) + ".";
+		if (editor != null) contents += " In " + editor.substring(1, editor.length()-1) + ", editor,";
+		contents += " <i>" + booktitle.substring(1, booktitle.length()-1) + "</i>,";
+		if (volume != null) contents += " volume " + volume.substring(1, volume.length()-1);
+		else if (number != null) contents += " number " + number.substring(1, number.length()-1);
+		if (series != null) contents += " of " + series.substring(1, series.length()-1) + ",";
+		if (chapter != null) contents += " chapter " + chapter.substring(1, chapter.length()-1) + ",";
+		if (pages != null) contents += " pages " + pages.substring(1, pages.length()-1) + ".";
+		contents += " " + publisher.substring(1, publisher.length()-1) + ",";
+		if (address != null) contents += " " + address.substring(1, address.length()-1) + ",";
+		if (edition != null) contents += " " + edition.substring(1, edition.length()-1) + " edition,";
+		if (month != null) contents += " " + month.substring(1, month.length()-1);
+		contents += " " + year.substring(1, year.length()-1) + ".";
+		if (note != null) contents += " " + note.substring(1, note.length()-1) + ".";
 
 		return contents;
 	}

@@ -109,17 +109,17 @@ public class Techreport extends Entry {
 	public String printContents() {
 		String contents = "";
 		
-		if (key != null) contents += "[" + key + "]";
-		else contents += "[" + author.substring(0, 3) + year.substring(2, 4) + "]";
+		if (key != null) contents += "[" + key.substring(1, key.length()-1) + "]";
+		else contents += "[" + author.substring(1, 3) + year.substring(2, 4) + "]";
 		
-		contents += " " + author + ".";
-		contents += " " + title + ".";
-		if (number != null) contents += " Technical Report " + number + ",";
-		contents += " " + institution + ",";
-		if (address != null) contents += " " + address + ",";
-		if (month != null) contents += " " + month;
-		contents += " " + year + ".";
-		if (contents != null) contents += " " + note + ".";
+		contents += " " + author.substring(1, author.length()-1) + ".";
+		contents += " " + title.substring(1, title.length()-1) + ".";
+		if (number != null) contents += " Technical Report " + number.substring(1, number.length()-1) + ",";
+		contents += " " + institution.substring(1, institution.length()-1) + ",";
+		if (address != null) contents += " " + address.substring(1, address.length()-1) + ",";
+		if (month != null) contents += " " + month.substring(1, month.length()-1);
+		contents += " " + year.substring(1, year.length()-1) + ".";
+		if (contents != null) contents += " " + note.substring(1, note.length()-1) + ".";
 		
 		return contents;
 	}
