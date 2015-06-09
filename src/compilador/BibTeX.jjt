@@ -250,6 +250,7 @@ void addingToObjects(Token temp, String reference, String attribute, String valu
 				String[] pagesSplit = finale.split("-");
 				if(pagesSplit.length == 1){
 					System.out.println("Tem um '-' a mais mas foi convertido.");
+					value = "\"" + pageSplit[0] + "\"";
 				}
 				
 				else if(pagesSplit.length == 2){
