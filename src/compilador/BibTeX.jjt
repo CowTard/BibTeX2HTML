@@ -227,10 +227,10 @@ void semanticAnalysis(): {} {
 							symbolTable.get(reference).remove("crossref");
 						}
 					} else {
-						addingToObjects(tempToken, reference, tempToken_.image, symbolTable.get(reference).get(tempToken_.image));
+						addingToObjects(tempToken_, reference, tempToken_.image, symbolTable.get(reference).get(tempToken_.image));
 					}
 				} else {
-					addingToObjects(tempToken, reference, tempToken_.image, symbolTable.get(reference).get(tempToken_.image));
+					addingToObjects(tempToken_, reference, tempToken_.image, symbolTable.get(reference).get(tempToken_.image));
 				}
 			}
 			try {
@@ -255,8 +255,8 @@ void addingToObjects(Token temp, String reference, String attribute, String valu
 		} else if (attribute.equals("month"))
 
 		{
-			if (!value.equals("January") || !value.equals("February") || !value.equals("March") || !value.equals("April") || !value.equals("May") || !value.equals("June") || !value.equals("July") || !value.equals("August") || !value.equals("September") || !value.equals("November") || !value.equals("December")) {
-				String finale = value.substring(1, value.length() - 1);
+		  String finale = value.substring(1, value.length() - 1);
+			if (!finale.equals("January") && !finale.equals("February") && !finale.equals("March") && !finale.equals("April") && !finale.equals("May") && !finale.equals("June") && !finale.equals("July") && !finale.equals("August") && !finale.equals("September") && !finale.equals("October") && !finale.equals("November") && !finale.equals("December")) {
 				if (finale.matches("[0-9]+")) {
 					int inteiro = Integer.parseInt(finale);
 					if (inteiro < 0 || inteiro > 12) {
@@ -346,7 +346,7 @@ void addingToObjects(Token temp, String reference, String attribute, String valu
 		}
 
 		String attr = attribute.toLowerCase();
-		if (!entradas.get(reference).addattribute(attr, attr)) {
+		if (!entradas.get(reference).addattribute(attr, value)) {
 			if (DEBUG_LEVEL >= LVL1_DEBUG) System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' que não é um atributo de " + entradas.get(reference).getClass().getSimpleName());
 		}
 	}

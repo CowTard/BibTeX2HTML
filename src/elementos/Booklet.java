@@ -89,7 +89,7 @@ public class Booklet extends Entry {
 	
 	public String isValid() {
 		String aRetornar = "";
-		if (title == null) aRetornar = "title";
+		if (title == null) aRetornar = "title-";
 		if (aRetornar == "") return "";
 		else return aRetornar.substring(0, aRetornar.length()-1);
 	}
