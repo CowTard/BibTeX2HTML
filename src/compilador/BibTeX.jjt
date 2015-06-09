@@ -229,10 +229,15 @@ void addingToObjects(Token temp, String reference, String attribute, String valu
 		  } else if (attribute.equals("month"))
 		  
 		  { if(!value.equals("January")||!value.equals("February")||!value.equals("March")||!value.equals("April")||!value.equals("May")||!value.equals("June")||!value.equals("July")||!value.equals("August")||!value.equals("September")||!value.equals("November")||!value.equals("December")){
-				
-		    	int inteiro = Integer.parseInt(value);
-		    	if(inteiro<0 || inteiro >12){
-		    	  System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + value);		  		}	  		}
+				String finale = value.substring(1,value.length()-1);
+					if(finale.matches("[0-9]+")){
+						int inteiro = Integer.parseInt(value);
+		    			if(inteiro<0 || inteiro >12){
+		    	  		System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);
+		  				}
+					} else						{
+						  System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);						}
+		    		  		}
 		  } else if (attribute.equals("year"))
 		  {
 		  }else if (attribute.equals("volume"))
