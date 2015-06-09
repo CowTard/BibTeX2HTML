@@ -1,7 +1,6 @@
 package elementos;
 
 public class Unpublished extends Entry {
-	
 	private String author, title, note, month, year, key;
 	
 	public Unpublished(){
@@ -11,19 +10,6 @@ public class Unpublished extends Entry {
 	public boolean isValid() {
 		if (author != null && title != null && note != null) return true;
 		else return false;
-	}
-	
-	public String toString(){
-		String result = "";
-		
-		result += "Author: " + author;
-		result += "\nTitle: " + title;
-		result += "\nNote: " + note;
-		if (month != null) result += "\nMonth: " + month;
-		if (year != null) result += "\nYear: " + year;
-		if (key != null) result += "\nKey: " + key;
-		
-		return result + "\n\n";
 	}
 
 	public void setAuthor(String author) {
@@ -50,4 +36,20 @@ public class Unpublished extends Entry {
 		this.key = key;
 	}
 	
+	@Override
+	public String printContents() {
+		String contents = "";
+		
+		if (key != null) contents += "[" + key + "]";
+		else if (year != null) contents += "[" + author.substring(0, 3) + year.substring(2, 4) + "]";
+		else contents += "[unpublished]";
+		
+		contents += " " + author + ".";
+		contents += " " + title + ".";
+		contents += " " + note + ",";
+		if (month != null) contents += " " + month;
+		if (year != null) contents += " " + year + ".";
+		
+		return contents;
+	}
 }
