@@ -1,3 +1,7 @@
+options {
+	UNICODE_INPUT=true;
+}
+
 PARSER_BEGIN(BibTeX)
 
 package compilador;
@@ -11,6 +15,11 @@ import elementos.*;
 
 public class BibTeX {
 
+	private static int NO_DEBUG = 0;
+	private static int LVL1_DEBUG = 1;
+	private static int LVL2_DEBUG = 2;
+	private static int DEBUG_LEVEL = NO_DEBUG;
+	
 	private static HashMap < String, HashMap < String, String > > symbolTable = new HashMap < String, HashMap < String, String >> ();
 	private static HashMap < String, Entry > entradas = new HashMap < String, Entry > ();
 	private static ArrayList <Entry > entryList = new ArrayList <Entry>();
@@ -27,8 +36,20 @@ public class BibTeX {
 		while (fileExist(fname) != true) {
 			System.out.print("Introduza o ficheiro que pretende usar > ");
 			fname = sc.nextLine();
-			System.out.print("\n\n\n\n");
+			System.out.print("\n\n");
 		}
+
+		while(true){
+		  System.out.print("Que level de debug pretende?[NO_DEBUG, LVL1_DEBUG, LVL2_DEBUG] > ");
+		  fname = sc.nextLine();
+		  if (fname.toLowerCase().equals("no_debug")){
+		  	DEBUG_LEVEL = NO_DEBUG;  		  }
+		  else if (fname.toLowerCase().equals("lvl1_debug")){
+		  	DEBUG_LEVEL = LVL1_DEBUG;  
+		  }
+		  else if (fname.toLowerCase().equals("lvl2_debug")){
+		  	DEBUG_LEVEL = LVL2_DEBUG;  
+		  }		}
 
 		BibTeX parser = new BibTeX(new FileInputStream(new File(fname)));
 		simpleN = parser.start();
@@ -51,8 +72,6 @@ public class BibTeX {
 	}
 }
 
-
-
 PARSER_END(BibTeX)
 
 SKIP: {
@@ -67,7 +86,7 @@ TOKEN: // 2nd level [fields]
 { < AUTHOR: "author" > | < CROSSREF: "crossref" > | < TITLE: "title" > | < JOURNAL: "journal" > | < YEAR: "year" > | < VOLUME: "volume" > | < NUMBER: "number" > | < PAGES: "pages" > | < MONTH: "month" > | < NOTE: "note" > | < KEY: "key" > | < EDITOR: "editor" > | < PUBLISHER: "publisher" > | < SERIES: "series" > | < ADDRESS: "address" > | < EDITION: "edition" > | < HOWPUBLISHED: "howpublished" > | < CHAPTER: "chapter" > | < BOOKTITLE: "booktitle" > | < ORGANIZATION: "organization" > | < SCHOOL: "school" > | < INSTITUTION: "institution" >
 }
 
-TOKEN: { < FIELD: "\"" ( < WORD > | " " | < DASH >) * "\"" > | < WORD: ( < CHARACTER > | < INTEGER > ) + > | < CHARACTER: ["A" - "Z", "a" - "z"] > | < INTEGER: ["0" - "9"] > | < OPENBRACES: "{" > | < CLOSEBRACES: "}" > | < COMMA: "," > | < PERIOD: "." > | < EQUALS: "=" > | < DASH: "-" >
+TOKEN: { < FIELD: "\"" ( < WORD > | " " | < DASH >) * "\"" > | < WORD: ( < CHARACTER > | < INTEGER > ) + > | < CHARACTER: ["A" - "Z", "a" - "z", "\u00c0" - "\u00ff"] > | < INTEGER: ["0" - "9"] > | < OPENBRACES: "{" > | < CLOSEBRACES: "}" > | < COMMA: "," > | < PERIOD: "." > | < EQUALS: "=" > | < DASH: "-" >
 }
 
 void imprimirSymbolTable(): {} {
@@ -241,10 +260,43 @@ void addingToObjects(Token temp, String reference, String attribute, String valu
 		    		  		}
 		  } else if (attribute.equals("year"))
 		  {
+		    	String finale = value.substring(1,value.length()-1);
+				if(finale.matches("[0-9]+")){
+					int inteiro = Integer.parseInt(value);
+					if(inteiro < 0){
+						System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);
+	  				}	
+				}
+				
+				else{
+					System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);
+				}
 		  }else if (attribute.equals("volume"))
 		  {
+		    String finale = value.substring(1,value.length()-1);
+				if(finale.matches("[0-9]+")){
+					int inteiro = Integer.parseInt(value);
+					if(inteiro < 0){
+						System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);
+	  				}	
+				}
+				
+				else{
+					System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);
+				}
 		  }else if (attribute.equals("number"))
 		  {
+		    String finale = value.substring(1,value.length()-1);
+			if(finale.matches("[0-9]+")){
+				int inteiro = Integer.parseInt(value);
+				if(inteiro < 0){
+					System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);
+  				}	
+			}
+			
+			else{
+				System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);
+			}
 		  }else if (attribute.equals("pages"))
 		  {
 		    
@@ -255,7 +307,7 @@ void addingToObjects(Token temp, String reference, String attribute, String valu
 				
 				String[] pagesSplit = finale.split("-");
 				if(pagesSplit.length == 1){
-					System.out.println("Tem um '-' a mais mas foi convertido.");
+					System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale + "mas foi convertido corretamente");
 					value = "\"" + pagesSplit[0] + "\"";
 				}
 				
@@ -274,28 +326,29 @@ void addingToObjects(Token temp, String reference, String attribute, String valu
 				}
 				
 				else{
-					/*try {
-						throw new ParseException("Pages not in the correct format.");
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}*/
-					System.out.println("Pages not in the correct format.");
+					System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);
 				}
 				
 			}
 			
 			else{
-				/*try {
-					throw new ParseException("Pages not in the correct format.");
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}*/
-				System.out.println("Pages not in the correct format.");
+				System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);
 			
 		}
 		    
 		  }else if (attribute.equals("chapter"))
 		  {
+		    String finale = value.substring(1,value.length()-1);
+			if(finale.matches("[0-9]+")){
+				int inteiro = Integer.parseInt(value);
+				if(inteiro < 0){
+					System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);
+  				}	
+			}
+			
+			else{
+				System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);
+			}
 		  }
 		  
 		String attr = attribute.toLowerCase();
