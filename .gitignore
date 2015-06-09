@@ -13,3 +13,5 @@ bin/
 hs_err_pid*
 
 src/compilador/BibTeX.jj
+
+*.html
