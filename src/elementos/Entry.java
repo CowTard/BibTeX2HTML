@@ -1,12 +1,8 @@
 package elementos;
 
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
 
 public abstract class Entry {
 	protected String reference;
@@ -18,16 +14,22 @@ public abstract class Entry {
 	public abstract boolean addattribute(String attr, String value);
 	
 	public abstract String isValid();
-
-	public void createFile() throws UnsupportedEncodingException, FileNotFoundException, IOException{
-		
-		try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-	              new FileOutputStream("BibTeX.html"), "utf-8"))) {
-	   writer.write("something");
-	}
+	
+	public void createFile() throws IOException {
+		File bibtex = new File("BibTeX.html");
+		FileOutputStream oFile = new FileOutputStream(bibtex, true); 
+		if(!bibtex.exists()) {
+			bibtex.createNewFile();
+			oFile.write(toStringg().getBytes());
+	
+		} else {
+			oFile.write(toStringg().getBytes());
+		}
+		oFile.close();
 	}
 	
-	public String toString() {
+
+	public String toStringg() {
 		String output = "";
 		output += "<p style=\"margin-left: 20px; text-indent: -20px;\">";
 		output += printContents();

@@ -13,6 +13,7 @@ public class BibTeX {
 
 	private static HashMap < String, HashMap < String, String > > symbolTable = new HashMap < String, HashMap < String, String >> ();
 	private static HashMap < String, Entry > entradas = new HashMap < String, Entry > ();
+	private static ArrayList <Entry > entryList = new ArrayList <Entry>();
 
 	private static Entry entradaRecente = null;
 	private static SimpleNode simpleN;
@@ -34,12 +35,13 @@ public class BibTeX {
 
 		//simpleN.dump("");
 		semanticAnalysis();
-		/*
+	
+
 		for (HashMap.Entry < String, Entry> entry: entradas.entrySet()) {
 			String onKey = entry.getKey();
-			System.out.println(entradas.get(onKey).toString());
+			entradas.get(onKey).createFile();
 		}
-		*/
+		
 		sc.close();
 	}
 
@@ -48,6 +50,8 @@ public class BibTeX {
 		return file.exists();
 	}
 }
+
+
 
 PARSER_END(BibTeX)
 
