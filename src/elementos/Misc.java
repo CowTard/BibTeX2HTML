@@ -102,5 +102,23 @@ public class Misc extends Entry {
 		
 		return result + "\n\n";
 	}
+	
+	@Override
+	public String printContents() {
+		String contents = "";
+		
+		if (key != null) contents += "[" + key + "]";
+		else if (author != null && year != null) contents += "[" + author.substring(0, 3) + year.substring(2, 4) + "]";
+		else contents += "[misc]";
+		
+		if (author != null) contents += " " + author + ".";
+		if (title != null) contents += " " + title + ".";
+		if (howpublished != null) contents += " " + howpublished + ",";
+		if (month != null) contents += " " + month;
+		if (year != null) contents += " " + year + ".";
+		if (note != null) contents += " " + note + ".";
+		
+		return contents;
+	}
 }
 

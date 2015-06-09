@@ -130,5 +130,26 @@ public class Article extends Entry {
 
 		return result + "\n\n";
 	}
+
+
+	@Override
+	public String printContents() {
+		String contents = "";
+		
+		if (key != null) contents += "[" + key + "]";
+		else contents += "[" + author.substring(0, 3) + year.substring(2, 4) + "]";
+		
+		contents += " " + author + ".";
+		contents += " " + title + ".";
+		contents += " <i>" + journal + "</i>,";
+		if (volume != null) contents += " " + volume;
+		if (number != null) contents += "(" + number + ")";
+		if (pages != null) contents += ":" + pages + ",";
+		if (month != null) contents += " " + month;
+		contents += " " + year + ".";
+		if (note != null) contents += " " + note + ".";
+		
+		return contents;
+	}
 }
 
