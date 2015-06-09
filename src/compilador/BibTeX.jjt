@@ -231,12 +231,13 @@ void addingToObjects(Token temp, String reference, String attribute, String valu
 		  { if(!value.equals("January")||!value.equals("February")||!value.equals("March")||!value.equals("April")||!value.equals("May")||!value.equals("June")||!value.equals("July")||!value.equals("August")||!value.equals("September")||!value.equals("November")||!value.equals("December")){
 				String finale = value.substring(1,value.length()-1);
 					if(finale.matches("[0-9]+")){
-						int inteiro = Integer.parseInt(value);
+						int inteiro = Integer.parseInt(finale);
 		    			if(inteiro<0 || inteiro >12){
-		    	  		System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);
+		    	  		System.out.println("[ERROR-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + value);
+		    	  		System.exit(0);
 		  				}
 					} else						{
-						  System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + finale);						}
+						  System.out.println("[WARNING-Linha " + temp.beginLine + "] A referência \"" + reference + "\" tem o campo \'" + attribute + "\' com o valor " + value);						}
 		    		  		}
 		  } else if (attribute.equals("year"))
 		  {
@@ -255,7 +256,7 @@ void addingToObjects(Token temp, String reference, String attribute, String valu
 				String[] pagesSplit = finale.split("-");
 				if(pagesSplit.length == 1){
 					System.out.println("Tem um '-' a mais mas foi convertido.");
-					value = "\"" + pageSplit[0] + "\"";
+					value = "\"" + pagesSplit[0] + "\"";
 				}
 				
 				else if(pagesSplit.length == 2){
