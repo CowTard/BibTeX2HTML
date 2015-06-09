@@ -1,5 +1,7 @@
 package elementos;
 
+import compilador.ParseException;
+
 public class Conference extends Entry {
 	private String author, title, booktitle, year, editor, volume, number, series, pages, address, month, organization, publisher, note, key;
 
@@ -117,8 +119,42 @@ public class Conference extends Entry {
 	}
 
 
-	public void setPages(String pages) {
-		this.pages = pages;
+public void setPages(String pages){
+		
+		String[] pagesSplit = pages.split("-");
+		
+		if(pagesSplit.length == 0)
+			this.pages = pages;
+		
+		else if(pagesSplit.length == 1){
+			this.pages = pagesSplit[0];
+		}
+		
+		else if(pagesSplit.length == 2){
+			int part1 = Integer.parseInt(pagesSplit[0]);
+			int part2 = Integer.parseInt(pagesSplit[1]);
+			
+			if(part1 > part2){
+				String tmp = pagesSplit[0];
+				pagesSplit[0] = pagesSplit[1];
+				pagesSplit[1] = tmp;
+			}
+			
+			else if(part1 == part2){
+				this.pages = pagesSplit[0];
+			}
+			
+			else this.pages = pages;
+		}
+		
+		else{
+			try {
+				throw new ParseException("Pages not in the correct format.");
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+			
 	}
 
 
