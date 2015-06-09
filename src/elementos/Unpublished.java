@@ -7,9 +7,45 @@ public class Unpublished extends Entry {
 		super();
 	}
 	
-	public boolean isValid() {
-		if (author != null && title != null && note != null) return true;
-		else return false;
+	public boolean addattribute(String attr, String value) {
+		boolean aRetornar = false;
+		switch(attr) {
+		case "author":
+			setAuthor(value);
+			aRetornar = true;
+			break;
+		case "title":
+			setTitle(value);
+			aRetornar = true;
+			break;
+		case "note":
+			setNote(value);
+			aRetornar = true;
+			break;
+		case "month":
+			setMonth(value);
+			aRetornar = true;
+			break;
+		case "year":
+			setYear(value);
+			aRetornar = true;
+			break;
+		case "key":
+			setKey(value);
+			aRetornar = true;
+			break;
+		default: break;
+		}
+		return aRetornar;
+	}
+	
+	public String isValid() {
+		String aRetornar = "";
+		if (author == null) aRetornar +="author-";
+		if (title == null) aRetornar +="title-";
+		if (note == null) aRetornar +="note-";
+		if (aRetornar == "") return "";
+		else return aRetornar.substring(0, aRetornar.length()-1);
 	}
 
 	public void setAuthor(String author) {

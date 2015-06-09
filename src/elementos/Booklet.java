@@ -7,6 +7,47 @@ public class Booklet extends Entry {
 		super();
 	}
 	
+	public boolean addattribute(String attr, String value) {
+		boolean aRetornar = false;
+		switch(attr) {
+		case "author":
+			setAuthor(value);
+			aRetornar = true;
+			break;
+		case "title":
+			setTitle(value);
+			aRetornar = true;
+			break;
+		case "howpublished":
+			setHowpublished(value);
+			aRetornar = true;
+			break;
+		case "year":
+			setYear(value);
+			aRetornar = true;
+			break;
+		case "address":
+			setAddress(value);
+			aRetornar = true;
+			break;
+		case "month":
+			setMonth(value);
+			aRetornar = true;
+			break;
+		case "note":
+			setNote(value);
+			aRetornar = true;
+			break;
+		case "key":
+			setKey(value);
+			aRetornar = true;
+			break;
+		default: break;
+		}
+		return aRetornar;
+	}
+
+	
 
 	public void setTitle(String title) {
 		this.title = title;
@@ -47,9 +88,11 @@ public class Booklet extends Entry {
 		this.key = key;
 	}
 	
-	public boolean isValid() {
-		if (title != null) return true;
-		else return false;
+	public String isValid() {
+		String aRetornar = "";
+		if (title == null) aRetornar = "title";
+		if (aRetornar == "") return "";
+		else return aRetornar.substring(0, aRetornar.length()-1);
 	}
 
 	public String toString(){
@@ -66,4 +109,23 @@ public class Booklet extends Entry {
 		
 		return result + "\n\n";
 	}
+	
+	@Override
+	public String printContents() {
+		String contents = "";
+		
+		if (key != null) contents += "[" + key + "]";
+		else if (author != null && year != null) contents += "[" + author.substring(0, 3) + year.substring(2, 4) + "]";
+		else contents += "[booklet]";
+		if (author != null) contents += " " + author + ".";
+		contents += " " + title + ".";
+		if (howpublished != null) contents += " " + howpublished + ",";
+		if (address != null) contents += " " + address + ",";
+		if (month != null) contents += " " + month;
+		if (year != null) contents += " " + year + ".";
+		if (note != null) contents += " " + note + ".";
+		
+		return contents;
+	}
+	
 }

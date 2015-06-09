@@ -7,7 +7,55 @@ public class Techreport extends Entry {
 	public Techreport(){
 		super();
 	}
-		
+	
+	public boolean addattribute(String attr, String value) {
+		boolean aRetornar = false;
+		switch(attr) {
+		case "author":
+			setAuthor(value);
+			aRetornar = true;
+			break;
+		case "title":
+			setTitle(value);
+			aRetornar = true;
+			break;
+		case "institution":
+			setInstitution(value);
+			aRetornar = true;
+			break;
+		case "year":
+			setYear(value);
+			aRetornar = true;
+			break;
+		case "type":
+			setType(value);
+			aRetornar = true;
+			break;
+		case "number":
+			setNumber(value);
+			aRetornar = true;
+			break;
+		case "address":
+			setAddress(value);
+			aRetornar = true;
+			break;
+		case "month":
+			setYear(value);
+			aRetornar = true;
+			break;
+		case "note":
+			setNote(value);
+			aRetornar = true;
+			break;
+		case "key":
+			setKey(value);
+			aRetornar = true;
+			break;
+		default: break;
+		}
+		return aRetornar;
+	}
+	
 	public void setAuthor(String author) {
 		this.author = author;
 	}
@@ -48,9 +96,14 @@ public class Techreport extends Entry {
 		this.key = key;
 	}
 
-	public boolean isValid() {
-		if (author != null && title != null && institution != null && year != null) return true;
-		else return false;
+	public String isValid() {
+		String aRetornar = "";
+		if (author == null) aRetornar +="author-";
+		if (title == null) aRetornar +="title-";
+		if (institution == null) aRetornar +="institution-";
+		if (year == null) aRetornar +="year-";
+		if (aRetornar == "") return "";
+		else return aRetornar.substring(0, aRetornar.length()-1);
 	}
 	
 	@Override

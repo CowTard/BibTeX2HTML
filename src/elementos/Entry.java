@@ -7,6 +7,10 @@ public abstract class Entry {
 		this.reference = reference;
 	}
 	
+	public abstract boolean addattribute(String attr, String value);
+	
+	public abstract String isValid();
+
 	public String toString() {
 		String output = "";
 		output += "<p style=\"margin-left: 20px; text-indent: -20px;\">";
@@ -14,6 +18,6 @@ public abstract class Entry {
 		output += "</p>";
 		return output;
 	}
-	
+
 	public abstract String printContents();
 }

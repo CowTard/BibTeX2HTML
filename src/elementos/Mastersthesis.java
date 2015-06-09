@@ -6,7 +6,50 @@ public class Mastersthesis extends Entry {
 	public Mastersthesis() {
 		super();
 	}
-
+	
+	public boolean addattribute(String attr, String value) {
+		boolean aRetornar = false;
+		switch(attr) {
+		case "author":
+			setAuthor(value);
+			aRetornar = true;
+			break;
+		case "title":
+			setTitle(value);
+			aRetornar = true;
+			break;
+		case "school":
+			setSchool(value);
+			aRetornar = true;
+			break;
+		case "year":
+			setYear(value);
+			aRetornar = true;
+			break;
+		case "type":
+			setType(value);
+			aRetornar = true;
+			break;
+		case "address":
+			setAddress(value);
+			aRetornar = true;
+			break;
+		case "month":
+			setMonth(value);
+			aRetornar = true;
+			break;
+		case "note":
+			setNote(value);
+			aRetornar = true;
+			break;
+		case "key":
+			setKey(value);
+			aRetornar = true;
+			break;
+		default: break;
+		}
+		return aRetornar;
+	}
 	
 	public void setAuthor(String author) {
 		this.author = author;
@@ -52,24 +95,34 @@ public class Mastersthesis extends Entry {
 		this.key = key;
 	}
 	
-	public boolean isValid() {
-		if (author != null && title != null && school != null && year != null) return true;
-		else return false;
+	public String isValid() {
+		String aRetornar = "";
+		if (author == null) aRetornar += "author-";
+		if (title == null) aRetornar += "title-";
+		if (school == null) aRetornar += "school-";
+		if (year == null) aRetornar += "year-";
+		if (aRetornar == "") return "";
+		else return aRetornar.substring(0, aRetornar.length()-1);
 	}
 
-	public String toString(){
-		String result = "";
-	
-		result += "Author: " + author;
-		result += "\nTitle: " + title;
-		result += "\nSchool: " + school;
-		result += "\nYear: " + year;
-		if (type != null) result += "\nType: " + type;
-		if (address != null) result += "\nAddress: " + address;
-		if (month != null) result += "\nMonth: " + month;
-		if (note != null) result += "\nNote: " + note;
-		if (key != null) result += "\nKey: " + key;
+	@Override
+	public String printContents() {
+		String contents = "";
 		
-		return result + "\n\n";
+		if (key != null) contents += "[" + key + "]";
+		else contents += "[" + author.substring(0, 3) + year.substring(2, 4) + "]";
+		
+		contents += " " + author + ".";
+		contents += " " + title + ".";
+		contents += " Master's thesis, " + school + ",";
+		if (address != null) contents += " " + address + ",";
+		if (month != null) contents += " " + month;
+		contents += " " + year + ".";
+		if (note != null) contents += " " + note + ".";
+		
+		//type
+		
+		return contents;
+		
 	}
 }
