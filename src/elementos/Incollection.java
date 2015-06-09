@@ -3,7 +3,7 @@ package elementos;
 import compilador.ParseException;
 
 public class Incollection extends Entry {
-	private String author, title, booktitle, publisher, year, editor, volume, number, series, type, chapter, pages, address, edition, month, note, key, crossref;
+	private String author, title, booktitle, publisher, year, editor, volume, number, series, chapter, pages, address, edition, month, note, key, crossref;
 	
 	public Incollection() {
 		super();
@@ -46,10 +46,6 @@ public class Incollection extends Entry {
 			break;
 		case "series":
 			setSeries(value);
-			aRetornar = true;
-			break;
-		case "type":
-			setType(value);
 			aRetornar = true;
 			break;
 		case "chapter":
@@ -127,10 +123,6 @@ public class Incollection extends Entry {
 
 	public void setSeries(String series) {
 		this.series = series;
-	}
-
-	public void setType(String type) {
-		this.type = type;
 	}
 
 	public void setChapter(String chapter) {

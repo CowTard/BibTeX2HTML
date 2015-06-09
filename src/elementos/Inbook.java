@@ -3,7 +3,7 @@ package elementos;
 import compilador.ParseException;
 
 public class Inbook extends Entry {
-	private String author, editor, title, chapter, pages, publisher, year, volume, number, series, type, address, edition, month, note, key, crosskey;
+	private String author, editor, title, chapter, pages, publisher, year, volume, number, series, address, edition, month, note, key, crosskey;
 	
 	public Inbook(){
 		super();
@@ -155,10 +155,6 @@ public class Inbook extends Entry {
 
 	public void setSeries(String series) {
 		this.series = series;
-	}
-
-	public void setType(String type) {
-		this.type = type;
 	}
 
 	public void setAddress(String address) {

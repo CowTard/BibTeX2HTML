@@ -1,7 +1,7 @@
 package elementos;
 
 public class Mastersthesis extends Entry {
-	private String crossref, author, title, school, year, type, address, month, note, key;
+	private String crossref, author, title, school, year, address, month, note, key;
 	
 	public Mastersthesis() {
 		super();
@@ -24,10 +24,6 @@ public class Mastersthesis extends Entry {
 			break;
 		case "year":
 			setYear(value);
-			aRetornar = true;
-			break;
-		case "type":
-			setType(value);
 			aRetornar = true;
 			break;
 		case "address":
@@ -73,10 +69,6 @@ public class Mastersthesis extends Entry {
 
 	public void setYear(String year) {
 		this.year = year;
-	}
-
-	public void setType(String type) {
-		this.type = type;
 	}
 
 	public void setAddress(String address) {
