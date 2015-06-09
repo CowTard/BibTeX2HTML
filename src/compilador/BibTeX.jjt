@@ -67,7 +67,7 @@ TOKEN: // 2nd level [fields]
 { < AUTHOR: "author" > | < CROSSREF: "crossref" > | < TITLE: "title" > | < JOURNAL: "journal" > | < YEAR: "year" > | < VOLUME: "volume" > | < NUMBER: "number" > | < PAGES: "pages" > | < MONTH: "month" > | < NOTE: "note" > | < KEY: "key" > | < EDITOR: "editor" > | < PUBLISHER: "publisher" > | < SERIES: "series" > | < ADDRESS: "address" > | < EDITION: "edition" > | < HOWPUBLISHED: "howpublished" > | < CHAPTER: "chapter" > | < BOOKTITLE: "booktitle" > | < ORGANIZATION: "organization" > | < SCHOOL: "school" > | < INSTITUTION: "institution" >
 }
 
-TOKEN: { < FIELD: "\"" ( < WORD > | " ") * "\"" > | < WORD: ( < CHARACTER > | < INTEGER > ) + > | < CHARACTER: ["A" - "Z", "a" - "z"] > | < INTEGER: ["0" - "9"] > | < OPENBRACES: "{" > | < CLOSEBRACES: "}" > | < COMMA: "," > | < PERIOD: "." > | < EQUALS: "=" > | < DASH: "-" >
+TOKEN: { < FIELD: "\"" ( < WORD > | " " | < DASH >) * "\"" > | < WORD: ( < CHARACTER > | < INTEGER > ) + > | < CHARACTER: ["A" - "Z", "a" - "z"] > | < INTEGER: ["0" - "9"] > | < OPENBRACES: "{" > | < CLOSEBRACES: "}" > | < COMMA: "," > | < PERIOD: "." > | < EQUALS: "=" > | < DASH: "-" >
 }
 
 void imprimirSymbolTable(): {} {
