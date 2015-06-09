@@ -1,10 +1,54 @@
 package elementos;
 
 public class Manual extends Entry {
-	private String title, author, organization, address, edition, month, year, note, key;
+	private String author, title, organization, address, edition, month, year, note, key;
 	
 	public Manual(){
 		super();
+	}
+	
+	public boolean addattribute(String attr, String value) {
+		boolean aRetornar = false;
+		switch(attr) {
+		case "author":
+			setAuthor(value);
+			aRetornar = true;
+			break;
+		case "title":
+			setTitle(value);
+			aRetornar = true;
+			break;
+		case "organization":
+			setOrganization(value);
+			aRetornar = true;
+			break;
+		case "address":
+			setAddress(value);
+			aRetornar = true;
+			break;
+		case "edition":
+			setEdition(value);
+			aRetornar = true;
+			break;
+		case "month":
+			setMonth(value);
+			aRetornar = true;
+			break;
+		case "year":
+			setYear(value);
+			aRetornar = true;
+			break;
+		case "note":
+			setNote(value);
+			aRetornar = true;
+			break;
+		case "key":
+			setKey(value);
+			aRetornar = true;
+			break;
+		default: break;
+		}
+		return aRetornar;
 	}
 	
 	
@@ -61,9 +105,11 @@ public class Manual extends Entry {
 		this.key = key;
 	}
 	
-	public boolean isValid() {
-		if (title != null) return true;
-		else return false;
+	public String isValid() {
+		String aRetornar = "";
+		if (title == null) aRetornar +="title-";
+		if (aRetornar == "") return "";
+		else return aRetornar.substring(0, aRetornar.length()-1);
 	}
 
 

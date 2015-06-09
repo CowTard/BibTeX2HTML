@@ -1,6 +1,6 @@
 package elementos;
 
-public class Entry {
+public abstract class Entry {
 	protected String reference;
 	
 	public Entry () {}
@@ -8,4 +8,8 @@ public class Entry {
 	public void setReference(String reference){
 		this.reference = reference;
 	}
+	
+	public abstract boolean addattribute(String attr, String value);
+	
+	public abstract String isValid();
 }

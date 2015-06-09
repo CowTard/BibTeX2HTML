@@ -7,6 +7,41 @@ public class Misc extends Entry {
 		super();
 	}
 
+	public boolean addattribute(String attr, String value) {
+		boolean aRetornar = false;
+		switch(attr) {
+		case "author":
+			setAuthor(value);
+			aRetornar = true;
+			break;
+		case "title":
+			setTitle(value);
+			aRetornar = true;
+			break;
+		case "howpublished":
+			setHowpublished(value);
+			aRetornar = true;
+			break;
+		case "month":
+			setMonth(value);
+			aRetornar = true;
+			break;
+		case "year":
+			setYear(value);
+			aRetornar = true;
+			break;
+		case "note":
+			setNote(value);
+			aRetornar = true;
+			break;
+		case "key":
+			setKey(value);
+			aRetornar = true;
+			break;
+		default: break;
+		}
+		return aRetornar;
+	}
 
 
 	public void setAuthor(String author) {
@@ -49,8 +84,8 @@ public class Misc extends Entry {
 		this.key = key;
 	}
 	
-	public boolean isValid() {
-		return true;
+	public String isValid() {
+		return "";
 	}
 
 

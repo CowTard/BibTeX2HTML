@@ -7,7 +7,61 @@ public class Proceedings extends Entry {
 		super();
 	}
 	
-	
+	public boolean addattribute(String attr, String value) {
+		boolean aRetornar = false;
+		switch(attr) {
+		case "title":
+			setTitle(value);
+			aRetornar = true;
+			break;
+		case "year":
+			setYear(value);
+			aRetornar = true;
+			break;
+		case "editor":
+			setEditor(value);
+			aRetornar = true;
+			break;
+		case "volume":
+			setVolume(value);
+			aRetornar = true;
+			break;
+		case "number":
+			setNumber(value);
+			aRetornar = true;
+			break;
+		case "series":
+			setSeries(value);
+			aRetornar = true;
+			break;
+		case "address":
+			setAddress(value);
+			aRetornar = true;
+			break;
+		case "month":
+			setMonth(value);
+			aRetornar = true;
+			break;
+		case "publisher":
+			setPublisher(value);
+			aRetornar = true;
+			break;
+		case "organization":
+			setOrganization(value);
+			aRetornar = true;
+			break;
+		case "note":
+			setNote(value);
+			aRetornar = true;
+			break;
+		case "key":
+			setKey(value);
+			aRetornar = true;
+			break;
+		default: break;
+		}
+		return aRetornar;
+	}
 	
 	public void setTitle(String title) {
 		this.title = title;
@@ -79,9 +133,12 @@ public class Proceedings extends Entry {
 		this.key = key;
 	}
 
-	public boolean isValid() {
-		if (title != null && year != null) return true;
-		else return false;
+	public String isValid() {
+		String aRetornar = "";
+		if (title == null) aRetornar +="title-";
+		if (year == null) aRetornar +="year-";
+		if (aRetornar == "") return "";
+		else return aRetornar.substring(0, aRetornar.length()-1);
 	}
 
 	public String toString(){
