@@ -183,4 +183,32 @@ public class Conference extends Entry {
 		
 		return result + "\n\n";
 	}
+	
+	@Override
+	public String printContents() {
+		String contents = "";
+		
+		if (key != null) contents += "[" + key + "]";
+		else contents += "[" + author.substring(0, 3) + year.substring(2, 4) + "]";
+		
+		contents += " " + author + ".";
+		contents += " " + title + ".";
+		if (editor != null) contents += " In " + editor + ", editor,";
+		contents += " <i>" + booktitle + "</i>,";
+		if (volume != null && series != null) contents += " volume " + volume + " of " + series + ",";
+		else if (number != null && series != null) contents += " number " + number + " of " + series + ",";
+		if (pages != null) contents += " pages " + pages + ",";
+		if (address != null) contents += " " + address + ",";
+		if (month != null) contents += " " + month;
+		contents += " " + year + ".";
+		if (organization != null) contents += " " + organization + ",";
+		if (publisher != null) contents += " " + publisher + ".";
+		if (note != null) contents += " " + note + ".";
+		
+		//type
+		
+		return contents;
+		
+	}
+	
 }

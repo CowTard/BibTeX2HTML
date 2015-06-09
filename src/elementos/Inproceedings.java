@@ -170,7 +170,7 @@ public class Inproceedings extends Entry {
 		contents += " " + author + ".";
 		contents += " " + title + ".";
 		if (editor != null) contents += " In " + editor + ", editor,";
-		contents += " " + booktitle + ",";
+		contents += " <i>" + booktitle + "</i>,";
 		if (volume != null && series != null) contents += " volume " + volume + " of " + series + ",";
 		else if (number != null && series != null) contents += " number " + number + " of " + series + ",";
 		if (pages != null) contents += " pages " + pages + ",";

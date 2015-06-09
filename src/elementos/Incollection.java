@@ -202,8 +202,7 @@ public class Incollection extends Entry {
 		if (month != null) contents += " " + month;
 		contents += " " + year + ".";
 		if (note != null) contents += " " + note + ".";
-		
-		//type
+
 		
 		return contents;
 		
