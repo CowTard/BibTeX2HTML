@@ -1,7 +1,7 @@
 package elementos;
 
 public class Mastersthesis extends Entry {
-	private String crossref, author, title, school, year, address, month, note, key;
+	private String crossref, author, title, school, year, address, month, note;
 	
 	public Mastersthesis() {
 		super();
@@ -98,20 +98,23 @@ public class Mastersthesis extends Entry {
 	}
 
 	@Override
-	public String printContents() {
-		String contents = "";
-		
-		if (key != null) contents += "[" + key.substring(1, key.length()-1) + "]";
-		else contents += "[" + author.substring(1, 3) + year.substring(2, 4) + "]";
-		
-		contents += " " + author.substring(1, author.length()-1) + ".";
-		contents += " " + title.substring(1, title.length()-1) + ".";
-		contents += " Master's thesis, " + school.substring(1, school.length()-1) + ",";
-		if (address != null) contents += " " + address.substring(1, address.length()-1) + ",";
-		if (month != null) contents += " " + month.substring(1, month.length()-1);
-		contents += " " + year.substring(1, year.length()-1) + ".";
-		if (note != null) contents += " " + note.substring(1, note.length()-1) + ".";
+	public String[] printContents() {
+		String[] contents = new String[3];
+		contents[0] = "";
+		contents[1] = "";
+		contents[2] = "";
+		if (key != null) contents[0] += "[" + key.substring(1, key.length()-1) + "]";
+		else contents[0] += "[" + author.substring(1, 3) + year.substring(2, 4) + "]";
+		contents[2] = contents[0];
+		contents[0] += " " + author.substring(1, author.length()-1) + ".";
+		contents[0] += " " + title.substring(1, title.length()-1) + ".";
+		contents[0] += " Master's thesis, " + school.substring(1, school.length()-1) + ",";
+		if (address != null) contents[0] += " " + address.substring(1, address.length()-1) + ",";
+		if (month != null) contents[0] += " " + month.substring(1, month.length()-1);
+		contents[0] += " " + year.substring(1, year.length()-1) + ".";
+		if (note != null) contents[0] += " " + note.substring(1, note.length()-1) + ".";
 				
+		contents[1] = this.crossref;
 		return contents;
 	}
 }

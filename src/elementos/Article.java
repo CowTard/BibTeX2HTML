@@ -1,9 +1,7 @@
 package elementos;
 
-import compilador.ParseException;
-
 public class Article extends Entry {
-	private String author, title, journal, year, volume, number, pages, month, note, key, crossref;
+	private String author, title, journal, year, volume, number, pages, month, note, crossref;
 
 	public Article() {
 		super();
@@ -116,22 +114,25 @@ public class Article extends Entry {
 	}
 	
 	@Override
-	public String printContents() {
-		String contents = "";
+	public String[] printContents() {
+		String[] contents = new String[3];
+		contents[0] = "";
+		contents[1] = "";
+		contents[2] = "";
+		if (key != null) contents[0] += "[" + key.substring(1, key.length()-1) + "]";
+		else contents[0] += "[" + author.substring(1, 3) + year.substring(2, 4) + "]";
+		contents[2] = contents[0];
+		contents[0] += " " + author.substring(1, author.length()-1) + ".";
+		contents[0] += " " + title.substring(1, title.length()-1) + ".";
+		contents[0] += " <i>" + journal.substring(1, journal.length()-1) + "</i>,";
+		if (volume != null) contents[0] += " " + volume.substring(1, volume.length()-1);
+		if (number != null) contents[0] += "(" + number.substring(1, number.length()-1) + ")";
+		if (pages != null) contents[0] += ":" + pages.substring(1, pages.length()-1) + ",";
+		if (month != null) contents[0] += " " + month.substring(1, month.length()-1);
+		contents[0] += " " + year.substring(1, year.length()-1) + ".";
+		if (note != null) contents[0] += " " + note.substring(1, note.length()-1) + ".";
 		
-		if (key != null) contents += "[" + key.substring(1, key.length()-1) + "]";
-		else contents += "[" + author.substring(1, 3) + year.substring(2, 4) + "]";
-		
-		contents += " " + author.substring(1, author.length()-1) + ".";
-		contents += " " + title.substring(1, title.length()-1) + ".";
-		contents += " <i>" + journal.substring(1, journal.length()-1) + "</i>,";
-		if (volume != null) contents += " " + volume.substring(1, volume.length()-1);
-		if (number != null) contents += "(" + number.substring(1, number.length()-1) + ")";
-		if (pages != null) contents += ":" + pages.substring(1, pages.length()-1) + ",";
-		if (month != null) contents += " " + month.substring(1, month.length()-1);
-		contents += " " + year.substring(1, year.length()-1) + ".";
-		if (note != null) contents += " " + note.substring(1, note.length()-1) + ".";
-		
+		contents[1] = this.crossref;
 		return contents;
 	}
 }

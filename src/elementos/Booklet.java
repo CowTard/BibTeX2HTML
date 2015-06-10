@@ -1,7 +1,7 @@
 package elementos;
 
 public class Booklet extends Entry {
-	private String title, author, howpublished, address, month, year, note, key, crossref;
+	private String title, author, howpublished, address, month, year, note, crossref;
 	
 	public Booklet(){
 		super();
@@ -95,22 +95,24 @@ public class Booklet extends Entry {
 	}
 	
 	@Override
-	public String printContents() {
-		String contents = "";
-		
-		if (key != null) contents += "[" + key.substring(1,key.length()-1) + "]";
-		else if (author != null && year != null) contents += "[" + author.substring(1, 3) + year.substring(2, 4) + "]";
-		else contents += "[booklet]";
+	public String[] printContents() {
+		String[] contents = new String[3];
+		contents[0] = "";
+		contents[1] = "";
+		contents[2] = "";
+		if (key != null) contents[0] += "[" + key.substring(1,key.length()-1) + "]";
+		else if (author != null && year != null) contents[0] += "[" + author.substring(1, 3) + year.substring(2, 4) + "]";
+		else contents[0] += "[booklet]";
+		contents[2] = contents[0];
+		if (author != null) contents[0] += " " + author.substring(1,author.length()-1) + ".";
+		contents[0] += " " + title.substring(1,title.length()-1) + ".";
+		if (howpublished != null) contents[0] += " " + howpublished.substring(1,howpublished.length()-1) + ",";
+		if (address != null) contents[0] += " " + address.substring(1,address.length()-1) + ",";
+		if (month != null) contents[0] += " " + month.substring(1,month.length()-1);
+		if (year != null) contents[0] += " " + year.substring(1,year.length()-1) + ".";
+		if (note != null) contents[0] += " " + note.substring(1,note.length()-1) + ".";
 
-		if (author != null) contents += " " + author.substring(1,author.length()-1) + ".";
-		contents += " " + title.substring(1,title.length()-1) + ".";
-		if (howpublished != null) contents += " " + howpublished.substring(1,howpublished.length()-1) + ",";
-		if (address != null) contents += " " + address.substring(1,address.length()-1) + ",";
-		if (month != null) contents += " " + month.substring(1,month.length()-1);
-		if (year != null) contents += " " + year.substring(1,year.length()-1) + ".";
-		if (note != null) contents += " " + note.substring(1,note.length()-1) + ".";
-
-		
+		contents[1] = this.crossref;
 		return contents;
 	}
 }

@@ -5,7 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public abstract class Entry {
-	protected String reference;
+	protected String reference, key;
 	
 	public void setReference(String reference) {
 		this.reference = reference;
@@ -20,22 +20,23 @@ public abstract class Entry {
 		FileOutputStream oFile = new FileOutputStream(bibtex, true); 
 		if(!bibtex.exists()) {
 			bibtex.createNewFile();
-			oFile.write(toStringg().getBytes());
+			oFile.write(toString().getBytes());
 	
 		} else {
-			oFile.write(toStringg().getBytes());
+			oFile.write(toString().getBytes());
 		}
 		oFile.close();
 	}
 	
-
-	public String toStringg() {
+	public String toString() {
+		String[] temp = printContents();
 		String output = "";
-		output += "<p style=\"margin-left: 20px; text-indent: -20px;\">";
-		output += printContents();
+		output += "<p id=\"" + reference + "\">";
+		output += temp[0];
+		if (temp[1] != null) output += " <a href=\"#" + temp[1].substring(1,temp[1].length()-1) + "\">Cross-reference</a>" ;
 		output += "</p>";
 		return output;
 	}
 
-	public abstract String printContents();
+	public abstract String[] printContents();
 }

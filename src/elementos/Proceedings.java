@@ -1,7 +1,7 @@
 package elementos;
 
 public class Proceedings extends Entry {
-	private String crossref, title, year, editor, volume, number, series, address, month, publisher, organization, note, key;
+	private String crossref, title, year, editor, volume, number, series, address, month, publisher, organization, note;
 	
 	public Proceedings(){
 		super();
@@ -128,24 +128,27 @@ public class Proceedings extends Entry {
 	}
 	
 	@Override
-	public String printContents() {
-		String contents = "";
+	public String[] printContents() {
+		String[] contents = new String[3];
+		contents[0] = "";
+		contents[1] = "";
+		contents[2] = "";
+		if (key != null) contents[0] += "[" + key.substring(1, key.length()-1) + "]";
+		else if (editor != null) contents[0] += "[" + editor.substring(1, 3) + year.substring(2, 4) + "]";
+		else contents[0] += "[proceedings]";
+		contents[2] = contents[0];
+		if (editor != null) contents[0] += " " + editor.substring(1, editor.length()-1) + ", editor.";
+		contents[0] += " " + title.substring(1, title.length()-1) + ",";
+		if (volume != null && series != null) contents[0] += " volume " + volume.substring(1, volume.length()-1) + " of " + series.substring(1, series.length()-1) + ",";
+		else if (number != null && series != null) contents[0] += " number " + number.substring(1, number.length()-1) + " of " + series.substring(1, series.length()-1) + ",";
+		if (address != null) contents[0] += " " + address.substring(1, address.length()-1) + ",";
+		if (month != null) contents[0] += " " + month.substring(1, month.length()-1);
+		contents[0] += " " + year.substring(1, year.length()-1) + ".";
+		if (organization != null) contents[0] += " " + organization.substring(1, organization.length()-1) + ",";
+		if (publisher != null) contents[0] += " " + publisher.substring(1, publisher.length()-1) + ".";
+		if (contents[0] != null) contents[0] += " " + note.substring(1, note.length()-1) + ".";
 		
-		if (key != null) contents += "[" + key.substring(1, key.length()-1) + "]";
-		else if (editor != null) contents += "[" + editor.substring(1, 3) + year.substring(2, 4) + "]";
-		else contents += "[proceedings]";
-		
-		if (editor != null) contents += " " + editor.substring(1, editor.length()-1) + ", editor.";
-		contents += " " + title.substring(1, title.length()-1) + ",";
-		if (volume != null && series != null) contents += " volume " + volume.substring(1, volume.length()-1) + " of " + series + ",";
-		else if (number != null && series != null) contents += " number " + number.substring(1, number.length()-1) + " of " + series + ",";
-		if (address != null) contents += " " + address.substring(1, address.length()-1) + ",";
-		if (month != null) contents += " " + month.substring(1, month.length()-1);
-		contents += " " + year.substring(1, year.length()-1) + ".";
-		if (organization != null) contents += " " + organization.substring(1, organization.length()-1) + ",";
-		if (publisher != null) contents += " " + publisher.substring(1, publisher.length()-1) + ".";
-		if (contents != null) contents += " " + note.substring(1, note.length()-1) + ".";
-		
+		contents[1] = this.crossref;
 		return contents;
 	}
 }

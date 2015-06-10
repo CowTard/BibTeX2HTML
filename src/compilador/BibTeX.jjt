@@ -6,10 +6,10 @@ PARSER_BEGIN(BibTeX)
 
 package compilador;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.io.IOException;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.Scanner;
 import elementos.*;
 
@@ -20,9 +20,8 @@ public class BibTeX {
 	private static int LVL2_DEBUG = 2;
 	private static int DEBUG_LEVEL = NO_DEBUG;
 
-	private static HashMap < String, HashMap < String, String > > symbolTable = new HashMap < String, HashMap < String, String >> ();
-	private static HashMap < String, Entry > entradas = new HashMap < String, Entry > ();
-	private static ArrayList < Entry > entryList = new ArrayList < Entry > ();
+	private static HashMap<String, HashMap<String, String>> symbolTable = new HashMap<String, HashMap<String, String>>();
+	private static HashMap<String, Entry> entradas = new HashMap<String, Entry>();
 
 	private static Entry entradaRecente = null;
 	private static SimpleNode simpleN;
@@ -56,15 +55,24 @@ public class BibTeX {
 		System.out.print("\n\n\n\n");
 		BibTeX parser = new BibTeX(new FileInputStream(new File(fname)));
 		simpleN = parser.start();
-
-		//simpleN.dump("");
+		
 		semanticAnalysis();
 
-
-		for (HashMap.Entry < String, Entry > entry: entradas.entrySet()) {
-			String onKey = entry.getKey();
-			entradas.get(onKey).createFile();
+		// Imprimir ficheiro
+	  	File bibtex = new File("BibTeX.html");
+		FileOutputStream oFile = new FileOutputStream(bibtex, true);
+		if (bibtex.exists()) {
+			oFile.close();
+			bibtex.delete();
+			oFile = new FileOutputStream(bibtex, true);
 		}
+		bibtex.createNewFile();
+		oFile.write(("<!DOCTYPE html>\n<html>\n<head><meta charset=\"UTF-8\">\n<title>" + fname + "</title>\n</head>\n<body>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\">\n").getBytes());
+		for (Entry entrada : entradas.values()) {
+			oFile.write(entrada.toString().getBytes());
+		}
+		oFile.write("</body></html>".getBytes());
+		oFile.close();
 
 		sc.close();
 
@@ -76,7 +84,6 @@ public class BibTeX {
 		return file.exists();
 	}
 }
-
 PARSER_END(BibTeX)
 
 SKIP: {
@@ -166,13 +173,14 @@ void data(): {
 	Token t1 = null;
 } {
 	(t1 = < WORD > ) {
+	    entradaRecente.setReference(t1.image);
 		entradas.put(t1.image, entradaRecente);
 		symbolTable.put(t1.image, new HashMap < String, String > ());
 		entryReading = t1.image;
 		lastGoodLine = t1.endLine;
 		jjtThis.jjtSetValue(t1);
 		//System.out.println(jjtThis.jjtGetValue());
-	} < COMMA > // TODO: Alterar
+	} < COMMA >
 	(t1 = atribute() < COMMA > ) *
 }
 

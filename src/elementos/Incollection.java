@@ -1,9 +1,7 @@
 package elementos;
 
-import compilador.ParseException;
-
 public class Incollection extends Entry {
-	private String author, title, booktitle, publisher, year, editor, volume, number, series, chapter, pages, address, edition, month, note, key, crossref;
+	private String author, title, booktitle, publisher, year, editor, volume, number, series, chapter, pages, address, edition, month, note, crossref;
 	
 	public Incollection() {
 		super();
@@ -165,28 +163,31 @@ public class Incollection extends Entry {
 	}
 
 	@Override
-	public String printContents() {
-		String contents = "";
-		
-		if (key != null) contents += "[" + key.substring(1, key.length()-1) + "]";
-		else contents += "[" + author.substring(1, 3) + year.substring(2, 4) + "]";
-		
-		contents += " " + author.substring(1, author.length()-1) + ".";
-		contents += " " + title.substring(1, title.length()-1) + ".";
-		if (editor != null) contents += " In " + editor.substring(1, editor.length()-1) + ", editor,";
-		contents += " <i>" + booktitle.substring(1, booktitle.length()-1) + "</i>,";
-		if (volume != null) contents += " volume " + volume.substring(1, volume.length()-1);
-		else if (number != null) contents += " number " + number.substring(1, number.length()-1);
-		if (series != null) contents += " of " + series.substring(1, series.length()-1) + ",";
-		if (chapter != null) contents += " chapter " + chapter.substring(1, chapter.length()-1) + ",";
-		if (pages != null) contents += " pages " + pages.substring(1, pages.length()-1) + ".";
-		contents += " " + publisher.substring(1, publisher.length()-1) + ",";
-		if (address != null) contents += " " + address.substring(1, address.length()-1) + ",";
-		if (edition != null) contents += " " + edition.substring(1, edition.length()-1) + " edition,";
-		if (month != null) contents += " " + month.substring(1, month.length()-1);
-		contents += " " + year.substring(1, year.length()-1) + ".";
-		if (note != null) contents += " " + note.substring(1, note.length()-1) + ".";
+	public String[] printContents() {
+		String[] contents = new String[3];
+		contents[0] = "";
+		contents[1] = "";
+		contents[2] = "";
+		if (key != null) contents[0] += "[" + key.substring(1, key.length()-1) + "]";
+		else contents[0] += "[" + author.substring(1, 3) + year.substring(2, 4) + "]";
+		contents[2] = contents[0];
+		contents[0] += " " + author.substring(1, author.length()-1) + ".";
+		contents[0] += " " + title.substring(1, title.length()-1) + ".";
+		if (editor != null) contents[0] += " In " + editor.substring(1, editor.length()-1) + ", editor,";
+		contents[0] += " <i>" + booktitle.substring(1, booktitle.length()-1) + "</i>,";
+		if (volume != null) contents[0] += " volume " + volume.substring(1, volume.length()-1);
+		else if (number != null) contents[0] += " number " + number.substring(1, number.length()-1);
+		if (series != null) contents[0] += " of " + series.substring(1, series.length()-1) + ",";
+		if (chapter != null) contents[0] += " chapter " + chapter.substring(1, chapter.length()-1) + ",";
+		if (pages != null) contents[0] += " pages " + pages.substring(1, pages.length()-1) + ".";
+		contents[0] += " " + publisher.substring(1, publisher.length()-1) + ",";
+		if (address != null) contents[0] += " " + address.substring(1, address.length()-1) + ",";
+		if (edition != null) contents[0] += " " + edition.substring(1, edition.length()-1) + " edition,";
+		if (month != null) contents[0] += " " + month.substring(1, month.length()-1);
+		contents[0] += " " + year.substring(1, year.length()-1) + ".";
+		if (note != null) contents[0] += " " + note.substring(1, note.length()-1) + ".";
 
+		contents[1] = this.crossref;
 		return contents;
 	}
 }

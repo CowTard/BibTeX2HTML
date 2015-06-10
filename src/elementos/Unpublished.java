@@ -1,7 +1,7 @@
 package elementos;
 
 public class Unpublished extends Entry {
-	private String crossref, author, title, note, month, year, key;
+	private String crossref, author, title, note, month, year;
 	
 	public Unpublished(){
 		super();
@@ -81,19 +81,22 @@ public class Unpublished extends Entry {
 	}
 	
 	@Override
-	public String printContents() {
-		String contents = "";
+	public String[] printContents() {
+		String[] contents = new String[3];
+		contents[0] = "";
+		contents[1] = "";
+		contents[2] = "";
+		if (key != null) contents[0] += "[" + key.substring(1, key.length()-1) + "]";
+		else if (year != null) contents[0] += "[" + author.substring(1, 3) + year.substring(2, 4) + "]";
+		else contents[0] += "[unpublished]";
+		contents[2] = contents[0];
+		contents[0] += " " + author.substring(1, author.length()-1) + ".";
+		contents[0] += " " + title.substring(1, title.length()-1) + ".";
+		contents[0] += " " + note.substring(1, note.length()-1) + ",";
+		if (month != null) contents[0] += " " + month.substring(1, month.length()-1);
+		if (year != null) contents[0] += " " + year.substring(1, year.length()-1) + ".";
 		
-		if (key != null) contents += "[" + key.substring(1, key.length()-1) + "]";
-		else if (year != null) contents += "[" + author.substring(1, 3) + year.substring(2, 4) + "]";
-		else contents += "[unpublished]";
-		
-		contents += " " + author.substring(1, author.length()-1) + ".";
-		contents += " " + title.substring(1, title.length()-1) + ".";
-		contents += " " + note.substring(1, note.length()-1) + ",";
-		if (month != null) contents += " " + month.substring(1, month.length()-1);
-		if (year != null) contents += " " + year.substring(1, year.length()-1) + ".";
-		
+		contents[1] = this.crossref;
 		return contents;
 	}
 }
